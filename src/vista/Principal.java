@@ -34,15 +34,15 @@ public class Principal extends javax.swing.JInternalFrame {
         labelfechahora = new javax.swing.JLabel();
         labelestado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        mArchivo = new javax.swing.JMenu();
+        mSalir = new javax.swing.JMenuItem();
+        mGestion = new javax.swing.JMenu();
+        mPeliculas = new javax.swing.JMenuItem();
+        mSalas = new javax.swing.JMenuItem();
+        mFunciones = new javax.swing.JMenuItem();
+        mTickets = new javax.swing.JMenuItem();
+        mHelp = new javax.swing.JMenu();
+        mAcerca = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -126,55 +126,55 @@ public class Principal extends javax.swing.JInternalFrame {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("Archivo");
+        mArchivo.setText("Archivo");
 
-        jMenuItem1.setText("Salir");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mSalir.setText("Salir");
+        mSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mSalirActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        mArchivo.add(mSalir);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(mArchivo);
 
-        jMenu2.setText("Gestion");
+        mGestion.setText("Gestion");
 
-        jMenuItem2.setText("Peliculas");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mPeliculas.setText("Peliculas");
+        mPeliculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mPeliculasActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        mGestion.add(mPeliculas);
 
-        jMenuItem3.setText("Salas");
-        jMenu2.add(jMenuItem3);
+        mSalas.setText("Salas");
+        mGestion.add(mSalas);
 
-        jMenuItem4.setText("Funciones");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mFunciones.setText("Funciones");
+        mFunciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mFuncionesActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        mGestion.add(mFunciones);
 
-        jMenuItem5.setText("Tickets");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mTickets.setText("Tickets");
+        mTickets.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mTicketsActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem5);
+        mGestion.add(mTickets);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(mGestion);
 
-        jMenu3.setText("Ayuda");
+        mHelp.setText("Ayuda");
 
-        jMenuItem6.setText("Acerca de...");
-        jMenu3.add(jMenuItem6);
+        mAcerca.setText("Acerca de...");
+        mHelp.add(mAcerca);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(mHelp);
 
         setJMenuBar(jMenuBar1);
 
@@ -200,38 +200,38 @@ public class Principal extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSalirActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mSalirActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPeliculasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mPeliculasActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void mFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mFuncionesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_mFuncionesActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void mTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTicketsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_mTicketsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane fondocentral;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelestado;
     private javax.swing.JLabel labelfechahora;
+    private javax.swing.JMenuItem mAcerca;
+    private javax.swing.JMenu mArchivo;
+    private javax.swing.JMenuItem mFunciones;
+    private javax.swing.JMenu mGestion;
+    private javax.swing.JMenu mHelp;
+    private javax.swing.JMenuItem mPeliculas;
+    private javax.swing.JMenuItem mSalas;
+    private javax.swing.JMenuItem mSalir;
+    private javax.swing.JMenuItem mTickets;
     private javax.swing.JPanel panelfinal;
     private javax.swing.JPanel paneltitulo;
     private javax.swing.JLabel title;
