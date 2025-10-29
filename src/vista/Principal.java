@@ -28,9 +28,9 @@ public class Principal extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         paneltitulo = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
-        jPanel2 = new javax.swing.JPanel();
+        title = new javax.swing.JLabel();
+        fondocentral = new javax.swing.JDesktopPane();
+        panelfinal = new javax.swing.JPanel();
         labelfechahora = new javax.swing.JLabel();
         labelestado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -59,10 +59,10 @@ public class Principal extends javax.swing.JInternalFrame {
 
         paneltitulo.setBackground(new java.awt.Color(51, 90, 144));
 
-        jLabel1.setBackground(#263238);
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Gestor de Cine");
+        title.setBackground(#263238);
+        title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        title.setForeground(new java.awt.Color(255, 255, 255));
+        title.setText("Gestor de Cine");
 
         javax.swing.GroupLayout paneltituloLayout = new javax.swing.GroupLayout(paneltitulo);
         paneltitulo.setLayout(paneltituloLayout);
@@ -70,32 +70,32 @@ public class Principal extends javax.swing.JInternalFrame {
             paneltituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneltituloLayout.createSequentialGroup()
                 .addContainerGap(178, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(title)
                 .addGap(213, 213, 213))
         );
         paneltituloLayout.setVerticalGroup(
             paneltituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneltituloLayout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(title)
                 .addContainerGap())
         );
 
-        jDesktopPane1.setBackground(new java.awt.Color(204, 204, 255));
+        fondocentral.setBackground(new java.awt.Color(204, 204, 255));
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout fondocentralLayout = new javax.swing.GroupLayout(fondocentral);
+        fondocentral.setLayout(fondocentralLayout);
+        fondocentralLayout.setHorizontalGroup(
+            fondocentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        fondocentralLayout.setVerticalGroup(
+            fondocentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 240, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(51, 90, 144));
-        jPanel2.setForeground([51,90,144]);
+        panelfinal.setBackground(new java.awt.Color(51, 90, 144));
+        panelfinal.setForeground([51,90,144]);
 
         labelfechahora.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelfechahora.setForeground(new java.awt.Color(255, 255, 255));
@@ -105,22 +105,22 @@ public class Principal extends javax.swing.JInternalFrame {
         labelestado.setForeground(new java.awt.Color(255, 255, 255));
         labelestado.setText("Estado:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panelfinalLayout = new javax.swing.GroupLayout(panelfinal);
+        panelfinal.setLayout(panelfinalLayout);
+        panelfinalLayout.setHorizontalGroup(
+            panelfinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelfinalLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(labelestado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelfechahora)
                 .addGap(102, 102, 102))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panelfinalLayout.setVerticalGroup(
+            panelfinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelfinalLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelfinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelestado)
                     .addComponent(labelfechahora))
                 .addContainerGap(39, Short.MAX_VALUE))
@@ -183,17 +183,17 @@ public class Principal extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(paneltitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(fondocentral, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(panelfinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(paneltitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fondocentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelfinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -218,8 +218,7 @@ public class Principal extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JDesktopPane fondocentral;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -231,9 +230,10 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelestado;
     private javax.swing.JLabel labelfechahora;
+    private javax.swing.JPanel panelfinal;
     private javax.swing.JPanel paneltitulo;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
