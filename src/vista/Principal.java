@@ -34,15 +34,19 @@ public class Principal extends javax.swing.JInternalFrame {
         labelfechahora = new javax.swing.JLabel();
         labelestado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mArchivo = new javax.swing.JMenu();
-        mSalir = new javax.swing.JMenuItem();
         mGestion = new javax.swing.JMenu();
         mPeliculas = new javax.swing.JMenuItem();
         mSalas = new javax.swing.JMenuItem();
         mFunciones = new javax.swing.JMenuItem();
         mTickets = new javax.swing.JMenuItem();
-        mHelp = new javax.swing.JMenu();
+        mClientes = new javax.swing.JMenu();
         mAcerca = new javax.swing.JMenuItem();
+        mEmpleados = new javax.swing.JMenuItem();
+        mReportes = new javax.swing.JMenu();
+        mVentas = new javax.swing.JMenuItem();
+        mPelismas = new javax.swing.JMenuItem();
+        mOpsalir = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,8 +62,8 @@ public class Principal extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(51, 51, 255));
 
         paneltitulo.setBackground(new java.awt.Color(51, 90, 144));
+        paneltitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        title.setBackground(#263238);
         title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setText("Gestor de Cine");
@@ -81,7 +85,7 @@ public class Principal extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        fondocentral.setBackground(new java.awt.Color(204, 204, 255));
+        fondocentral.setBackground(java.awt.SystemColor.controlHighlight);
 
         javax.swing.GroupLayout fondocentralLayout = new javax.swing.GroupLayout(fondocentral);
         fondocentral.setLayout(fondocentralLayout);
@@ -126,18 +130,7 @@ public class Principal extends javax.swing.JInternalFrame {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        mArchivo.setText("Archivo");
-
-        mSalir.setText("Salir");
-        mSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mSalirActionPerformed(evt);
-            }
-        });
-        mArchivo.add(mSalir);
-
-        jMenuBar1.add(mArchivo);
-
+        mGestion.setBackground(java.awt.SystemColor.controlHighlight);
         mGestion.setText("Gestion");
 
         mPeliculas.setText("Peliculas");
@@ -169,12 +162,52 @@ public class Principal extends javax.swing.JInternalFrame {
 
         jMenuBar1.add(mGestion);
 
-        mHelp.setText("Ayuda");
+        mClientes.setText("Usuarios");
 
-        mAcerca.setText("Acerca de...");
-        mHelp.add(mAcerca);
+        mAcerca.setText("Clientes");
+        mClientes.add(mAcerca);
 
-        jMenuBar1.add(mHelp);
+        mEmpleados.setText("Empleados");
+        mEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mEmpleadosActionPerformed(evt);
+            }
+        });
+        mClientes.add(mEmpleados);
+
+        jMenuBar1.add(mClientes);
+
+        mReportes.setText("Reportes");
+
+        mVentas.setText("Ventas");
+        mVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mVentasActionPerformed(evt);
+            }
+        });
+        mReportes.add(mVentas);
+
+        mPelismas.setText("Peliculas mas vistas");
+        mPelismas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mPelismasActionPerformed(evt);
+            }
+        });
+        mReportes.add(mPelismas);
+
+        jMenuBar1.add(mReportes);
+
+        mOpsalir.setText("Salir");
+
+        jMenuItem3.setText("Salir");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        mOpsalir.add(jMenuItem3);
+
+        jMenuBar1.add(mOpsalir);
 
         setJMenuBar(jMenuBar1);
 
@@ -200,9 +233,9 @@ public class Principal extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSalirActionPerformed
+    private void mVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_mSalirActionPerformed
+    }//GEN-LAST:event_mVentasActionPerformed
 
     private void mPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPeliculasActionPerformed
         // TODO add your handling code here:
@@ -216,22 +249,38 @@ public class Principal extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mTicketsActionPerformed
 
+    private void mEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mEmpleadosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mEmpleadosActionPerformed
+
+    private void mPelismasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPelismasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mPelismasActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane fondocentral;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelestado;
     private javax.swing.JLabel labelfechahora;
     private javax.swing.JMenuItem mAcerca;
-    private javax.swing.JMenu mArchivo;
+    private javax.swing.JMenu mClientes;
+    private javax.swing.JMenuItem mEmpleados;
     private javax.swing.JMenuItem mFunciones;
     private javax.swing.JMenu mGestion;
-    private javax.swing.JMenu mHelp;
+    private javax.swing.JMenu mOpsalir;
     private javax.swing.JMenuItem mPeliculas;
+    private javax.swing.JMenuItem mPelismas;
+    private javax.swing.JMenu mReportes;
     private javax.swing.JMenuItem mSalas;
-    private javax.swing.JMenuItem mSalir;
     private javax.swing.JMenuItem mTickets;
+    private javax.swing.JMenuItem mVentas;
     private javax.swing.JPanel panelfinal;
     private javax.swing.JPanel paneltitulo;
     private javax.swing.JLabel title;
