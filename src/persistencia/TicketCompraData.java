@@ -51,7 +51,7 @@ public class TicketCompraData {
 
             if (rs.next()) {
                 ticket.setIdTicket(rs.getInt(1));
-                System.out.println(" Ticket guardado con ID: " + ticket.getIdTicket());
+                System.out.println("Ticket guardado con ID: " + ticket.getIdTicket());
             }
 
 
@@ -114,7 +114,7 @@ public class TicketCompraData {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al buscar ticket: " + e.getMessage());
+            System.out.println("Error al buscar ticket: " + e.getMessage());
         }
 
         return ticket;

@@ -88,12 +88,12 @@ public class DetalleTicketData {
                 ProyeccionData proyeccionData = new ProyeccionData();
                 dt.setProyeccion(proyeccionData.buscarProyeccion(rs.getInt("idProyeccion")));
 
- 
+
                 TicketCompraData ticketData = new TicketCompraData();
                 dt.setTicket(ticketData.buscarTicket(idTicket));
 
 
-                dt.setLugares(obtenerLugares(dt.getCodDetalle()));
+                dt.setLugares(obtenerLugaresPorDetalle(dt.getCodDetalle()));
 
                 detalles.add(dt);
             }
@@ -132,6 +132,26 @@ public class DetalleTicketData {
         return lugares;
     }
     
-    
+    public void eliminarDetallePorTicket(int idTicket) {
+        String sqlDL = "DELETE FROM detalleLugar WHERE codDetalle IN (SELECT codDetalle FROM detalle_ticket WHERE idTicket = ?)";
+        String sqlD = "DELETE FROM detalle_ticket WHERE idTicket = ?";
+
+        try {
+            PreparedStatement ps1 = con.prepareStatement(sqlDL);
+            ps1.setInt(1, idTicket);
+            ps1.executeUpdate();
+            ps1.close();
+
+            PreparedStatement ps2 = con.prepareStatement(sqlD);
+            ps2.setInt(1, idTicket);
+            ps2.executeUpdate();
+            ps2.close();
+
+            System.out.println("Detalles del ticket eliminados correctamente.");
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar detalle de ticket: " + e.getMessage());
+        }
+    }
     
 }
