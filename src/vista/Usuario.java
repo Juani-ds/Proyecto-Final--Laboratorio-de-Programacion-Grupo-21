@@ -47,6 +47,7 @@ public class Usuario extends javax.swing.JInternalFrame {
         panelTable = new javax.swing.JPanel();
         scroll = new javax.swing.JScrollPane();
         tableDatos = new javax.swing.JTable();
+        buttonBuscar = new javax.swing.JButton();
 
         panelTitulo.setBackground(new java.awt.Color(51, 90, 144));
         panelTitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -218,6 +219,8 @@ public class Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        buttonBuscar.setText("Buscar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,13 +232,14 @@ public class Usuario extends javax.swing.JInternalFrame {
                     .addComponent(panelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(panelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(buttonAgg)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonEliminar)
-                                .addGap(26, 26, 26)))))
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonBuscar)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonEliminar)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -253,7 +257,8 @@ public class Usuario extends javax.swing.JInternalFrame {
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonAgg)
-                            .addComponent(buttonEliminar)))
+                            .addComponent(buttonEliminar)
+                            .addComponent(buttonBuscar)))
                     .addComponent(panelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
@@ -292,6 +297,7 @@ public class Usuario extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAgg;
+    private javax.swing.JButton buttonBuscar;
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JTextField campo1;
     private javax.swing.JTextField campo2;
