@@ -33,7 +33,7 @@ public class Sala extends javax.swing.JInternalFrame {
         buttonEliminar = new javax.swing.JButton();
         buttonAgg = new javax.swing.JButton();
         buttonVer = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scroll = new javax.swing.JScrollPane();
         ID = new javax.swing.JTable();
         panelbutton = new javax.swing.JPanel();
         buttonActualizar = new javax.swing.JButton();
@@ -42,11 +42,11 @@ public class Sala extends javax.swing.JInternalFrame {
         panelInfo = new javax.swing.JPanel();
         titleDetalles = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nombre = new javax.swing.JLabel();
-        capacidad = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        funcionag = new javax.swing.JLabel();
+        labelNombre = new javax.swing.JLabel();
+        labelCapacidad = new javax.swing.JLabel();
+        labelTipo = new javax.swing.JLabel();
+        labelEstado = new javax.swing.JLabel();
+        labelFuncionAg = new javax.swing.JLabel();
         campo1 = new javax.swing.JTextField();
         campo2 = new javax.swing.JTextField();
         campo3 = new javax.swing.JTextField();
@@ -140,7 +140,7 @@ public class Sala extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Capacidad", "Tipo de sala", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(ID);
+        scroll.setViewportView(ID);
 
         buttonActualizar.setText("Actualizar");
 
@@ -180,25 +180,25 @@ public class Sala extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        nombre.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        nombre.setForeground(new java.awt.Color(102, 102, 102));
-        nombre.setText("Nombre:");
+        labelNombre.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelNombre.setForeground(new java.awt.Color(102, 102, 102));
+        labelNombre.setText("Nombre:");
 
-        capacidad.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        capacidad.setForeground(new java.awt.Color(102, 102, 102));
-        capacidad.setText("Capacidad:");
+        labelCapacidad.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelCapacidad.setForeground(new java.awt.Color(102, 102, 102));
+        labelCapacidad.setText("Capacidad:");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Tipo de proyeccion:");
+        labelTipo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelTipo.setForeground(new java.awt.Color(102, 102, 102));
+        labelTipo.setText("Tipo de proyeccion:");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("Estado:");
+        labelEstado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelEstado.setForeground(new java.awt.Color(102, 102, 102));
+        labelEstado.setText("Estado:");
 
-        funcionag.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        funcionag.setForeground(new java.awt.Color(102, 102, 102));
-        funcionag.setText("Funcion asignada:");
+        labelFuncionAg.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        labelFuncionAg.setForeground(new java.awt.Color(102, 102, 102));
+        labelFuncionAg.setText("Funcion asignada:");
 
         campo2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,26 +219,26 @@ public class Sala extends javax.swing.JInternalFrame {
                         .addGap(50, 50, 50)
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelInfoLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                .addComponent(labelTipo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(campo3))
                             .addGroup(panelInfoLayout.createSequentialGroup()
                                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelInfoLayout.createSequentialGroup()
-                                        .addComponent(capacidad)
+                                        .addComponent(labelCapacidad)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(campo2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panelInfoLayout.createSequentialGroup()
-                                        .addComponent(nombre)
+                                        .addComponent(labelNombre)
                                         .addGap(18, 18, 18)
                                         .addComponent(campo1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panelInfoLayout.createSequentialGroup()
-                                        .addComponent(jLabel6)
+                                        .addComponent(labelEstado)
                                         .addGap(26, 26, 26)
                                         .addComponent(campo4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 64, Short.MAX_VALUE))
                             .addGroup(panelInfoLayout.createSequentialGroup()
-                                .addComponent(funcionag)
+                                .addComponent(labelFuncionAg)
                                 .addGap(18, 18, 18)
                                 .addComponent(campo5)))))
                 .addContainerGap())
@@ -252,23 +252,23 @@ public class Sala extends javax.swing.JInternalFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre)
+                    .addComponent(labelNombre)
                     .addComponent(campo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(capacidad)
+                    .addComponent(labelCapacidad)
                     .addComponent(campo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(labelTipo)
                     .addComponent(campo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(labelEstado)
                     .addComponent(campo4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(funcionag)
+                    .addComponent(labelFuncionAg)
                     .addComponent(campo5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(90, Short.MAX_VALUE))
         );
@@ -283,7 +283,7 @@ public class Sala extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addComponent(panelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -300,7 +300,7 @@ public class Sala extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(panelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -340,16 +340,16 @@ public class Sala extends javax.swing.JInternalFrame {
     private javax.swing.JTextField campo3;
     private javax.swing.JTextField campo4;
     private javax.swing.JTextField campo5;
-    private javax.swing.JLabel capacidad;
-    private javax.swing.JLabel funcionag;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel nombre;
+    private javax.swing.JLabel labelCapacidad;
+    private javax.swing.JLabel labelEstado;
+    private javax.swing.JLabel labelFuncionAg;
+    private javax.swing.JLabel labelNombre;
+    private javax.swing.JLabel labelTipo;
     private javax.swing.JPanel panelInfo;
     private javax.swing.JPanel panelbutton;
     private javax.swing.JPanel paneltitulo;
+    private javax.swing.JScrollPane scroll;
     private javax.swing.JPanel tablebutton;
     private javax.swing.JLabel title;
     private javax.swing.JLabel titleDetalles;

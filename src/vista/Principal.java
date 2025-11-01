@@ -33,7 +33,7 @@ public class Principal extends javax.swing.JInternalFrame {
         panelfinal = new javax.swing.JPanel();
         labelfechahora = new javax.swing.JLabel();
         labelestado = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        menuBar = new javax.swing.JMenuBar();
         mGestion = new javax.swing.JMenu();
         mPeliculas = new javax.swing.JMenuItem();
         mSalas = new javax.swing.JMenuItem();
@@ -45,8 +45,8 @@ public class Principal extends javax.swing.JInternalFrame {
         mReportes = new javax.swing.JMenu();
         mVentas = new javax.swing.JMenuItem();
         mPelismas = new javax.swing.JMenuItem();
-        mOpsalir = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mSalir = new javax.swing.JMenu();
+        mitenShortcut = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,7 +160,7 @@ public class Principal extends javax.swing.JInternalFrame {
         });
         mGestion.add(mTickets);
 
-        jMenuBar1.add(mGestion);
+        menuBar.add(mGestion);
 
         mClientes.setText("Usuarios");
 
@@ -175,7 +175,7 @@ public class Principal extends javax.swing.JInternalFrame {
         });
         mClientes.add(mEmpleados);
 
-        jMenuBar1.add(mClientes);
+        menuBar.add(mClientes);
 
         mReportes.setText("Reportes");
 
@@ -195,21 +195,21 @@ public class Principal extends javax.swing.JInternalFrame {
         });
         mReportes.add(mPelismas);
 
-        jMenuBar1.add(mReportes);
+        menuBar.add(mReportes);
 
-        mOpsalir.setText("Salir");
+        mSalir.setText("Salir");
 
-        jMenuItem3.setText("Salir");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mitenShortcut.setText("Salir");
+        mitenShortcut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mitenShortcutActionPerformed(evt);
             }
         });
-        mOpsalir.add(jMenuItem3);
+        mSalir.add(mitenShortcut);
 
-        jMenuBar1.add(mOpsalir);
+        menuBar.add(mSalir);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -257,15 +257,13 @@ public class Principal extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_mPelismasActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void mitenShortcutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitenShortcutActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_mitenShortcutActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane fondocentral;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelestado;
     private javax.swing.JLabel labelfechahora;
@@ -274,13 +272,15 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem mEmpleados;
     private javax.swing.JMenuItem mFunciones;
     private javax.swing.JMenu mGestion;
-    private javax.swing.JMenu mOpsalir;
     private javax.swing.JMenuItem mPeliculas;
     private javax.swing.JMenuItem mPelismas;
     private javax.swing.JMenu mReportes;
     private javax.swing.JMenuItem mSalas;
+    private javax.swing.JMenu mSalir;
     private javax.swing.JMenuItem mTickets;
     private javax.swing.JMenuItem mVentas;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mitenShortcut;
     private javax.swing.JPanel panelfinal;
     private javax.swing.JPanel paneltitulo;
     private javax.swing.JLabel title;
