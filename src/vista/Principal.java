@@ -4,6 +4,10 @@
  */
 package vista;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JInternalFrame;
+
 /**
  *
  * @author Neri
@@ -13,8 +17,45 @@ public class Principal extends javax.swing.JInternalFrame {
     /**
      * Creates new form Pelicula
      */
+    
     public Principal() {
         initComponents();
+        configurarVentana();
+        inicializarBarraEstado();
+    }
+    
+    private void configurarVentana() {
+        this.setTitle("Cinema Centro");
+        this.setClosable(false);
+        this.setMaximizable(true);
+        this.setResizable(true);
+    }
+    
+    private void inicializarBarraEstado() {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String fechaHora = LocalDateTime.now().format(formato);
+        labelfechahora.setText("Sesión iniciada: " + fechaHora);
+        labelestado.setText("Estado: Sistema listo");
+    }
+    
+    private void actualizarEstado(String estado) {
+        labelestado.setText("Estado: " + estado);
+    }
+    
+    private void abrirVentanaInterna(JInternalFrame ventana) {
+        JInternalFrame[] ventanas = fondocentral.getAllFrames();
+        for (JInternalFrame v : ventanas) {
+            v.dispose();
+        }
+
+        fondocentral.add(ventana);
+        ventana.setVisible(true);
+
+        int x = (fondocentral.getWidth() - ventana.getWidth()) / 2;
+        int y = (fondocentral.getHeight() - ventana.getHeight()) / 2;
+        ventana.setLocation(x, y);
+
+        actualizarEstado("Ventana activa: " + ventana.getTitle());
     }
 
     /**
@@ -86,6 +127,7 @@ public class Principal extends javax.swing.JInternalFrame {
         );
 
         fondocentral.setBackground(java.awt.SystemColor.controlHighlight);
+        fondocentral.setPreferredSize(new java.awt.Dimension(0, 500));
 
         javax.swing.GroupLayout fondocentralLayout = new javax.swing.GroupLayout(fondocentral);
         fondocentral.setLayout(fondocentralLayout);
@@ -95,11 +137,10 @@ public class Principal extends javax.swing.JInternalFrame {
         );
         fondocentralLayout.setVerticalGroup(
             fondocentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         panelfinal.setBackground(new java.awt.Color(51, 90, 144));
-        panelfinal.setForeground([51,90,144]);
 
         labelfechahora.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelfechahora.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,7 +257,7 @@ public class Principal extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(paneltitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(fondocentral, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(fondocentral, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
             .addComponent(panelfinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -234,31 +275,42 @@ public class Principal extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentasActionPerformed
-        // TODO add your handling code here:
+        actualizarEstado("Reporte de ventas - En desarrollo");
+        javax.swing.JOptionPane.showMessageDialog(this, "Reporte de ventas en desarrollo", "Información", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_mVentasActionPerformed
 
     private void mPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPeliculasActionPerformed
-        // TODO add your handling code here:
+        Pelicula ventanaPeliculas = new Pelicula();
+        abrirVentanaInterna(ventanaPeliculas);
     }//GEN-LAST:event_mPeliculasActionPerformed
 
     private void mFuncionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mFuncionesActionPerformed
-        // TODO add your handling code here:
+        Funcion ventanaFunciones = new Funcion();
+        abrirVentanaInterna(ventanaFunciones);
     }//GEN-LAST:event_mFuncionesActionPerformed
 
     private void mTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mTicketsActionPerformed
-        // TODO add your handling code here:
+        Tickets ventanaTickets = new Tickets();
+        abrirVentanaInterna(ventanaTickets);
     }//GEN-LAST:event_mTicketsActionPerformed
 
     private void mEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mEmpleadosActionPerformed
-        // TODO add your handling code here:
+        actualizarEstado("Módulo de empleados - En desarrollo");
+        javax.swing.JOptionPane.showMessageDialog(this, "Módulo de empleados en desarrollo",  "Información", javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_mEmpleadosActionPerformed
 
     private void mPelismasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPelismasActionPerformed
-        // TODO add your handling code here:
+        actualizarEstado("Reporte de películas más vistas - En desarrollo");
+        javax.swing.JOptionPane.showMessageDialog(this, "Reporte de películas más vistas en desarrollo",  "Información",  javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_mPelismasActionPerformed
 
     private void mitenShortcutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitenShortcutActionPerformed
-        // TODO add your handling code here:
+        int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,"¿Está seguro que desea salir del sistema?","Confirmar salida", 
+                        javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE );
+        
+        if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_mitenShortcutActionPerformed
 
 
