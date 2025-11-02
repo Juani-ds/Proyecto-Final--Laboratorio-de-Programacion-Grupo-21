@@ -127,7 +127,7 @@ public class Principal extends javax.swing.JInternalFrame {
         );
 
         fondocentral.setBackground(java.awt.SystemColor.controlHighlight);
-        fondocentral.setPreferredSize(new java.awt.Dimension(0, 500));
+        fondocentral.setPreferredSize(new java.awt.Dimension(0, 650));
 
         javax.swing.GroupLayout fondocentralLayout = new javax.swing.GroupLayout(fondocentral);
         fondocentral.setLayout(fondocentralLayout);
@@ -137,7 +137,7 @@ public class Principal extends javax.swing.JInternalFrame {
         );
         fondocentralLayout.setVerticalGroup(
             fondocentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
 
         panelfinal.setBackground(new java.awt.Color(51, 90, 144));
@@ -183,6 +183,11 @@ public class Principal extends javax.swing.JInternalFrame {
         mGestion.add(mPeliculas);
 
         mSalas.setText("Salas");
+        mSalas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSalasActionPerformed(evt);
+            }
+        });
         mGestion.add(mSalas);
 
         mFunciones.setText("Funciones");
@@ -206,6 +211,11 @@ public class Principal extends javax.swing.JInternalFrame {
         mClientes.setText("Usuarios");
 
         mAcerca.setText("Clientes");
+        mAcerca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mAcercaActionPerformed(evt);
+            }
+        });
         mClientes.add(mAcerca);
 
         mEmpleados.setText("Empleados");
@@ -312,6 +322,16 @@ public class Principal extends javax.swing.JInternalFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_mitenShortcutActionPerformed
+
+    private void mSalasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSalasActionPerformed
+        Sala ventanaSalas = new Sala();
+        abrirVentanaInterna(ventanaSalas);
+    }//GEN-LAST:event_mSalasActionPerformed
+
+    private void mAcercaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAcercaActionPerformed
+        Usuario ventanUsuario = new Usuario();
+        abrirVentanaInterna(ventanUsuario);
+    }//GEN-LAST:event_mAcercaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

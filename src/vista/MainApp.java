@@ -23,7 +23,7 @@ public class MainApp {
         java.awt.EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame("Cinema Centro - Sistema de Gestión");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(1200, 800);
+            frame.setSize(1200, 900);
             frame.setLocationRelativeTo(null);
             
             Principal ventanaPrincipal = new Principal();
