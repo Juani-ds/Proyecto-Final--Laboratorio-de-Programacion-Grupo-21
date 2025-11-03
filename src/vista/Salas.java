@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 /**
  * @author Neri
  */
-public class Sala extends javax.swing.JInternalFrame {
+public class Salas extends javax.swing.JInternalFrame {
 
     private SalaData salaData;
     private DefaultTableModel modeloTabla;
     private int salaSeleccionadaId = -1;
     private boolean modoEdicion = false;
 
-    public Sala() {
+    public Salas() {
         initComponents();
         salaData = new SalaData();
         configurarTabla();
@@ -348,7 +348,6 @@ public class Sala extends javax.swing.JInternalFrame {
         buttonBuscar.setOpaque(true);
         buttonBuscar.setBorderPainted(false);
 
-        buttonLimpiarFiltros.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         buttonLimpiarFiltros.setText("Limpiar");
 
         labelResultados.setFont(new java.awt.Font("Segoe UI", 2, 11)); // NOI18N
