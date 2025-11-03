@@ -79,6 +79,7 @@ public class Principal extends javax.swing.JInternalFrame {
         mPeliculas = new javax.swing.JMenuItem();
         mSalas = new javax.swing.JMenuItem();
         mFunciones = new javax.swing.JMenuItem();
+        mAsientos = new javax.swing.JMenuItem();
         mTickets = new javax.swing.JMenuItem();
         mClientes = new javax.swing.JMenu();
         mAcerca = new javax.swing.JMenuItem();
@@ -197,6 +198,14 @@ public class Principal extends javax.swing.JInternalFrame {
             }
         });
         mGestion.add(mFunciones);
+
+        mAsientos.setText("Asientos");
+        mAsientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mAsientosActionPerformed(evt);
+            }
+        });
+        mGestion.add(mAsientos);
 
         mTickets.setText("Tickets");
         mTickets.addActionListener(new java.awt.event.ActionListener() {
@@ -333,6 +342,11 @@ public class Principal extends javax.swing.JInternalFrame {
         abrirVentanaInterna(ventanUsuario);
     }//GEN-LAST:event_mAcercaActionPerformed
 
+    private void mAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAsientosActionPerformed
+        Asientos ventanaAsientos = new Asientos();
+        abrirVentanaInterna(ventanaAsientos);
+    }//GEN-LAST:event_mAsientosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane fondocentral;
@@ -340,6 +354,7 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelestado;
     private javax.swing.JLabel labelfechahora;
     private javax.swing.JMenuItem mAcerca;
+    private javax.swing.JMenuItem mAsientos;
     private javax.swing.JMenu mClientes;
     private javax.swing.JMenuItem mEmpleados;
     private javax.swing.JMenuItem mFunciones;

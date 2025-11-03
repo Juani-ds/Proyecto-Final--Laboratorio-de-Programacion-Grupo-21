@@ -108,7 +108,14 @@ public class TicketCompraData {
                 ticket.setTipoCompra(rs.getString("tipoCompra"));
                 ticket.setCodigoVenta(rs.getString("codigoVenta"));
                 ticket.setEstadoTicket(rs.getString("estadoTicket"));
-                ticket.setDetalles(detalleTicketData.obtenerDetallesPorTicket(idTicket));
+
+                // Cargar los detalles
+                List<DetalleTicket> detalles = detalleTicketData.obtenerDetallesPorTicket(idTicket);
+                // Establecer la referencia del ticket en cada detalle
+                for (DetalleTicket detalle : detalles) {
+                    detalle.setTicket(ticket);
+                }
+                ticket.setDetalles(detalles);
             }
 
         } catch (SQLException e) {

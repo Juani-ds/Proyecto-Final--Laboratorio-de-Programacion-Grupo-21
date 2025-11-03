@@ -30,8 +30,8 @@ public class LugarData {
     }
     
     public void guardarLugar(Lugar lugar){
-        String sql = "INSERT INTO lugar(codLugar, idProyeccion, fila, numero, estado) + VALUES(?, ?, ?, ?, ?)";
-        
+        String sql = "INSERT INTO lugar(codLugar, idProyeccion, fila, numero, estado) VALUES(?, ?, ?, ?, ?)";
+
         try(PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             
             ps.setInt(1, lugar.getCodLugar());

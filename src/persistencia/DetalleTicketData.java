@@ -20,7 +20,7 @@ import modelo.Proyeccion;
  */
 public class DetalleTicketData {
     private Connection con;
-    
+
     public DetalleTicketData(){
         this.con = Conexion.getConexion();
     }
@@ -83,15 +83,15 @@ public class DetalleTicketData {
                 dt.setCantidad(rs.getInt("cantidad"));
                 dt.setSubtotal(rs.getDouble("subtotal"));
 
-
+                // Cargar la proyección
                 ProyeccionData proyeccionData = new ProyeccionData();
                 dt.setProyeccion(proyeccionData.buscarProyeccion(rs.getInt("idProyeccion")));
 
+                // NO cargar el ticket completo aquí para evitar recursión infinita
+                // El ticket ya está siendo cargado desde TicketCompraData.buscarTicket()
+                // dt.setTicket() se establecerá desde el método que llama a esta función
 
-                TicketCompraData ticketData = new TicketCompraData();
-                dt.setTicket(ticketData.buscarTicket(idTicket));
-
-
+                // Cargar los lugares asociados
                 dt.setLugares(obtenerLugaresPorDetalle(dt.getCodDetalle()));
 
                 detalles.add(dt);

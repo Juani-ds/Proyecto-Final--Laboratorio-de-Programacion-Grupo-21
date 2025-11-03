@@ -76,7 +76,7 @@ public class Tickets extends javax.swing.JInternalFrame {
     private void cargarPeliculas() {
         comboPeli.removeAllItems();
         comboPeli.addItem("Seleccione película");
-        
+
         List<modelo.Pelicula> peliculas = peliculaData.listarPeliculas();
         for (modelo.Pelicula peli : peliculas) {
             if (peli.isActivo()) {
@@ -88,21 +88,25 @@ public class Tickets extends javax.swing.JInternalFrame {
     private void cargarSalasPorPelicula() {
         comboSala.removeAllItems();
         comboSala.addItem("Seleccione sala");
-        
-        if (peliculaSeleccionada == null) return;
+
+        if (peliculaSeleccionada == null) {
+            return;
+        }
+
         List<modelo.Proyeccion> todasProyecciones = proyeccionData.listarProyecciones();
         java.util.Set<Integer> salasIds = new java.util.HashSet<>();
-        
+
         for (modelo.Proyeccion proy : todasProyecciones) {
-            if (proy.getPelicula().getIdPelicula() == peliculaSeleccionada.getIdPelicula()) {
+            if (proy.getPelicula() != null && proy.getPelicula().getIdPelicula() == peliculaSeleccionada.getIdPelicula()) {
                 salasIds.add(proy.getSala().getNroSala());
             }
         }
-        
+
         for (Integer salaId : salasIds) {
             modelo.Sala sala = salaData.buscarSala(salaId);
             if (sala != null && sala.isActivo()) {
-                comboSala.addItem("Sala " + sala.getNroSala() + (sala.isApta3D() ? " (3D)" : " (2D)"));
+                String nombreSala = "Sala " + sala.getNroSala();
+                comboSala.addItem(nombreSala);
             }
         }
     }
@@ -110,11 +114,14 @@ public class Tickets extends javax.swing.JInternalFrame {
     private void cargarFuncionesPorSala() {
         FuncionCombo.removeAllItems();
         FuncionCombo.addItem("Seleccione función");
-        
-        if (peliculaSeleccionada == null || salaSeleccionada == null) return;
+
+        if (peliculaSeleccionada == null || salaSeleccionada == null) {
+            return;
+        }
+
         List<modelo.Proyeccion> todasProyecciones = proyeccionData.listarProyecciones();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        
+
         for (modelo.Proyeccion proy : todasProyecciones) {
             if (proy.getPelicula().getIdPelicula() == peliculaSeleccionada.getIdPelicula() &&
                 proy.getSala().getNroSala() == salaSeleccionada.getNroSala()) {
@@ -128,16 +135,24 @@ public class Tickets extends javax.swing.JInternalFrame {
         FilaCombo.removeAllItems();
         FilaCombo.addItem("Seleccione fila");
 
-        if (proyeccionSeleccionada == null) return;
+        if (proyeccionSeleccionada == null) {
+            System.out.println("DEBUG: No se pueden cargar filas - proyección null");
+            return;
+        }
 
+        System.out.println("DEBUG: Cargando filas para proyección ID: " + proyeccionSeleccionada.getIdProyeccion());
         List<modelo.Lugar> lugares = lugarData.listarLugaresPorProyeccion(proyeccionSeleccionada.getIdProyeccion());
+        System.out.println("DEBUG: Total lugares encontrados: " + lugares.size());
+
         java.util.Set<String> filasSet = new java.util.TreeSet<>();
 
         for (modelo.Lugar lugar : lugares) {
             filasSet.add(String.valueOf(lugar.getFila()));
         }
 
+        System.out.println("DEBUG: Filas únicas encontradas: " + filasSet.size());
         for (String fila : filasSet) {
+            System.out.println("DEBUG: Agregando fila: " + fila);
             FilaCombo.addItem(fila);
         }
     }
@@ -146,19 +161,29 @@ public class Tickets extends javax.swing.JInternalFrame {
         ComboAsiento.removeAllItems();
         ComboAsiento.addItem("Seleccione asiento");
 
-        if (proyeccionSeleccionada == null || FilaCombo.getSelectedIndex() <= 0) return;
+        if (proyeccionSeleccionada == null || FilaCombo.getSelectedIndex() <= 0) {
+            System.out.println("DEBUG: No se pueden cargar asientos - proyección: " + (proyeccionSeleccionada != null) + ", fila seleccionada: " + (FilaCombo.getSelectedIndex() > 0));
+            return;
+        }
 
         String filaSeleccionadaStr = FilaCombo.getSelectedItem().toString();
         char filaSeleccionadaChar = filaSeleccionadaStr.charAt(0);
+        System.out.println("DEBUG: Cargando asientos para fila: " + filaSeleccionadaChar);
 
         List<modelo.Lugar> lugares = lugarData.listarLugaresPorProyeccion(proyeccionSeleccionada.getIdProyeccion());
+        System.out.println("DEBUG: Total lugares: " + lugares.size());
 
+        int asientosEncontrados = 0;
         for (modelo.Lugar lugar : lugares) {
             if (lugar.getFila() == filaSeleccionadaChar) {
                 String estado = lugar.getEstado().equalsIgnoreCase("libre") ? "✓" : "✗";
-                ComboAsiento.addItem(estado + " Asiento " + lugar.getNumero());
+                String asiento = estado + " Asiento " + lugar.getNumero();
+                System.out.println("DEBUG: Agregando asiento: " + asiento);
+                ComboAsiento.addItem(asiento);
+                asientosEncontrados++;
             }
         }
+        System.out.println("DEBUG: Total asientos agregados: " + asientosEncontrados);
     }
     
     private void cargarCompradores() {
@@ -390,21 +415,21 @@ public class Tickets extends javax.swing.JInternalFrame {
             }
         });
 
-        FilaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2" }));
+        FilaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione fila" }));
         FilaCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FilaComboActionPerformed(evt);
             }
         });
 
-        FuncionCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha y Hora" }));
+        FuncionCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione función" }));
         FuncionCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FuncionComboActionPerformed(evt);
             }
         });
 
-        ComboAsiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fila B - 5" }));
+        ComboAsiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione asiento" }));
         ComboAsiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboAsientoActionPerformed(evt);
@@ -855,9 +880,18 @@ public class Tickets extends javax.swing.JInternalFrame {
         }
 
         String salaTexto = comboSala.getSelectedItem().toString();
-        int nroSala = Integer.parseInt(salaTexto.replaceAll("[^0-9]", "").trim());
+        // Extraer el número de sala usando regex para encontrar el primer número después de "Sala "
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("Sala\\s+(\\d+)");
+        java.util.regex.Matcher matcher = pattern.matcher(salaTexto);
 
+        if (!matcher.find()) {
+            salaSeleccionada = null;
+            return;
+        }
+
+        int nroSala = Integer.parseInt(matcher.group(1));
         salaSeleccionada = salaData.buscarSala(nroSala);
+
         cargarFuncionesPorSala();
 
         FilaCombo.removeAllItems();
