@@ -4,6 +4,12 @@
  */
 package vista;
 
+import persistencia.SalaData;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
+
 /**
  *
  * @author Neri
@@ -13,10 +19,106 @@ public class Sala extends javax.swing.JInternalFrame {
     /**
      * Creates new form Sala
      */
+    private SalaData salaData;
+    private DefaultTableModel modeloTabla;
+    private modelo.Sala salaSeleccionada;
+    
     public Sala() {
         initComponents();
+        salaData = new SalaData();
+        modeloTabla = (DefaultTableModel) ID.getModel();
+        salaSeleccionada = null;
+        configurarTabla();
+        cargarTabla();
+        configurarEventos();
+    }
+    
+    private void configurarTabla() {
+        modeloTabla.setRowCount(0);
+        modeloTabla.setColumnCount(0);
+        modeloTabla.addColumn("ID");
+        modeloTabla.addColumn("Apta 3D");
+        modeloTabla.addColumn("Capacidad");
+        modeloTabla.addColumn("Estado");
+        modeloTabla.addColumn("Activo");
     }
 
+    private void cargarTabla() {
+        modeloTabla.setRowCount(0);
+        for (modelo.Sala sala : salaData.listarSalas()) {
+            Object[] fila = {
+                sala.getNroSala(),
+                sala.isApta3D() ? "Sí" : "No",
+                sala.getCapacidad(),
+                sala.getEstado(),
+                sala.isActivo() ? "Activo" : "Inactivo"
+            };
+            modeloTabla.addRow(fila);
+        }
+    }
+    
+    private void configurarEventos() {
+        ID.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && ID.getSelectedRow() != -1) {
+                cargarDatosSala();
+            }
+        });
+    }
+    
+    private void cargarDatosSala() {
+        int filaSeleccionada = ID.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            int nroSala = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+            salaSeleccionada = salaData.buscarSala(nroSala);
+
+            if (salaSeleccionada != null) {
+                campo1.setText(String.valueOf(salaSeleccionada.getNroSala()));
+                campo2.setText(String.valueOf(salaSeleccionada.getCapacidad()));
+                campo3.setText(salaSeleccionada.isApta3D() ? "Sí" : "No");
+                campo4.setText(salaSeleccionada.getEstado());
+                campo5.setText("N/A"); // Función asignada (pendiente de implementar)
+            }
+        }
+    }
+    
+    private void limpiarCampos() {
+        campo1.setText("");
+        campo2.setText("");
+        campo3.setText("");
+        campo4.setText("");
+        campo5.setText("");
+        salaSeleccionada = null;
+        ID.clearSelection();
+    }
+    
+    private boolean validarCampos() {
+        if (campo2.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La capacidad es obligatoria", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        try {
+            int capacidad = Integer.parseInt(campo2.getText().trim());
+            if (capacidad <= 0) {
+                JOptionPane.showMessageDialog(this, "La capacidad debe ser mayor a 0","Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "La capacidad debe ser un número válido","Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (campo3.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El tipo de proyección es obligatorio (Sí/No)", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (campo4.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,"El estado es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,6 +203,11 @@ public class Sala extends javax.swing.JInternalFrame {
         });
 
         buttonVer.setText("Buscar");
+        buttonVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonVerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout tablebuttonLayout = new javax.swing.GroupLayout(tablebutton);
         tablebutton.setLayout(tablebuttonLayout);
@@ -143,10 +250,25 @@ public class Sala extends javax.swing.JInternalFrame {
         scroll.setViewportView(ID);
 
         buttonActualizar.setText("Actualizar");
+        buttonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonActualizarActionPerformed(evt);
+            }
+        });
 
         buttonGuardar.setText("Guardar");
+        buttonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonGuardarActionPerformed(evt);
+            }
+        });
 
         buttonlimpiar.setText("Limpiar");
+        buttonlimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonlimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelbuttonLayout = new javax.swing.GroupLayout(panelbutton);
         panelbutton.setLayout(panelbuttonLayout);
@@ -310,20 +432,117 @@ public class Sala extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
-        // TODO add your handling code here:
+        if (salaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this,"Seleccione una sala de la tabla", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        campo1.setEditable(false);
+        JOptionPane.showMessageDialog(this, "Modifique los datos y presione Actualizar", "Editar Sala", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_buttonEditActionPerformed
 
     private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
-        // TODO add your handling code here:
+        if (salaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione una sala de la tabla", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro que desea eliminar la sala " + salaSeleccionada.getNroSala() + "?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            salaData.eliminarSala(salaSeleccionada.getNroSala());
+            JOptionPane.showMessageDialog(this, "Sala eliminada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+            cargarTabla();
+        }
     }//GEN-LAST:event_buttonEliminarActionPerformed
 
     private void buttonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAggActionPerformed
-        // TODO add your handling code here:
+        limpiarCampos();
+        campo1.setEditable(false);
+        JOptionPane.showMessageDialog(this, "Complete los datos y presione Guardar", "Agregar Sala", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_buttonAggActionPerformed
 
     private void campo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campo2ActionPerformed
+
+    private void buttonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGuardarActionPerformed
+        if (!validarCampos()) {
+            return;
+        }
+
+        modelo.Sala nuevaSala = new modelo.Sala();
+        nuevaSala.setCapacidad(Integer.parseInt(campo2.getText().trim()));
+        nuevaSala.setApta3D(campo3.getText().trim().equalsIgnoreCase("Sí") || campo3.getText().trim().equalsIgnoreCase("Si"));
+        nuevaSala.setEstado(campo4.getText().trim());
+        nuevaSala.setActivo(true);
+
+        salaData.insertarSala(nuevaSala);
+        JOptionPane.showMessageDialog(this, "Sala guardada correctamente con ID: " + nuevaSala.getNroSala(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        limpiarCampos();
+        cargarTabla();
+    }//GEN-LAST:event_buttonGuardarActionPerformed
+
+    private void buttonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActualizarActionPerformed
+        if (salaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione una sala de la tabla", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!validarCampos()) {
+            return;
+        }
+
+        salaSeleccionada.setCapacidad(Integer.parseInt(campo2.getText().trim()));
+        salaSeleccionada.setApta3D(campo3.getText().trim().equalsIgnoreCase("Sí") || campo3.getText().trim().equalsIgnoreCase("Si"));
+        salaSeleccionada.setEstado(campo4.getText().trim());
+
+        salaData.actualizarSala(salaSeleccionada);
+        JOptionPane.showMessageDialog(this, "Sala actualizada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        limpiarCampos();
+        cargarTabla();
+    }//GEN-LAST:event_buttonActualizarActionPerformed
+
+    private void buttonlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonlimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_buttonlimpiarActionPerformed
+
+    private void buttonVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVerActionPerformed
+        String input = JOptionPane.showInputDialog(this, "Ingrese el número de sala a buscar:", "Buscar Sala", JOptionPane.QUESTION_MESSAGE);
+        if (input != null && !input.trim().isEmpty()) {
+            try {
+                int nroSala = Integer.parseInt(input.trim());
+                modelo.Sala sala = salaData.buscarSala(nroSala);
+
+                if (sala != null) {
+                    salaSeleccionada = sala;
+                    campo1.setText(String.valueOf(sala.getNroSala()));
+                    campo2.setText(String.valueOf(sala.getCapacidad()));
+                    campo3.setText(sala.isApta3D() ? "Sí" : "No");
+                    campo4.setText(sala.getEstado());
+                    campo5.setText("N/A");
+
+                    // Seleccionar en la tabla
+                    for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                        if ((int) modeloTabla.getValueAt(i, 0) == nroSala) {
+                            ID.setRowSelectionInterval(i, i);
+                            break;
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró sala con ID: " + nroSala, "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Ingrese un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_buttonVerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

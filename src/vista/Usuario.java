@@ -5,6 +5,14 @@
  */
 package vista;
 
+import modelo.Comprador;
+import persistencia.CompradorData;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  *
  * @author tizia
@@ -14,8 +22,115 @@ public class Usuario extends javax.swing.JInternalFrame {
     /**
      * Creates new form Comprador
      */
+    
+    private CompradorData compradorData;
+    private DefaultTableModel modeloTabla;
+    private modelo.Comprador compradorSeleccionado;
+    
     public Usuario() {
         initComponents();
+        compradorData = new CompradorData();
+        modeloTabla = (DefaultTableModel) tableDatos.getModel();
+        compradorSeleccionado = null;
+        configurarTabla();
+        cargarTabla();
+        configurarEventos();
+    }
+    
+    private void configurarTabla() {
+        modeloTabla.setRowCount(0);
+        modeloTabla.setColumnCount(0);
+        modeloTabla.addColumn("DNI");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Fecha Nac.");
+        modeloTabla.addColumn("Medio de Pago");
+        modeloTabla.addColumn("Activo");
+    }
+    
+    private void cargarTabla() {
+        modeloTabla.setRowCount(0);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        for (modelo.Comprador comprador : compradorData.listarCompradores()) {
+            Object[] fila = {
+                comprador.getDni(),
+                comprador.getNombre(),
+                comprador.getFechaNac().format(formatter),
+                comprador.getMedioPago(),
+                comprador.isActivo() ? "Activo" : "Inactivo"
+            };
+            modeloTabla.addRow(fila);
+        }
+    }
+    
+    private void configurarEventos() {
+        tableDatos.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && tableDatos.getSelectedRow() != -1) {
+                cargarDatosComprador();
+            }
+        });
+    }
+    
+    private void cargarDatosComprador() {
+        int filaSeleccionada = tableDatos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String dni = (String) modeloTabla.getValueAt(filaSeleccionada, 0);
+            compradorSeleccionado = compradorData.buscarComprador(dni);
+
+            if (compradorSeleccionado != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                campo1.setText(compradorSeleccionado.getDni());
+                campo2.setText(compradorSeleccionado.getNombre());
+                campo3.setText(compradorSeleccionado.getFechaNac().format(formatter));
+                campo4.setText(compradorSeleccionado.getPassword());
+                campo5.setText(compradorSeleccionado.getMedioPago());
+            }
+        }
+    }
+    
+    private void limpiarCampos() {
+        campo1.setText("");
+        campo2.setText("");
+        campo3.setText("");
+        campo4.setText("");
+        campo5.setText("");
+        compradorSeleccionado = null;
+        tableDatos.clearSelection();
+    }
+    
+    private boolean validarCampos() {
+        if (campo1.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El DNI es obligatorio", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (campo2.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,"El nombre es obligatorio","Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (campo3.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La fecha de nacimiento es obligatoria (dd/MM/yyyy)","Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate.parse(campo3.getText().trim(), formatter);
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this,"Formato de fecha inválido. Use dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (campo4.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La contraseña es obligatoria","Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (campo5.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El medio de pago es obligatorio", "Error",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -220,6 +335,11 @@ public class Usuario extends javax.swing.JInternalFrame {
         );
 
         buttonBuscar.setText("Buscar");
+        buttonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -287,12 +407,72 @@ public class Usuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_campo5ActionPerformed
 
     private void buttonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAggActionPerformed
-        // TODO add your handling code here:
+        if (!validarCampos()) {
+            return;
+        }
+
+        modelo.Comprador existe = compradorData.buscarComprador(campo1.getText().trim());
+        if (existe != null) {
+            JOptionPane.showMessageDialog(this,"Ya existe un usuario con ese DNI", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaNac = LocalDate.parse(campo3.getText().trim(), formatter);
+
+        modelo.Comprador nuevoComprador = new modelo.Comprador();
+        nuevoComprador.setDni(campo1.getText().trim());
+        nuevoComprador.setNombre(campo2.getText().trim());
+        nuevoComprador.setFechaNac(fechaNac);
+        nuevoComprador.setPassword(campo4.getText().trim());
+        nuevoComprador.setMedioPago(campo5.getText().trim());
+        nuevoComprador.setActivo(true);
+        compradorData.guardarComprador(nuevoComprador);
+        
+        JOptionPane.showMessageDialog(this, "Usuario registrado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        limpiarCampos();
+        cargarTabla();
     }//GEN-LAST:event_buttonAggActionPerformed
 
     private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
-        // TODO add your handling code here:
+        if (compradorSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un usuario de la tabla", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea dar de baja al usuario " + compradorSeleccionado.getNombre() + "?", "Confirmar baja", 
+                        JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        
+        if (respuesta == JOptionPane.YES_OPTION) {
+            compradorData.bajaComprador(compradorSeleccionado.getDni());
+            JOptionPane.showMessageDialog(this, "Usuario dado de baja correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+            cargarTabla();
+        }
     }//GEN-LAST:event_buttonEliminarActionPerformed
+
+    private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarActionPerformed
+        String dni = JOptionPane.showInputDialog(this, "Ingrese el DNI del usuario a buscar:", "Buscar Usuario", JOptionPane.QUESTION_MESSAGE);
+        if (dni != null && !dni.trim().isEmpty()) {
+            modelo.Comprador comprador = compradorData.buscarComprador(dni.trim());
+            if (comprador != null) {
+                compradorSeleccionado = comprador;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                campo1.setText(comprador.getDni());
+                campo2.setText(comprador.getNombre());
+                campo3.setText(comprador.getFechaNac().format(formatter));
+                campo4.setText(comprador.getPassword());
+                campo5.setText(comprador.getMedioPago());
+                for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                    if (modeloTabla.getValueAt(i, 0).equals(dni.trim())) {
+                        tableDatos.setRowSelectionInterval(i, i);
+                        break;
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,"No se encontró usuario con DNI: "+ dni, "No encontrado",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_buttonBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

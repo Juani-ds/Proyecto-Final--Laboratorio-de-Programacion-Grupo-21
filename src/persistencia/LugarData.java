@@ -142,4 +142,28 @@ public class LugarData {
         }
     }
     
+    public List<Lugar> listarLugares() {
+        List<Lugar> lugares = new ArrayList<>();
+        String sql = "SELECT * FROM lugar ORDER BY idProyeccion, fila, numero";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Lugar lugar = new Lugar();
+                lugar.setCodLugar(rs.getInt("codLugar"));
+
+                int idProyeccion = rs.getInt("idProyeccion");
+                Proyeccion proyeccion = proyeccionData.buscarProyeccion(idProyeccion);
+                lugar.setProyeccion(proyeccion);
+
+                lugar.setFila(rs.getString("fila").charAt(0));
+                lugar.setNumero(rs.getInt("numero"));
+                lugar.setEstado(rs.getString("estado"));
+                lugares.add(lugar);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al listar todos los lugares: " + e.getMessage());
+        }
+        return lugares;
+    }
+    
 }
