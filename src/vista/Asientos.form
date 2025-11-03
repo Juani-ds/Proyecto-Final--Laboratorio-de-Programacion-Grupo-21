@@ -54,9 +54,9 @@
                       <Component id="panelDetalles" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="70" max="32767" attributes="0"/>
               <Component id="panelButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="83" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -122,7 +122,7 @@
                   <Component id="buttonImprimir" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonVerOcupacion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="339" max="32767" attributes="0"/>
+                  <EmptySpace pref="656" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

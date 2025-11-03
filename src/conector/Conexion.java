@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Conexion {
-    private static final String URL = "jdbc:mariadb://localhost:3310/cinemacentro_gp17?useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mariadb://localhost:3306/gp21_cinemacentro?useLegacyDatetimeCode=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

@@ -97,7 +97,7 @@ public class Asientos extends javax.swing.JInternalFrame {
                 .addComponent(buttonImprimir)
                 .addGap(18, 18, 18)
                 .addComponent(buttonVerOcupacion)
-                .addContainerGap(339, Short.MAX_VALUE))
+                .addContainerGap(656, Short.MAX_VALUE))
         );
         panelButtonLayout.setVerticalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,9 +327,9 @@ public class Asientos extends javax.swing.JInternalFrame {
                         .addComponent(titleDetalles)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(panelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         pack();

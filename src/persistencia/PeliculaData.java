@@ -16,7 +16,7 @@ public class PeliculaData {
 
     // INSERTAR PELICULA
     public void insertarPelicula(Pelicula pelicula) {
-        String sql = "INSERT INTO pelicula(titulo, director, actores, origen, genero, estreno, en_cartelera, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pelicula(titulo, director, actores, origen, genero, estreno, enCartelera, activo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, pelicula.getTitulo());
@@ -52,14 +52,14 @@ public class PeliculaData {
 
             while (rs.next()) {
                 Pelicula pelicula = new Pelicula(
-                    rs.getInt("id_pelicula"),
+                    rs.getInt("idPelicula"),
                     rs.getString("titulo"),
                     rs.getString("director"),
                     rs.getString("actores"),
                     rs.getString("origen"),
                     rs.getString("genero"),
                     rs.getDate("estreno").toLocalDate(),
-                    rs.getInt("en_cartelera") == 1,
+                    rs.getInt("enCartelera") == 1,
                     rs.getInt("activo") == 1
                 );
                 peliculas.add(pelicula);
@@ -74,7 +74,7 @@ public class PeliculaData {
 
     // BUSCAR POR ID
     public Pelicula buscarPeliculaPorId(int idPelicula) {
-        String sql = "SELECT * FROM pelicula WHERE id_pelicula = ?";
+        String sql = "SELECT * FROM pelicula WHERE idPelicula = ?";
 
         try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
             ps.setInt(1, idPelicula);
@@ -82,14 +82,14 @@ public class PeliculaData {
 
             if (rs.next()) {
                 return new Pelicula(
-                    rs.getInt("id_pelicula"),
+                    rs.getInt("idPelicula"),
                     rs.getString("titulo"),
                     rs.getString("director"),
                     rs.getString("actores"),
                     rs.getString("origen"),
                     rs.getString("genero"),
                     rs.getDate("estreno").toLocalDate(),
-                    rs.getInt("en_cartelera") == 1,
+                    rs.getInt("enCartelera") == 1,
                     rs.getInt("activo") == 1
                 );
             }
@@ -103,7 +103,7 @@ public class PeliculaData {
 
     // ACTUALIZAR PELICULA
     public void actualizarPelicula(Pelicula pelicula) {
-        String sql = "UPDATE pelicula SET titulo=?, director=?, actores=?, origen=?, genero=?, estreno=?, en_cartelera=?, activo=? WHERE id_pelicula=?";
+        String sql = "UPDATE pelicula SET titulo=?, director=?, actores=?, origen=?, genero=?, estreno=?, enCartelera=?, activo=? WHERE idPelicula=?";
 
         try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
             ps.setString(1, pelicula.getTitulo());
@@ -130,7 +130,7 @@ public class PeliculaData {
 
     // CAMBIAR ESTADO
     public void cambiarEstadoPelicula(int idPelicula, boolean activo) {
-        String sql = "UPDATE pelicula SET activo=? WHERE id_pelicula=?";
+        String sql = "UPDATE pelicula SET activo=? WHERE idPelicula=?";
 
         try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
             ps.setInt(1, activo ? 1 : 0);
@@ -150,7 +150,7 @@ public class PeliculaData {
 
     // ELIMINAR PELICULA
     public void eliminarPelicula(int idPelicula) {
-        String sql = "DELETE FROM pelicula WHERE id_pelicula=?";
+        String sql = "DELETE FROM pelicula WHERE idPelicula=?";
 
         try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
 
@@ -166,5 +166,35 @@ public class PeliculaData {
         } catch (SQLException ex) {
             System.out.println("Error eliminando película: " + ex.getMessage());
         }
+    }
+
+    // LISTAR PELICULAS EN CARTELERA Y ACTIVAS
+    public List<Pelicula> listarPeliculasEnCartelera() {
+        List<Pelicula> peliculas = new ArrayList<>();
+        String sql = "SELECT * FROM pelicula WHERE enCartelera = 1 AND activo = 1 ORDER BY titulo";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Pelicula pelicula = new Pelicula(
+                    rs.getInt("idPelicula"),
+                    rs.getString("titulo"),
+                    rs.getString("director"),
+                    rs.getString("actores"),
+                    rs.getString("origen"),
+                    rs.getString("genero"),
+                    rs.getDate("estreno").toLocalDate(),
+                    rs.getInt("enCartelera") == 1,
+                    rs.getInt("activo") == 1
+                );
+                peliculas.add(pelicula);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error listando películas en cartelera: " + ex.getMessage());
+        }
+
+        return peliculas;
     }
 }

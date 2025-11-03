@@ -1,29 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
-  <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="menuBar">
-      <SubComponents>
-        <Menu class="javax.swing.JMenu" name="menuAgg">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Agregar"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="menuEdit">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Editar"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="menuEliminar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar"/>
-          </Properties>
-        </Menu>
-      </SubComponents>
-    </Menu>
-  </NonVisualComponents>
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+  <Properties>
+    <Property name="closable" type="boolean" value="true"/>
+    <Property name="iconifiable" type="boolean" value="true"/>
+    <Property name="maximizable" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="true"/>
+    <Property name="title" type="java.lang.String" value="Gesti&#xf3;n de Pel&#xed;culas"/>
+  </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <AuxValues>
@@ -41,143 +26,35 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="panelTitulo" alignment="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="paneltitulo" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="panelBuscar" min="-2" max="-2" attributes="0"/>
-                          <Component id="tab" max="32767" attributes="0"/>
-                          <Component id="panelButton" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="panelBusqueda" max="32767" attributes="0"/>
+                  <Component id="tabbedPane" max="32767" attributes="0"/>
+                  <Component id="panelBotones" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="paneltitulo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="panelBuscar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-              <Component id="tab" min="-2" pref="206" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="panelButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
+              <Component id="panelTitulo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelBusqueda" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="tabbedPane" min="-2" pref="275" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelBotones" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JTabbedPane" name="tab">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-            <EtchetBorder/>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
-      <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="scroll">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Peliculas">
-                <Property name="tabTitle" type="java.lang.String" value="Peliculas"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTable" name="table">
-              <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="4">
-                    <Column editable="true" title="ID" type="java.lang.Object"/>
-                    <Column editable="true" title="Titulo" type="java.lang.Object"/>
-                    <Column editable="true" title="Director" type="java.lang.Object"/>
-                    <Column editable="true" title="Duracion" type="java.lang.Object"/>
-                    <Column editable="true" title="Estado" type="java.lang.Object"/>
-                  </Table>
-                </Property>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="panelBuscar">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="labelBuscar" min="-2" pref="90" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="campo" min="-2" pref="106" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="combo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="44" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="combo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="15" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="labelBuscar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar pelicula:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="campo">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="combo">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Comedia"/>
-                <StringItem index="1" value="Terror"/>
-                <StringItem index="2" value="Romantica"/>
-                <StringItem index="3" value="Drama"/>
-                <StringItem index="4" value="Policiales"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="paneltitulo">
+    <Container class="javax.swing.JPanel" name="panelTitulo">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="90" green="5a" red="33" type="rgb"/>
@@ -192,25 +69,25 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="193" max="32767" attributes="0"/>
-                  <Component id="title" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="320" max="-2" attributes="0"/>
+                  <Component id="labelTitulo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="17" max="32767" attributes="0"/>
-                  <Component id="title" min="-2" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="labelTitulo" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="title">
+        <Component class="javax.swing.JLabel" name="labelTitulo">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
@@ -218,38 +95,51 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Gestor de Peliculas"/>
+            <Property name="text" type="java.lang.String" value="Gestor de Pel&#xed;culas"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="panelButton">
+    <Container class="javax.swing.JPanel" name="panelBusqueda">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Buscar Pel&#xed;culas"/>
+          </Border>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="buttonAgg" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="buttonEdit" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                  <Component id="buttonGuardar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                  <Component id="buttonEliminar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="labelBuscar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="textBuscar" min="-2" pref="250" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="labelGenero" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="comboGenero" min="-2" pref="150" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="buttonLimpiar" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="labelResultados" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="buttonAgg" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonEdit" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelGenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboGenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelResultados" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -257,24 +147,532 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="buttonAgg">
+        <Component class="javax.swing.JLabel" name="labelBuscar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Agregar"/>
+            <Property name="text" type="java.lang.String" value="Buscar:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonEdit">
+        <Component class="javax.swing.JTextField" name="textBuscar">
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelGenero">
           <Properties>
+            <Property name="text" type="java.lang.String" value="G&#xe9;nero:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comboGenero">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="11">
+                <StringItem index="0" value="Todos"/>
+                <StringItem index="1" value="Acci&#xf3;n"/>
+                <StringItem index="2" value="Comedia"/>
+                <StringItem index="3" value="Terror"/>
+                <StringItem index="4" value="Rom&#xe1;ntica"/>
+                <StringItem index="5" value="Drama"/>
+                <StringItem index="6" value="Ciencia Ficci&#xf3;n"/>
+                <StringItem index="7" value="Aventura"/>
+                <StringItem index="8" value="Suspenso"/>
+                <StringItem index="9" value="Animaci&#xf3;n"/>
+                <StringItem index="10" value="Documental"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboGeneroActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonLimpiar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="66" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Limpiar"/>
+            <Property name="opaque" type="boolean" value="true"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelResultados">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="11" style="2"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="33" type="rgb"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JTabbedPane" name="tabbedPane">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JScrollPane" name="scrollTabla">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Lista de Pel&#xed;culas">
+                <Property name="tabTitle" type="java.lang.String" value="Lista de Pel&#xed;culas"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTable" name="tablePeliculas">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="11" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                  <Table columnCount="8" rowCount="4">
+                    <Column editable="true" title="ID" type="java.lang.Object"/>
+                    <Column editable="true" title="T&#xed;tulo" type="java.lang.Object"/>
+                    <Column editable="true" title="Director" type="java.lang.Object"/>
+                    <Column editable="true" title="G&#xe9;nero" type="java.lang.Object"/>
+                    <Column editable="true" title="Origen" type="java.lang.Object"/>
+                    <Column editable="true" title="Estreno" type="java.lang.Object"/>
+                    <Column editable="true" title="En Cartelera" type="java.lang.Object"/>
+                    <Column editable="true" title="Estado" type="java.lang.Object"/>
+                  </Table>
+                </Property>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="panelInfo">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="Informaci&#xf3;n de la Pel&#xed;cula"/>
+              </Border>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Informaci&#xf3;n">
+                <Property name="tabTitle" type="java.lang.String" value="Informaci&#xf3;n"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelInfoTitulo" max="32767" attributes="0"/>
+                          <Component id="labelInfoDirector" pref="854" max="32767" attributes="0"/>
+                          <Component id="labelInfoActores" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelInfoGenero" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="labelInfoOrigen" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelInfoEstreno" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="labelInfoCartelera" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="labelInfoEstado" min="-2" pref="200" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelInfoTitulo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelInfoDirector" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="labelInfoActores" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="labelInfoGenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelInfoEstreno" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelInfoEstado" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="labelInfoOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelInfoCartelera" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="labelInfoTitulo">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="12" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="T&#xed;tulo: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoDirector">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Director: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoActores">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Actores: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoGenero">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="G&#xe9;nero: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoOrigen">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Origen: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoEstreno">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estreno: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoCartelera">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="En cartelera: -"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelInfoEstado">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estado: -"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="panelFormulario">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="Formulario de Pel&#xed;cula"/>
+              </Border>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Formulario">
+                <Property name="tabTitle" type="java.lang.String" value="Formulario"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="labelFormTitulo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textTitulo" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelFormDirector" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textDirector" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelFormActores" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="scrollActores" alignment="0" pref="400" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="labelFormOrigen" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textOrigen" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelFormGenero" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="comboGeneroForm" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelFormEstreno" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textEstreno" alignment="0" pref="250" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="checkCartelera" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="checkActivo" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="164" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="labelFormTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelFormOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="textTitulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="labelFormDirector" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelFormGenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="textDirector" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboGeneroForm" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="labelFormActores" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelFormEstreno" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="scrollActores" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="textEstreno" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="checkCartelera" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkActivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="labelFormTitulo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="T&#xed;tulo:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="textTitulo">
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelFormDirector">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Director:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="textDirector">
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelFormActores">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Actores:"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="scrollActores">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="textAreaActores">
+                  <Properties>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="rows" type="int" value="3"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="labelFormOrigen">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Origen:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="textOrigen">
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelFormGenero">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="G&#xe9;nero:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="comboGeneroForm">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="10">
+                    <StringItem index="0" value="Acci&#xf3;n"/>
+                    <StringItem index="1" value="Comedia"/>
+                    <StringItem index="2" value="Terror"/>
+                    <StringItem index="3" value="Rom&#xe1;ntica"/>
+                    <StringItem index="4" value="Drama"/>
+                    <StringItem index="5" value="Ciencia Ficci&#xf3;n"/>
+                    <StringItem index="6" value="Aventura"/>
+                    <StringItem index="7" value="Suspenso"/>
+                    <StringItem index="8" value="Animaci&#xf3;n"/>
+                    <StringItem index="9" value="Documental"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="labelFormEstreno">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estreno (dd/MM/yyyy):"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="textEstreno">
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="checkCartelera">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="En cartelera"/>
+                <Property name="selected" type="boolean" value="true"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="checkActivo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Activo"/>
+                <Property name="selected" type="boolean" value="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panelBotones">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+            <EtchetBorder/>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                  <Component id="buttonNuevo" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="buttonEditar" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="buttonGuardar" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="buttonEliminar" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="buttonCancelar" min="-2" pref="100" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="buttonNuevo" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="buttonEditar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="buttonGuardar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="buttonEliminar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="buttonCancelar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="buttonNuevo">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="32" green="7d" red="2e" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Nuevo"/>
+            <Property name="opaque" type="boolean" value="true"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonEditar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="c0" green="65" red="15" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Editar"/>
+            <Property name="opaque" type="boolean" value="true"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonGuardar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="90" green="5a" red="33" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Guardar"/>
+            <Property name="opaque" type="boolean" value="true"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonEliminar">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="2f" green="2f" red="d3" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
+            <Property name="opaque" type="boolean" value="true"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonCancelar">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="75" green="75" red="75" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="opaque" type="boolean" value="true"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>
