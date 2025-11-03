@@ -20,7 +20,6 @@ import modelo.Proyeccion;
  */
 public class DetalleTicketData {
     private Connection con;
-    private TicketCompraData ticketCompraBD = new TicketCompraData();
     
     public DetalleTicketData(){
         this.con = Conexion.getConexion();

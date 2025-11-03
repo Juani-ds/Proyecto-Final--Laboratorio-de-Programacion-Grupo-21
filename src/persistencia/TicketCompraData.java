@@ -108,8 +108,6 @@ public class TicketCompraData {
                 ticket.setTipoCompra(rs.getString("tipoCompra"));
                 ticket.setCodigoVenta(rs.getString("codigoVenta"));
                 ticket.setEstadoTicket(rs.getString("estadoTicket"));
-
-                // Cargar detalles
                 ticket.setDetalles(detalleTicketData.obtenerDetallesPorTicket(idTicket));
             }
 
@@ -150,6 +148,10 @@ public class TicketCompraData {
         }
 
         return tickets;
+    }
+    
+    public List<DetalleTicket> listarDetallesPorTicket(int idTicket) {
+        return detalleTicketData.obtenerDetallesPorTicket(idTicket);
     }
     
 }
