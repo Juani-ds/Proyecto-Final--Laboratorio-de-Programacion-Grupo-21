@@ -333,7 +333,7 @@ public class Principal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_mitenShortcutActionPerformed
 
     private void mSalasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSalasActionPerformed
-        Sala ventanaSalas = new Sala();
+        Salas ventanaSalas = new Salas();
         abrirVentanaInterna(ventanaSalas);
     }//GEN-LAST:event_mSalasActionPerformed
 
