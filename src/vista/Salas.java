@@ -300,6 +300,11 @@ public class Salas extends javax.swing.JInternalFrame {
         comboTipoForm = new javax.swing.JComboBox<>();
         comboEstadoForm = new javax.swing.JComboBox<>();
         checkActivo = new javax.swing.JCheckBox();
+        
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);       
 
         paneltitulo.setBackground(new java.awt.Color(51, 90, 144));
         paneltitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -399,25 +404,13 @@ public class Salas extends javax.swing.JInternalFrame {
         tablebutton.setBackground(java.awt.SystemColor.controlHighlight);
 
         buttonEdit.setText("Editar");
-        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEditActionPerformed(evt);
-            }
-        });
+
 
         buttonEliminar.setText("Eliminar");
-        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEliminarActionPerformed(evt);
-            }
-        });
+
 
         buttonAgg.setText("Agregar Sala");
-        buttonAgg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonAggActionPerformed(evt);
-            }
-        });
+
 
         javax.swing.GroupLayout tablebuttonLayout = new javax.swing.GroupLayout(tablebutton);
         tablebutton.setLayout(tablebuttonLayout);
@@ -457,18 +450,10 @@ public class Salas extends javax.swing.JInternalFrame {
         scroll.setViewportView(ID);
 
         buttonGuardar.setText("Guardar");
-        buttonGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonGuardarActionPerformed(evt);
-            }
-        });
+
 
         buttonlimpiar.setText("Limpiar");
-        buttonlimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonlimpiarActionPerformed(evt);
-            }
-        });
+
 
         javax.swing.GroupLayout panelbuttonLayout = new javax.swing.GroupLayout(panelbutton);
         panelbutton.setLayout(panelbuttonLayout);
