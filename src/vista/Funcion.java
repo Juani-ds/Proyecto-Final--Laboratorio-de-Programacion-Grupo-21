@@ -419,22 +419,78 @@ public class Funcion extends javax.swing.JInternalFrame {
         }
 
         int confirm = JOptionPane.showConfirmDialog(this,
-                "¿Está seguro de eliminar la función:\n" +
+                "¿Está seguro de dar de baja la función:\n" +
                 proyeccionSeleccionada.getPelicula().getTitulo() +
-                " - Sala " + proyeccionSeleccionada.getSala().getNroSala() + "?",
-                "Confirmar eliminación",
+                " - Sala " + proyeccionSeleccionada.getSala().getNroSala() + "?\n\n" +
+                "Esta operación cambiará el estado a inactivo pero no eliminará los registros.",
+                "Confirmar baja lógica",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
             proyeccionData.eliminarProyeccion(proyeccionSeleccionada.getIdProyeccion());
-            JOptionPane.showMessageDialog(this, "Función eliminada correctamente.",
+            JOptionPane.showMessageDialog(this, "Función dada de baja correctamente.",
                     "Éxito", JOptionPane.INFORMATION_MESSAGE);
             limpiarFormulario();
-            cargarComboBoxes(); // Recargar filtros después de eliminar
+            cargarComboBoxes();
             cargarTodasLasFunciones();
         }
     }
+    
+    private void eliminarFuncionFisicamente() {
+        if (proyeccionSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una función de la tabla.",
+                    "Ninguna función seleccionada", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // VALIDACION
+        if (proyeccionData.tieneTicketsVendidos(proyeccionSeleccionada.getIdProyeccion())) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede eliminar la función porque tiene tickets vendidos.\n\n" +
+                    "Esta función tiene ventas registradas y no puede ser eliminada\n" +
+                    "para mantener la integridad de los datos.\n\n" +
+                    "Si desea desactivarla, utilice el botón 'Dar de baja'.",
+                    "Eliminación no permitida",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿ESTÁ SEGURO de ELIMINAR PERMANENTEMENTE la función:\n" +
+                proyeccionSeleccionada.getPelicula().getTitulo() +
+                " - Sala " + proyeccionSeleccionada.getSala().getNroSala() + "?\n\n" +
+                "ADVERTENCIA: Esta operación es IRREVERSIBLE.\n" +
+                "Se eliminarán todos los lugares/asientos asociados a esta función.\n\n" +
+                "Esta acción solo debe realizarse si:\n" +
+                "• No hay tickets vendidos (ya verificado)\n" +
+                "• La función fue creada por error\n",
+                "CONFIRMAR ELIMINACIÓN PERMANENTE",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean exitoso = proyeccionData.eliminarProyeccionFisicamente(proyeccionSeleccionada.getIdProyeccion());
+
+            if (exitoso) {
+                JOptionPane.showMessageDialog(this, 
+                        "Función eliminada permanentemente de la base de datos.",
+                        "Eliminación exitosa", 
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                limpiarFormulario();
+                cargarComboBoxes();
+                cargarTodasLasFunciones();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Error al eliminar la función. Consulte los logs para más detalles.",
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    
 
     private void limpiarFiltros() {
         comboPeli.setSelectedIndex(0);
@@ -500,26 +556,12 @@ public class Funcion extends javax.swing.JInternalFrame {
         buttonNuevo = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
 
-        // Configurar spinners de hora
-        SpinnerDateModel modelInicio = new SpinnerDateModel();
-        spinnerHoraInicio.setModel(modelInicio);
-        JSpinner.DateEditor editorInicio = new JSpinner.DateEditor(spinnerHoraInicio, "HH:mm");
-        spinnerHoraInicio.setEditor(editorInicio);
-
-        SpinnerDateModel modelFin = new SpinnerDateModel();
-        spinnerHoraFin.setModel(modelFin);
-        JSpinner.DateEditor editorFin = new JSpinner.DateEditor(spinnerHoraFin, "HH:mm");
-        spinnerHoraFin.setEditor(editorFin);
-
-        // Configurar formato de fecha
-        dateChooserFecha.setDateFormatString("dd/MM/yyyy");
-
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
         setTitle("Gestión de Funciones");
-        setPreferredSize(new java.awt.Dimension(1100, 700));
+        setPreferredSize(new java.awt.Dimension(1400, 700));
 
         panelTitulo.setBackground(new java.awt.Color(51, 90, 144));
         panelTitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -550,11 +592,14 @@ public class Funcion extends javax.swing.JInternalFrame {
         labelBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelBuscar.setText("Buscar Funciones:");
 
-        buttonBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        buttonBuscar.setText("Buscar");
+        checkSub.setText("Subtitulada");
+
+        check3D.setText("3D");
+
         buttonBuscar.setBackground(new java.awt.Color(51, 90, 144));
+        buttonBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        buttonBuscar.setOpaque(true);
+        buttonBuscar.setText("Buscar");
         buttonBuscar.setBorderPainted(false);
         buttonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -562,17 +607,13 @@ public class Funcion extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonLimpiarFiltros.setText("Limpiar Filtros");
         buttonLimpiarFiltros.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        buttonLimpiarFiltros.setText("Limpiar Filtros");
         buttonLimpiarFiltros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonLimpiarFiltrosActionPerformed(evt);
             }
         });
-
-        checkSub.setText("Subtitulada");
-
-        check3D.setText("3D");
 
         javax.swing.GroupLayout panelBusquedaLayout = new javax.swing.GroupLayout(panelBusqueda);
         panelBusqueda.setLayout(panelBusquedaLayout);
@@ -581,10 +622,10 @@ public class Funcion extends javax.swing.JInternalFrame {
             .addGroup(panelBusquedaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboPeli, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboPeli, 0, 188, Short.MAX_VALUE)
                     .addComponent(comboIdiom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(buttonLimpiarFiltros, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(buttonLimpiarFiltros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelBusquedaLayout.createSequentialGroup()
                         .addGroup(panelBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelBuscar)
@@ -789,11 +830,12 @@ public class Funcion extends javax.swing.JInternalFrame {
 
         jLabel12.setText("Hora Inicio:");
 
-        buttonGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        buttonGuardar.setText("Guardar");
+        jLabel15.setText("Hora Fin:");
+
         buttonGuardar.setBackground(new java.awt.Color(46, 125, 50));
+        buttonGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        buttonGuardar.setOpaque(true);
+        buttonGuardar.setText("Guardar");
         buttonGuardar.setBorderPainted(false);
         buttonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -801,11 +843,10 @@ public class Funcion extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        buttonNuevo.setText("Nuevo");
         buttonNuevo.setBackground(new java.awt.Color(25, 118, 210));
+        buttonNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonNuevo.setForeground(new java.awt.Color(255, 255, 255));
-        buttonNuevo.setOpaque(true);
+        buttonNuevo.setText("Nuevo");
         buttonNuevo.setBorderPainted(false);
         buttonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -813,19 +854,16 @@ public class Funcion extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        buttonEliminar.setText("Eliminar");
         buttonEliminar.setBackground(new java.awt.Color(211, 47, 47));
+        buttonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        buttonEliminar.setOpaque(true);
+        buttonEliminar.setText("Dar de Baja");
         buttonEliminar.setBorderPainted(false);
         buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonEliminarActionPerformed(evt);
             }
         });
-
-        jLabel15.setText("Hora Fin:");
 
         javax.swing.GroupLayout panelFormularioLayout = new javax.swing.GroupLayout(panelFormulario);
         panelFormulario.setLayout(panelFormularioLayout);
@@ -985,6 +1023,7 @@ public class Funcion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<Object> comboPeli;
     private javax.swing.JComboBox<Object> comboPeliculaForm;
     private javax.swing.JComboBox<Object> comboSala;
+    private com.toedter.calendar.JDateChooser dateChooserFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1016,12 +1055,11 @@ public class Funcion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JPanel panelTabla;
     private javax.swing.JPanel panelTitulo;
+    private javax.swing.JSpinner spinnerHoraFin;
+    private javax.swing.JSpinner spinnerHoraInicio;
     private javax.swing.JTable tablaFunciones;
     private javax.swing.JLabel title;
     private javax.swing.JTextField txtIdioma;
     private javax.swing.JTextField txtPrecio;
-    private com.toedter.calendar.JDateChooser dateChooserFecha;
-    private javax.swing.JSpinner spinnerHoraInicio;
-    private javax.swing.JSpinner spinnerHoraFin;
     // End of variables declaration//GEN-END:variables
 }

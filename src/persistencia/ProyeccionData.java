@@ -277,6 +277,57 @@ public class ProyeccionData {
         }
         return false;
     }
+    
+    public boolean tieneTicketsVendidos(int idProyeccion) {
+        String sql = "SELECT COUNT(*) as total FROM detalle_ticket WHERE idProyeccion = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idProyeccion);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                return total > 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error verificando tickets vendidos: " + ex.getMessage());
+        }
+
+        return false; // En caso de error, asumimos que tiene tickets
+    }
+    
+    public boolean eliminarProyeccionFisicamente(int idProyeccion) {
+        String sqlLugares = "DELETE FROM lugar WHERE idProyeccion = ?";
+
+        try (PreparedStatement psLugares = con.prepareStatement(sqlLugares)) {
+            psLugares.setInt(1, idProyeccion);
+            int lugaresEliminados = psLugares.executeUpdate();
+            System.out.println("Lugares eliminados: " + lugaresEliminados);
+
+        } catch (SQLException ex) {
+            System.out.println("Error eliminando lugares: " + ex.getMessage());
+            return false;
+        }
+
+        String sqlProyeccion = "DELETE FROM proyeccion WHERE idProyeccion = ?";
+
+        try (PreparedStatement psProyeccion = con.prepareStatement(sqlProyeccion)) {
+            psProyeccion.setInt(1, idProyeccion);
+            int filas = psProyeccion.executeUpdate();
+
+            if (filas > 0) {
+                System.out.println("Proyección eliminada físicamente correctamente.");
+                return true;
+            } else {
+                System.out.println("No se encontró proyección con ID: " + idProyeccion);
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error eliminando proyección físicamente: " + ex.getMessage());
+            return false;
+        }
+    }
 
     // MÉTODO AUXILIAR PARA MAPEAR RESULTSET A PROYECCIÓN
     private Proyeccion mapearProyeccion(ResultSet rs) throws SQLException {
