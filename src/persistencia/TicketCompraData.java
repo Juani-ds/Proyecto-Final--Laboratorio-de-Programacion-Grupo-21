@@ -150,6 +150,13 @@ public class TicketCompraData {
                 ticket.setCodigoVenta(rs.getString("codigoVenta"));
                 ticket.setEstadoTicket(rs.getString("estadoTicket"));
 
+                // Cargar los detalles del ticket
+                List<DetalleTicket> detalles = detalleTicketData.obtenerDetallesPorTicket(ticket.getIdTicket());
+                for (DetalleTicket detalle : detalles) {
+                    detalle.setTicket(ticket);
+                }
+                ticket.setDetalles(detalles);
+
                 tickets.add(ticket);
             }
 

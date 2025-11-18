@@ -28,7 +28,7 @@ public class Compradores extends javax.swing.JInternalFrame {
     }
 
     private void configurarTabla() {
-        String[] columnas = {"ID Ticket", "DNI", "Nombre Comprador", "Fecha Compra", "Fecha Función", "Monto", "Estado"};
+        String[] columnas = {"ID Ticket", "DNI", "Nombre Comprador", "Película", "Sala", "Fecha Función", "Monto", "Estado"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -49,11 +49,26 @@ public class Compradores extends javax.swing.JInternalFrame {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         for (TicketCompra ticket : tickets) {
+            // Obtener película y sala del primer detalle del ticket
+            String pelicula = "N/A";
+            String sala = "N/A";
+
+            if (ticket.getDetalles() != null && !ticket.getDetalles().isEmpty()
+                && ticket.getDetalles().get(0).getProyeccion() != null) {
+                if (ticket.getDetalles().get(0).getProyeccion().getPelicula() != null) {
+                    pelicula = ticket.getDetalles().get(0).getProyeccion().getPelicula().getTitulo();
+                }
+                if (ticket.getDetalles().get(0).getProyeccion().getSala() != null) {
+                    sala = String.valueOf(ticket.getDetalles().get(0).getProyeccion().getSala().getNroSala());
+                }
+            }
+
             Object[] fila = {
                 ticket.getIdTicket(),
                 ticket.getComprador() != null ? ticket.getComprador().getDni() : "N/A",
                 ticket.getComprador() != null ? ticket.getComprador().getNombre() : "N/A",
-                ticket.getFechaCompra() != null ? ticket.getFechaCompra().format(formatter) : "N/A",
+                pelicula,
+                sala,
                 ticket.getFechaFuncion() != null ? ticket.getFechaFuncion().format(formatter) : "N/A",
                 String.format("$%.2f", ticket.getMonto()),
                 ticket.getEstadoTicket()
@@ -65,49 +80,104 @@ public class Compradores extends javax.swing.JInternalFrame {
     }
 
     private void buscarPorFechas() {
-        if (dateInicio.getDate() == null || dateFin.getDate() == null) {
+        modeloTabla.setRowCount(0);
+        List<TicketCompra> tickets = ticketData.listarTickets();
+
+        // Obtener el texto del filtro de comprador
+        String textoComprador = txtComprador.getText().trim().toLowerCase();
+
+        // Verificar si hay filtros aplicados
+        boolean hayFiltroFechas = dateInicio.getDate() != null && dateFin.getDate() != null;
+        boolean hayFiltroComprador = !textoComprador.isEmpty();
+
+        if (!hayFiltroFechas && !hayFiltroComprador) {
             JOptionPane.showMessageDialog(this,
-                "Por favor seleccione ambas fechas (Inicio y Fin)",
-                "Fechas requeridas",
+                "Por favor ingrese al menos un filtro (DNI/Nombre o Fechas)",
+                "Filtros requeridos",
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Convertir Date a LocalDate
-        LocalDate fechaInicio = dateInicio.getDate().toInstant()
-            .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-        LocalDate fechaFin = dateFin.getDate().toInstant()
-            .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaInicio = null;
+        LocalDate fechaFin = null;
 
-        // Validar que fecha inicio no sea mayor a fecha fin
-        if (fechaInicio.isAfter(fechaFin)) {
-            JOptionPane.showMessageDialog(this,
-                "La fecha de inicio no puede ser mayor a la fecha de fin",
-                "Error en fechas",
-                JOptionPane.ERROR_MESSAGE);
-            return;
+        if (hayFiltroFechas) {
+            // Convertir Date a LocalDate
+            fechaInicio = dateInicio.getDate().toInstant()
+                .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            fechaFin = dateFin.getDate().toInstant()
+                .atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+
+            // Validar que fecha inicio no sea mayor a fecha fin
+            if (fechaInicio.isAfter(fechaFin)) {
+                JOptionPane.showMessageDialog(this,
+                    "La fecha de inicio no puede ser mayor a la fecha de fin",
+                    "Error en fechas",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
 
-        modeloTabla.setRowCount(0);
-        List<TicketCompra> tickets = ticketData.listarTickets();
+        // Variables finales para uso en lambda
+        final LocalDate fechaInicioFinal = fechaInicio;
+        final LocalDate fechaFinFinal = fechaFin;
+        final boolean aplicarFiltroFechas = hayFiltroFechas;
+        final boolean aplicarFiltroComprador = hayFiltroComprador;
 
-        // Filtrar tickets por rango de fechas (basado en fechaFuncion)
+        // Filtrar tickets por rango de fechas y/o comprador
         List<TicketCompra> ticketsFiltrados = tickets.stream()
             .filter(t -> {
-                if (t.getFechaFuncion() == null) return false;
-                LocalDate fechaTicket = t.getFechaFuncion().toLocalDate();
-                return !fechaTicket.isBefore(fechaInicio) && !fechaTicket.isAfter(fechaFin);
+                boolean cumpleFechas = true;
+                boolean cumpleComprador = true;
+
+                // Filtro por fechas
+                if (aplicarFiltroFechas) {
+                    if (t.getFechaFuncion() == null) {
+                        cumpleFechas = false;
+                    } else {
+                        LocalDate fechaTicket = t.getFechaFuncion().toLocalDate();
+                        cumpleFechas = !fechaTicket.isBefore(fechaInicioFinal) && !fechaTicket.isAfter(fechaFinFinal);
+                    }
+                }
+
+                // Filtro por comprador (DNI o nombre)
+                if (aplicarFiltroComprador) {
+                    if (t.getComprador() == null) {
+                        cumpleComprador = false;
+                    } else {
+                        String dni = t.getComprador().getDni() != null ? t.getComprador().getDni().toLowerCase() : "";
+                        String nombre = t.getComprador().getNombre() != null ? t.getComprador().getNombre().toLowerCase() : "";
+                        cumpleComprador = dni.contains(textoComprador) || nombre.contains(textoComprador);
+                    }
+                }
+
+                return cumpleFechas && cumpleComprador;
             })
             .collect(Collectors.toList());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         for (TicketCompra ticket : ticketsFiltrados) {
+            // Obtener película y sala del primer detalle del ticket
+            String pelicula = "N/A";
+            String sala = "N/A";
+
+            if (ticket.getDetalles() != null && !ticket.getDetalles().isEmpty()
+                && ticket.getDetalles().get(0).getProyeccion() != null) {
+                if (ticket.getDetalles().get(0).getProyeccion().getPelicula() != null) {
+                    pelicula = ticket.getDetalles().get(0).getProyeccion().getPelicula().getTitulo();
+                }
+                if (ticket.getDetalles().get(0).getProyeccion().getSala() != null) {
+                    sala = String.valueOf(ticket.getDetalles().get(0).getProyeccion().getSala().getNroSala());
+                }
+            }
+
             Object[] fila = {
                 ticket.getIdTicket(),
                 ticket.getComprador() != null ? ticket.getComprador().getDni() : "N/A",
                 ticket.getComprador() != null ? ticket.getComprador().getNombre() : "N/A",
-                ticket.getFechaCompra() != null ? ticket.getFechaCompra().format(formatter) : "N/A",
+                pelicula,
+                sala,
                 ticket.getFechaFuncion() != null ? ticket.getFechaFuncion().format(formatter) : "N/A",
                 String.format("$%.2f", ticket.getMonto()),
                 ticket.getEstadoTicket()
@@ -115,12 +185,22 @@ public class Compradores extends javax.swing.JInternalFrame {
             modeloTabla.addRow(fila);
         }
 
-        labelResultados.setText("Mostrando " + ticketsFiltrados.size() + " compra(s) entre " +
-            fechaInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " y " +
-            fechaFin.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        // Construir mensaje de resultados
+        StringBuilder mensaje = new StringBuilder("Mostrando " + ticketsFiltrados.size() + " compra(s)");
+        if (aplicarFiltroComprador) {
+            mensaje.append(" para '").append(textoComprador).append("'");
+        }
+        if (aplicarFiltroFechas) {
+            mensaje.append(" entre ")
+                   .append(fechaInicioFinal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                   .append(" y ")
+                   .append(fechaFinFinal.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        }
+        labelResultados.setText(mensaje.toString());
     }
 
     private void limpiarFiltros() {
+        txtComprador.setText("");
         dateInicio.setDate(null);
         dateFin.setDate(null);
         cargarTabla();
@@ -138,6 +218,8 @@ public class Compradores extends javax.swing.JInternalFrame {
         panelTitulo = new javax.swing.JPanel();
         titleCompradores = new javax.swing.JLabel();
         panelFiltros = new javax.swing.JPanel();
+        labelComprador = new javax.swing.JLabel();
+        txtComprador = new javax.swing.JTextField();
         labelFechaInicio = new javax.swing.JLabel();
         dateInicio = new com.toedter.calendar.JDateChooser();
         labelFechaFin = new javax.swing.JLabel();
@@ -175,6 +257,11 @@ public class Compradores extends javax.swing.JInternalFrame {
         panelFiltros.setBackground(new java.awt.Color(240, 240, 240));
         panelFiltros.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtros de Búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
+        labelComprador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelComprador.setText("DNI/Nombre:");
+
+        txtComprador.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
         labelFechaInicio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelFechaInicio.setText("Fecha Inicio:");
 
@@ -211,13 +298,17 @@ public class Compradores extends javax.swing.JInternalFrame {
             panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFiltrosLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(labelComprador)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(labelFechaInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelFechaFin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateFin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dateFin, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(buttonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,6 +320,8 @@ public class Compradores extends javax.swing.JInternalFrame {
             .addGroup(panelFiltrosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelComprador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtComprador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelFechaInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dateInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelFechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -246,11 +339,11 @@ public class Compradores extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID Ticket", "DNI", "Nombre Comprador", "Fecha Compra", "Fecha Función", "Monto", "Estado"
+                "ID Ticket", "DNI", "Nombre Comprador", "Película", "Sala", "Fecha Función", "Monto", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -308,6 +401,7 @@ public class Compradores extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser dateFin;
     private com.toedter.calendar.JDateChooser dateInicio;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelComprador;
     private javax.swing.JLabel labelFechaFin;
     private javax.swing.JLabel labelFechaInicio;
     private javax.swing.JLabel labelResultados;
@@ -315,5 +409,6 @@ public class Compradores extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelTitulo;
     private javax.swing.JTable tablaCompradores;
     private javax.swing.JLabel titleCompradores;
+    private javax.swing.JTextField txtComprador;
     // End of variables declaration//GEN-END:variables
 }
