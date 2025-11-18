@@ -14,7 +14,7 @@ public class MainApp {
     public static void main(String[] args) {
 
         try {
-            FlatDarkLaf.setup();
+            FlatLightLaf.setup();
         } catch (Exception e) {
             System.err.println("No se pudo iniciar FlatLaf: " + e.getMessage());
         }
