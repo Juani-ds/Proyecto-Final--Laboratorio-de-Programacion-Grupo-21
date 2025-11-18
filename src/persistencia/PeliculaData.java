@@ -236,4 +236,34 @@ public class PeliculaData {
 
         return 0;
     }
+
+    // LISTAR PRÓXIMOS ESTRENOS (películas con fecha de estreno futura y activas)
+    public List<Pelicula> listarProximosEstrenos() {
+        List<Pelicula> peliculas = new ArrayList<>();
+        String sql = "SELECT * FROM pelicula WHERE estreno > CURDATE() AND activo = 1 ORDER BY estreno";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Pelicula pelicula = new Pelicula(
+                    rs.getInt("idPelicula"),
+                    rs.getString("titulo"),
+                    rs.getString("director"),
+                    rs.getString("actores"),
+                    rs.getString("origen"),
+                    rs.getString("genero"),
+                    rs.getDate("estreno").toLocalDate(),
+                    rs.getInt("enCartelera") == 1,
+                    rs.getInt("activo") == 1
+                );
+                peliculas.add(pelicula);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error listando próximos estrenos: " + ex.getMessage());
+        }
+
+        return peliculas;
+    }
 }

@@ -83,6 +83,7 @@ public class Principal extends javax.swing.JInternalFrame {
         mTickets = new javax.swing.JMenuItem();
         mClientes = new javax.swing.JMenu();
         mAcerca = new javax.swing.JMenuItem();
+        mCartelera = new javax.swing.JMenuItem();
         mReportes = new javax.swing.JMenu();
         mVentas = new javax.swing.JMenuItem();
         mPelismas = new javax.swing.JMenuItem();
@@ -227,6 +228,14 @@ public class Principal extends javax.swing.JInternalFrame {
         });
         mClientes.add(mAcerca);
 
+        mCartelera.setText("Cartelera");
+        mCartelera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mCarteleraActionPerformed(evt);
+            }
+        });
+        mClientes.add(mCartelera);
+
         menuBar.add(mClientes);
 
         mReportes.setText("Reportes");
@@ -342,6 +351,11 @@ public class Principal extends javax.swing.JInternalFrame {
         abrirVentanaInterna(ventanUsuario);
     }//GEN-LAST:event_mAcercaActionPerformed
 
+    private void mCarteleraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mCarteleraActionPerformed
+        Cartelera ventanaCartelera = new Cartelera();
+        abrirVentanaInterna(ventanaCartelera);
+    }//GEN-LAST:event_mCarteleraActionPerformed
+
     private void mAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAsientosActionPerformed
         Asientos ventanaAsientos = new Asientos();
         abrirVentanaInterna(ventanaAsientos);
@@ -360,6 +374,7 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelfechahora;
     private javax.swing.JMenuItem mAcerca;
     private javax.swing.JMenuItem mAsientos;
+    private javax.swing.JMenuItem mCartelera;
     private javax.swing.JMenu mClientes;
     private javax.swing.JMenuItem mCompradores;
     private javax.swing.JMenuItem mFunciones;
