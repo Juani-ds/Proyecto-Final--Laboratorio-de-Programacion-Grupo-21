@@ -35,11 +35,11 @@ public class Principal extends javax.swing.JInternalFrame {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         String fechaHora = LocalDateTime.now().format(formato);
         labelfechahora.setText("Sesión iniciada: " + fechaHora);
-        labelestado.setText("Estado: Sistema listo");
+//        labelestado.setText("Estado: Sistema listo");
     }
     
     private void actualizarEstado(String estado) {
-        labelestado.setText("Estado: " + estado);
+//        labelestado.setText("Estado: " + estado);
     }
     
     private void abrirVentanaInterna(JInternalFrame ventana) {
@@ -73,7 +73,6 @@ public class Principal extends javax.swing.JInternalFrame {
         fondocentral = new javax.swing.JDesktopPane();
         panelfinal = new javax.swing.JPanel();
         labelfechahora = new javax.swing.JLabel();
-        labelestado = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         mGestion = new javax.swing.JMenu();
         mPeliculas = new javax.swing.JMenuItem();
@@ -148,18 +147,12 @@ public class Principal extends javax.swing.JInternalFrame {
         labelfechahora.setForeground(new java.awt.Color(255, 255, 255));
         labelfechahora.setText("Fecha y hora:");
 
-        labelestado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        labelestado.setForeground(new java.awt.Color(255, 255, 255));
-        labelestado.setText("Estado:");
-
         javax.swing.GroupLayout panelfinalLayout = new javax.swing.GroupLayout(panelfinal);
         panelfinal.setLayout(panelfinalLayout);
         panelfinalLayout.setHorizontalGroup(
             panelfinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelfinalLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(labelestado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(371, Short.MAX_VALUE)
                 .addComponent(labelfechahora)
                 .addGap(102, 102, 102))
         );
@@ -167,9 +160,7 @@ public class Principal extends javax.swing.JInternalFrame {
             panelfinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelfinalLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(panelfinalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelestado)
-                    .addComponent(labelfechahora))
+                .addComponent(labelfechahora)
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -370,7 +361,6 @@ public class Principal extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane fondocentral;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel labelestado;
     private javax.swing.JLabel labelfechahora;
     private javax.swing.JMenuItem mAcerca;
     private javax.swing.JMenuItem mAsientos;
