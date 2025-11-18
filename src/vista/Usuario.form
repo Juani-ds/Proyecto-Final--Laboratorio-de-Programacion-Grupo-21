@@ -137,21 +137,28 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="dni" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="nombre" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="fechaNac" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="contrasenia" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="medioPago" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="campo1" alignment="0" pref="160" max="32767" attributes="0"/>
-                      <Component id="campo2" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campo3" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campo4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="comboMedioPago" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="contrasenia" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="campo4" min="-2" pref="160" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="dni" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="nombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="fechaNac" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="medioPago" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="campo1" alignment="0" pref="160" max="32767" attributes="0"/>
+                              <Component id="campo2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="comboMedioPago" max="32767" attributes="0"/>
+                              <Component id="dateChooserFechaNac" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace min="0" pref="22" max="32767" attributes="0"/>
               </Group>
@@ -170,16 +177,16 @@
                       <Component id="campo2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="fechaNac" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campo3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="fechaNac" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateChooserFechaNac" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="contrasenia" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="campo4" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="medioPago" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="comboMedioPago" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -224,11 +231,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo2ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="campo3">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo3ActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JTextField" name="campo4">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campo4ActionPerformed"/>
@@ -251,6 +253,8 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="dateChooserFechaNac">
         </Component>
       </SubComponents>
     </Container>

@@ -49,13 +49,12 @@ public class Usuario extends javax.swing.JInternalFrame {
     
     private void cargarTabla() {
         modeloTabla.setRowCount(0);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         for (modelo.Comprador comprador : compradorData.listarCompradores()) {
             Object[] fila = {
                 comprador.getDni(),
                 comprador.getNombre(),
-                comprador.getFechaNac().format(formatter),
+                comprador.getFechaNac(),
                 comprador.getMedioPago(),
                 comprador.isActivo() ? "Activo" : "Inactivo"
             };
@@ -78,12 +77,16 @@ public class Usuario extends javax.swing.JInternalFrame {
             compradorSeleccionado = compradorData.buscarComprador(dni);
 
             if (compradorSeleccionado != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 campo1.setText(compradorSeleccionado.getDni());
                 campo2.setText(compradorSeleccionado.getNombre());
-                campo3.setText(compradorSeleccionado.getFechaNac().format(formatter));
+                java.time.LocalDate localDate = compradorSeleccionado.getFechaNac();
+                java.util.Date date = java.sql.Date.valueOf(localDate);
+                dateChooserFechaNac.setDate(date);
                 campo4.setText(compradorSeleccionado.getPassword());
                 comboMedioPago.setSelectedItem(compradorSeleccionado.getMedioPago());
+                
+                campo1.setEditable(false);
+                campo1.setBackground(new java.awt.Color(240, 240, 240));
             }
         }
     }
@@ -91,11 +94,13 @@ public class Usuario extends javax.swing.JInternalFrame {
     private void limpiarCampos() {
         campo1.setText("");
         campo2.setText("");
-        campo3.setText("");
+        dateChooserFechaNac.setDate(null);
         campo4.setText("");
         if (comboMedioPago.getItemCount() > 0) {
             comboMedioPago.setSelectedIndex(0);
         }
+        campo1.setEditable(true);
+        campo1.setBackground(java.awt.Color.WHITE);
         compradorSeleccionado = null;
         tableDatos.clearSelection();
     }
@@ -110,15 +115,13 @@ public class Usuario extends javax.swing.JInternalFrame {
             return false;
         }
 
-        if (campo3.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "La fecha de nacimiento es obligatoria (dd/MM/yyyy)","Error",JOptionPane.ERROR_MESSAGE);
+        if (dateChooserFechaNac.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha de nacimiento", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate.parse(campo3.getText().trim(), formatter);
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this,"Formato de fecha inválido. Use dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+        java.util.Date fechaSeleccionada = dateChooserFechaNac.getDate();
+        if (fechaSeleccionada.after(new java.util.Date())) {
+            JOptionPane.showMessageDialog(this, "La fecha de nacimiento no puede ser futura", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -154,9 +157,9 @@ public class Usuario extends javax.swing.JInternalFrame {
         medioPago = new javax.swing.JLabel();
         campo1 = new javax.swing.JTextField();
         campo2 = new javax.swing.JTextField();
-        campo3 = new javax.swing.JTextField();
         campo4 = new javax.swing.JTextField();
         comboMedioPago = new javax.swing.JComboBox<>();
+        dateChooserFechaNac = new com.toedter.calendar.JDateChooser();
         panelLabel = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
         buttonAgg = new javax.swing.JButton();
@@ -215,12 +218,6 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         });
 
-        campo3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campo3ActionPerformed(evt);
-            }
-        });
-
         campo4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campo4ActionPerformed(evt);
@@ -239,19 +236,23 @@ public class Usuario extends javax.swing.JInternalFrame {
         panelDatosLayout.setHorizontalGroup(
             panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDatosLayout.createSequentialGroup()
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dni)
-                    .addComponent(nombre)
-                    .addComponent(fechaNac)
-                    .addComponent(contrasenia)
-                    .addComponent(medioPago))
-                .addGap(9, 9, 9)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campo1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(campo2)
-                    .addComponent(campo3)
-                    .addComponent(campo4)
-                    .addComponent(comboMedioPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDatosLayout.createSequentialGroup()
+                        .addComponent(contrasenia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(campo4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDatosLayout.createSequentialGroup()
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dni)
+                            .addComponent(nombre)
+                            .addComponent(fechaNac)
+                            .addComponent(medioPago))
+                        .addGap(9, 9, 9)
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campo1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(campo2)
+                            .addComponent(comboMedioPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateChooserFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 22, Short.MAX_VALUE))
         );
         panelDatosLayout.setVerticalGroup(
@@ -265,14 +266,14 @@ public class Usuario extends javax.swing.JInternalFrame {
                     .addComponent(nombre)
                     .addComponent(campo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fechaNac)
-                    .addComponent(campo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateChooserFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(contrasenia)
                     .addComponent(campo4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(medioPago)
                     .addComponent(comboMedioPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -430,10 +431,6 @@ public class Usuario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_campo2ActionPerformed
 
-    private void campo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campo3ActionPerformed
-
     private void campo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_campo4ActionPerformed
@@ -449,8 +446,10 @@ public class Usuario extends javax.swing.JInternalFrame {
             return;
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fechaNac = LocalDate.parse(campo3.getText().trim(), formatter);
+        java.util.Date fechaUtil = dateChooserFechaNac.getDate();
+        java.time.LocalDate fechaNac = fechaUtil.toInstant()
+                .atZone(java.time.ZoneId.systemDefault())
+                .toLocalDate();
 
         modelo.Comprador nuevoComprador = new modelo.Comprador();
         nuevoComprador.setDni(campo1.getText().trim());
@@ -516,9 +515,14 @@ public class Usuario extends javax.swing.JInternalFrame {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 campo1.setText(comprador.getDni());
                 campo2.setText(comprador.getNombre());
-                campo3.setText(comprador.getFechaNac().format(formatter));
+                java.time.LocalDate localDate = comprador.getFechaNac();
+                java.util.Date date = java.sql.Date.valueOf(localDate);
+                dateChooserFechaNac.setDate(date);
                 campo4.setText(comprador.getPassword());
                 comboMedioPago.setSelectedItem(comprador.getMedioPago());
+                
+                campo1.setEditable(false);
+                campo1.setBackground(new java.awt.Color(240, 240, 240));    
                 for (int i = 0; i < modeloTabla.getRowCount(); i++) {
                     if (modeloTabla.getValueAt(i, 0).equals(dni.trim())) {
                         tableDatos.setRowSelectionInterval(i, i);
@@ -581,8 +585,10 @@ public class Usuario extends javax.swing.JInternalFrame {
         }
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate fechaNac = LocalDate.parse(campo3.getText().trim(), formatter);
+            java.util.Date fechaUtil = dateChooserFechaNac.getDate();
+            java.time.LocalDate fechaNac = fechaUtil.toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate();
 
             compradorSeleccionado.setNombre(campo2.getText().trim());
             compradorSeleccionado.setFechaNac(fechaNac);
@@ -609,10 +615,10 @@ public class Usuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JTextField campo1;
     private javax.swing.JTextField campo2;
-    private javax.swing.JTextField campo3;
     private javax.swing.JTextField campo4;
     private javax.swing.JComboBox<String> comboMedioPago;
     private javax.swing.JLabel contrasenia;
+    private com.toedter.calendar.JDateChooser dateChooserFechaNac;
     private javax.swing.JLabel dni;
     private javax.swing.JLabel fechaNac;
     private javax.swing.JLabel label;
