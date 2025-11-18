@@ -531,12 +531,12 @@ public class Pelicula extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonLimpiar.setBackground(new java.awt.Color(102, 102, 102));
+        buttonLimpiar.setBackground(new java.awt.Color(153, 153, 153));
         buttonLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         buttonLimpiar.setText("Limpiar");
-        buttonLimpiar.setOpaque(true);
         buttonLimpiar.setBorderPainted(false);
+        buttonLimpiar.setOpaque(true);
 
         labelResultados.setFont(new java.awt.Font("Segoe UI", 2, 11)); // NOI18N
         labelResultados.setForeground(new java.awt.Color(51, 51, 51));
@@ -675,11 +675,11 @@ public class Pelicula extends javax.swing.JInternalFrame {
 
         labelFormEstreno.setText("Estreno (dd/MM/yyyy):");
 
-        checkCartelera.setText("En cartelera");
         checkCartelera.setSelected(true);
+        checkCartelera.setText("En cartelera");
 
-        checkActivo.setText("Activo");
         checkActivo.setSelected(true);
+        checkActivo.setText("Activo");
 
         javax.swing.GroupLayout panelFormularioLayout = new javax.swing.GroupLayout(panelFormulario);
         panelFormulario.setLayout(panelFormularioLayout);
@@ -748,35 +748,35 @@ public class Pelicula extends javax.swing.JInternalFrame {
 
         panelBotones.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        buttonNuevo.setBackground(new java.awt.Color(46, 125, 50));
+        buttonNuevo.setBackground(new java.awt.Color(51, 204, 0));
         buttonNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonNuevo.setForeground(new java.awt.Color(255, 255, 255));
         buttonNuevo.setText("Nuevo");
         buttonNuevo.setBorderPainted(false);
         buttonNuevo.setOpaque(true);
 
-        buttonEditar.setBackground(new java.awt.Color(21, 101, 192));
+        buttonEditar.setBackground(new java.awt.Color(51, 102, 255));
         buttonEditar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonEditar.setForeground(new java.awt.Color(255, 255, 255));
         buttonEditar.setText("Editar");
         buttonEditar.setBorderPainted(false);
         buttonEditar.setOpaque(true);
 
-        buttonGuardar.setBackground(new java.awt.Color(51, 90, 144));
+        buttonGuardar.setBackground(new java.awt.Color(0, 0, 204));
         buttonGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonGuardar.setForeground(new java.awt.Color(255, 255, 255));
         buttonGuardar.setText("Guardar");
         buttonGuardar.setBorderPainted(false);
         buttonGuardar.setOpaque(true);
 
-        buttonEliminar.setBackground(new java.awt.Color(211, 47, 47));
+        buttonEliminar.setBackground(new java.awt.Color(255, 51, 51));
         buttonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonEliminar.setForeground(new java.awt.Color(255, 255, 255));
         buttonEliminar.setText("Eliminar");
         buttonEliminar.setBorderPainted(false);
         buttonEliminar.setOpaque(true);
 
-        buttonCancelar.setBackground(new java.awt.Color(117, 117, 117));
+        buttonCancelar.setBackground(new java.awt.Color(153, 153, 153));
         buttonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         buttonCancelar.setText("Cancelar");
