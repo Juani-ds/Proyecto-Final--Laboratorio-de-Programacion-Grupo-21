@@ -55,7 +55,7 @@
                       <Component id="buttonEliminar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -83,7 +83,7 @@
                   <Component id="buttonEditar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -237,10 +237,11 @@
         <Component class="javax.swing.JComboBox" name="comboMedioPago">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
+              <StringArray count="4">
                 <StringItem index="0" value="D&#xe9;bito"/>
                 <StringItem index="1" value="Cr&#xe9;dito"/>
                 <StringItem index="2" value="Mercado Pago"/>
+                <StringItem index="3" value="Efectivo"/>
               </StringArray>
             </Property>
           </Properties>
@@ -311,7 +312,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="scroll" pref="493" max="32767" attributes="0"/>
+                  <Component id="scroll" pref="505" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -367,11 +368,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonEditarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonDarBaja">
       <Properties>
         <Property name="text" type="java.lang.String" value="Dar de baja"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDarBajaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

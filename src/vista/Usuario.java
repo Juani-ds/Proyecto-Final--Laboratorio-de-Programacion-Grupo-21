@@ -227,7 +227,7 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         });
 
-        comboMedioPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Débito", "Crédito", "Mercado Pago" }));
+        comboMedioPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Débito", "Crédito", "Mercado Pago", "Efectivo" }));
         comboMedioPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboMedioPagoActionPerformed(evt);
@@ -334,7 +334,7 @@ public class Usuario extends javax.swing.JInternalFrame {
             panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelTableLayout.setVerticalGroup(
@@ -353,8 +353,18 @@ public class Usuario extends javax.swing.JInternalFrame {
         });
 
         buttonEditar.setText("Editar");
+        buttonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditarActionPerformed(evt);
+            }
+        });
 
         buttonDarBaja.setText("Dar de baja");
+        buttonDarBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDarBajaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -384,7 +394,7 @@ public class Usuario extends javax.swing.JInternalFrame {
                         .addComponent(buttonEditar)
                         .addGap(43, 43, 43)
                         .addComponent(buttonEliminar)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -406,7 +416,7 @@ public class Usuario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonEditar)
                     .addComponent(buttonEliminar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -458,15 +468,40 @@ public class Usuario extends javax.swing.JInternalFrame {
 
     private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
         if (compradorSeleccionado == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione un usuario de la tabla", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario de la tabla",
+                    "Ningún usuario seleccionado", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea dar de baja al usuario " + compradorSeleccionado.getNombre() + "?", "Confirmar baja", 
-                        JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-        
-        if (respuesta == JOptionPane.YES_OPTION) {
-            compradorData.bajaComprador(compradorSeleccionado.getDni());
-            JOptionPane.showMessageDialog(this, "Usuario dado de baja correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        // VALIDACION:
+        if (compradorData.tieneTicketsAsociados(compradorSeleccionado.getDni())) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede eliminar el usuario porque tiene tickets de compra asociados.\n\n" +
+                    "Este usuario tiene compras registradas y no puede ser eliminado\n" +
+                    "para mantener la integridad de los datos.\n\n" +
+                    "Si desea desactivarlo, utilice el botón 'Dar de baja'.",
+                    "Eliminación no permitida",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿ESTÁ SEGURO de ELIMINAR al usuario:\n" +
+                compradorSeleccionado.getNombre() + " (DNI: " + compradorSeleccionado.getDni() + ")?\n\n" +
+                "ADVERTENCIA: Esta operación es IRREVERSIBLE.\n\n" +
+                "Esta acción solo debe realizarse si:\n" +
+                "• No hay tickets de compra asociados (ya verificado)\n" +
+                "• El usuario fue creado por error\n",
+                "CONFIRMAR ELIMINACIÓN",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            compradorData.borrarComprador(compradorSeleccionado.getDni());
+            JOptionPane.showMessageDialog(this, 
+                    "Usuario eliminado permanentemente de la base de datos.",
+                    "Eliminación exitosa", 
+                    JOptionPane.INFORMATION_MESSAGE);
             limpiarCampos();
             cargarTabla();
         }
@@ -499,6 +534,71 @@ public class Usuario extends javax.swing.JInternalFrame {
     private void comboMedioPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMedioPagoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboMedioPagoActionPerformed
+
+    private void buttonDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDarBajaActionPerformed
+        if (compradorSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario de la tabla",
+                    "Ningún usuario seleccionado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro de dar de baja al usuario:\n" +
+                compradorSeleccionado.getNombre() + " (DNI: " + compradorSeleccionado.getDni() + ")?\n\n" +
+                "Esta operación cambiará el estado a inactivo.",
+                "Confirmar baja",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            compradorData.bajaComprador(compradorSeleccionado.getDni());
+            JOptionPane.showMessageDialog(this, "Usuario dado de baja correctamente.",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+            cargarTabla();
+        }
+    }//GEN-LAST:event_buttonDarBajaActionPerformed
+
+    private void buttonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditarActionPerformed
+        if (compradorSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario de la tabla",
+                    "Ningún usuario seleccionado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (!validarCampos()) {
+            return;
+        }
+        
+        if (!campo1.getText().trim().equals(compradorSeleccionado.getDni())) {
+            JOptionPane.showMessageDialog(this, 
+                    "No se puede modificar el DNI del usuario.\n\n" +
+                    "Si necesita cambiar el DNI, debe crear un nuevo usuario.",
+                    "DNI no modificable",
+                    JOptionPane.ERROR_MESSAGE);
+            campo1.setText(compradorSeleccionado.getDni());
+            return;
+        }
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fechaNac = LocalDate.parse(campo3.getText().trim(), formatter);
+
+            compradorSeleccionado.setNombre(campo2.getText().trim());
+            compradorSeleccionado.setFechaNac(fechaNac);
+            compradorSeleccionado.setPassword(campo4.getText().trim());
+            compradorSeleccionado.setMedioPago(comboMedioPago.getSelectedItem().toString());
+
+            compradorData.actualizarComprador(compradorSeleccionado);
+
+            limpiarCampos();
+            cargarTabla();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_buttonEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

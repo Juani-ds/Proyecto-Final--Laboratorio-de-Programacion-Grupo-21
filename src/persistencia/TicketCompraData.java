@@ -34,7 +34,7 @@ public class TicketCompraData {
     }
     
     public void guardarTicket(TicketCompra ticket) {
-        String sql = "INSERT INTO ticket_compra (dniComprador, fechaCompra, fechaFuncion, monto, tipoCompra, codigoVenta, estadoTicket) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ticket_compra (dniComprador, fechaCompra, fechaFuncion, monto, tipoCompra, medioPago, codigoVenta, estadoTicket) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -43,8 +43,9 @@ public class TicketCompraData {
             ps.setTimestamp(3, Timestamp.valueOf(ticket.getFechaFuncion()));
             ps.setDouble(4, ticket.getMonto());
             ps.setString(5, ticket.getTipoCompra());
-            ps.setString(6, ticket.getCodigoVenta());
-            ps.setString(7, ticket.getEstadoTicket());
+            ps.setString(6, ticket.getMedioPago());
+            ps.setString(7, ticket.getCodigoVenta());
+            ps.setString(8, ticket.getEstadoTicket());
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -106,6 +107,7 @@ public class TicketCompraData {
 
                 ticket.setMonto(rs.getDouble("monto"));
                 ticket.setTipoCompra(rs.getString("tipoCompra"));
+                ticket.setMedioPago(rs.getString("medioPago"));
                 ticket.setCodigoVenta(rs.getString("codigoVenta"));
                 ticket.setEstadoTicket(rs.getString("estadoTicket"));
 
@@ -144,6 +146,7 @@ public class TicketCompraData {
                 ticket.setFechaFuncion(rs.getTimestamp("fechaFuncion").toLocalDateTime());
                 ticket.setMonto(rs.getDouble("monto"));
                 ticket.setTipoCompra(rs.getString("tipoCompra"));
+                ticket.setMedioPago(rs.getString("medioPago"));
                 ticket.setCodigoVenta(rs.getString("codigoVenta"));
                 ticket.setEstadoTicket(rs.getString("estadoTicket"));
 

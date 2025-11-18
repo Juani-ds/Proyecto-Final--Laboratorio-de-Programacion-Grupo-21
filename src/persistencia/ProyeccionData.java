@@ -228,6 +228,23 @@ public class ProyeccionData {
         }
         return lista;
     }
+    
+    public List<Proyeccion> listarProyeccionesFuturas() {
+        List<Proyeccion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM proyeccion WHERE activo = true AND horaInicio >= NOW() ORDER BY horaInicio";
+
+        try (PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Proyeccion p = mapearProyeccion(rs);
+                lista.add(p);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error listando proyecciones futuras: " + ex.getMessage());
+        }
+        return lista;
+    }
 
     // OBTENER IDIOMAS DISPONIBLES
     public List<String> obtenerIdiomasDisponibles() {

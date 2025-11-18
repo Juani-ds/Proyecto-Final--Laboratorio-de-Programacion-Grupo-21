@@ -19,6 +19,7 @@ public class TicketCompra {
     private String codigoVenta;
     private String estadoTicket;
     private List<DetalleTicket> detalles;
+    private String medioPago;
 
     public TicketCompra() {
         this.fechaCompra = LocalDateTime.now();
@@ -26,7 +27,7 @@ public class TicketCompra {
         this.detalles = new ArrayList<>();
     }
 
-    public TicketCompra(int idTicket, Comprador comprador, LocalDateTime fechaCompra, LocalDateTime fechaFuncion, double monto, String tipoCompra, String codigoVenta, String estadoTicket, List<DetalleTicket> detalles) {
+    public TicketCompra(int idTicket, Comprador comprador, LocalDateTime fechaCompra, LocalDateTime fechaFuncion, double monto, String tipoCompra, String codigoVenta, String estadoTicket, List<DetalleTicket> detalles, String medioPago) {
         this.idTicket = idTicket;
         this.comprador = comprador;
         this.fechaCompra = fechaCompra;
@@ -36,9 +37,10 @@ public class TicketCompra {
         this.codigoVenta = codigoVenta;
         this.estadoTicket = estadoTicket;
         this.detalles = detalles;
+        this.medioPago = medioPago;
     }
 
-    public TicketCompra(Comprador comprador, LocalDateTime fechaCompra, LocalDateTime fechaFuncion, double monto, String tipoCompra, String codigoVenta, String estadoTicket, List<DetalleTicket> detalles) {
+    public TicketCompra(Comprador comprador, LocalDateTime fechaCompra, LocalDateTime fechaFuncion, double monto, String tipoCompra, String codigoVenta, String estadoTicket, List<DetalleTicket> detalles, String medioPago) {
         this.comprador = comprador;
         this.fechaCompra = fechaCompra;
         this.fechaFuncion = fechaFuncion;
@@ -47,6 +49,7 @@ public class TicketCompra {
         this.codigoVenta = codigoVenta;
         this.estadoTicket = estadoTicket;
         this.detalles = detalles;
+        this.medioPago = medioPago;
     }
 
     public int getIdTicket() {
@@ -121,9 +124,17 @@ public class TicketCompra {
         this.detalles = detalles;
     }
 
+    public String getMedioPago() {
+        return medioPago;
+    }
+
+    public void setMedioPago(String medioPago) {
+        this.medioPago = medioPago;
+    }
+
     @Override
     public String toString() {
-        return "TicketCompra{" + "idTicket=" + idTicket + ", comprador=" + comprador + ", fechaCompra=" + fechaCompra + ", fechaFuncion=" + fechaFuncion + ", monto=" + monto + ", tipoCompra=" + tipoCompra + ", codigoVenta=" + codigoVenta + ", estadoTicket=" + estadoTicket + ", detalles=" + detalles + '}';
+        return "TicketCompra{" + "idTicket=" + idTicket + ", comprador=" + comprador + ", fechaCompra=" + fechaCompra + ", fechaFuncion=" + fechaFuncion + ", monto=" + monto + ", tipoCompra=" + tipoCompra + ", codigoVenta=" + codigoVenta + ", estadoTicket=" + estadoTicket + ", detalles=" + detalles + ", medioPago=" + medioPago + '}';
     }
     
 }

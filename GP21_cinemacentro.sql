@@ -140,6 +140,7 @@ CREATE TABLE `ticket_compra` (
   `fechaFuncion` datetime NOT NULL,
   `monto` decimal(10,2) NOT NULL,
   `tipoCompra` varchar(20) NOT NULL,
+  `medioPago` varchar(20) DEFAULT NULL,
   `codigoVenta` varchar(50) DEFAULT NULL,
   `estadoTicket` varchar(20) DEFAULT 'Pendiente'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

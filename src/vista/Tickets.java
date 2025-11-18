@@ -77,9 +77,16 @@ public class Tickets extends javax.swing.JInternalFrame {
         comboPeli.removeAllItems();
         comboPeli.addItem("Seleccione película");
 
+        List<modelo.Proyeccion> proyeccionesFuturas = proyeccionData.listarProyeccionesFuturas();
+        java.util.Set<Integer> peliculasConFunciones = new java.util.HashSet<>();
+
+        for (modelo.Proyeccion proy : proyeccionesFuturas) {
+            peliculasConFunciones.add(proy.getPelicula().getIdPelicula());
+        }
+
         List<modelo.Pelicula> peliculas = peliculaData.listarPeliculas();
         for (modelo.Pelicula peli : peliculas) {
-            if (peli.isActivo()) {
+            if (peli.isActivo() && peliculasConFunciones.contains(peli.getIdPelicula())) {
                 comboPeli.addItem(peli.getTitulo());
             }
         }
@@ -88,20 +95,19 @@ public class Tickets extends javax.swing.JInternalFrame {
     private void cargarSalasPorPelicula() {
         comboSala.removeAllItems();
         comboSala.addItem("Seleccione sala");
-
         if (peliculaSeleccionada == null) {
             return;
         }
 
-        List<modelo.Proyeccion> todasProyecciones = proyeccionData.listarProyecciones();
+        List<modelo.Proyeccion> proyeccionesFuturas = proyeccionData.listarProyeccionesFuturas();
         java.util.Set<Integer> salasIds = new java.util.HashSet<>();
 
-        for (modelo.Proyeccion proy : todasProyecciones) {
+        for (modelo.Proyeccion proy : proyeccionesFuturas) {
             if (proy.getPelicula() != null && proy.getPelicula().getIdPelicula() == peliculaSeleccionada.getIdPelicula()) {
                 salasIds.add(proy.getSala().getNroSala());
             }
         }
-
+        
         for (Integer salaId : salasIds) {
             modelo.Sala sala = salaData.buscarSala(salaId);
             if (sala != null && sala.isActivo()) {
@@ -119,10 +125,10 @@ public class Tickets extends javax.swing.JInternalFrame {
             return;
         }
 
-        List<modelo.Proyeccion> todasProyecciones = proyeccionData.listarProyecciones();
+        List<modelo.Proyeccion> proyeccionesFuturas = proyeccionData.listarProyeccionesFuturas();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        for (modelo.Proyeccion proy : todasProyecciones) {
+        for (modelo.Proyeccion proy : proyeccionesFuturas) {
             if (proy.getPelicula().getIdPelicula() == peliculaSeleccionada.getIdPelicula() &&
                 proy.getSala().getNroSala() == salaSeleccionada.getNroSala()) {
                 String funcion = proy.getHoraInicio().format(formatter);
@@ -201,6 +207,7 @@ public class Tickets extends javax.swing.JInternalFrame {
     private void cargarFormasPago() {
         ComboFormaPago.removeAllItems();
         ComboFormaPago.addItem("Seleccione forma de pago");
+        ComboFormaPago.addItem("Efectivo");
         ComboFormaPago.addItem("Débito");
         ComboFormaPago.addItem("Crédito");
         ComboFormaPago.addItem("Mercado Pago");
@@ -845,13 +852,16 @@ public class Tickets extends javax.swing.JInternalFrame {
             proyeccionSeleccionada = null;
             FilaCombo.removeAllItems();
             FilaCombo.addItem("Seleccione fila");
+            PrecioProy.setText("Precio:");
+            labelPrecio.setText("TOTAL: $0");
             return;
         }
 
         String funcionSeleccionada = FuncionCombo.getSelectedItem().toString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        List<modelo.Proyeccion> proyecciones = proyeccionData.listarProyecciones();
+        // Usar solo proyecciones futuras
+        List<modelo.Proyeccion> proyecciones = proyeccionData.listarProyeccionesFuturas();
         for (modelo.Proyeccion proy : proyecciones) {
             if (proy.getPelicula().getIdPelicula() == peliculaSeleccionada.getIdPelicula() &&
                 proy.getSala().getNroSala() == salaSeleccionada.getNroSala() &&
@@ -942,14 +952,28 @@ public class Tickets extends javax.swing.JInternalFrame {
         if (ComboComprador.getSelectedIndex() <= 0) {
             compradorSeleccionado = null;
             labelNombre.setText("Nombre del cliente:");
+            ComboFormaPago.setSelectedIndex(0); // Resetear forma de pago
             return;
         }
 
         String compradorTexto = ComboComprador.getSelectedItem().toString();
         String dni = compradorTexto.split(" - ")[0].trim();
         compradorSeleccionado = compradorData.buscarComprador(dni);
+
         if (compradorSeleccionado != null) {
             labelNombre.setText("Nombre del cliente: " + compradorSeleccionado.getNombre());
+
+            // Cargar automáticamente la forma de pago preferida del comprador
+            String medioPagoPreferido = compradorSeleccionado.getMedioPago();
+            if (medioPagoPreferido != null && !medioPagoPreferido.isEmpty()) {
+                // Buscar el item en el combo y seleccionarlo
+                for (int i = 0; i < ComboFormaPago.getItemCount(); i++) {
+                    if (ComboFormaPago.getItemAt(i).equals(medioPagoPreferido)) {
+                        ComboFormaPago.setSelectedIndex(i);
+                        break;
+                    }
+                }
+            }
         }
     }//GEN-LAST:event_ComboCompradorActionPerformed
 
@@ -977,7 +1001,8 @@ public class Tickets extends javax.swing.JInternalFrame {
             nuevoTicket.setFechaCompra(java.time.LocalDateTime.now());
             nuevoTicket.setFechaFuncion(proyeccionSeleccionada.getHoraInicio());
             nuevoTicket.setMonto(total);
-            nuevoTicket.setTipoCompra(ComboFormaPago.getSelectedItem().toString());
+            nuevoTicket.setTipoCompra("Cajero");
+            nuevoTicket.setMedioPago(ComboFormaPago.getSelectedItem().toString());
             String codigoVenta = "TICKET-" + System.currentTimeMillis();
             nuevoTicket.setCodigoVenta(codigoVenta);
             nuevoTicket.setEstadoTicket("Activo");

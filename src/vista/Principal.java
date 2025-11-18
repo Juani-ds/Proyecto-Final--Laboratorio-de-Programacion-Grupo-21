@@ -83,7 +83,6 @@ public class Principal extends javax.swing.JInternalFrame {
         mTickets = new javax.swing.JMenuItem();
         mClientes = new javax.swing.JMenu();
         mAcerca = new javax.swing.JMenuItem();
-        mEmpleados = new javax.swing.JMenuItem();
         mReportes = new javax.swing.JMenu();
         mVentas = new javax.swing.JMenuItem();
         mPelismas = new javax.swing.JMenuItem();
@@ -227,14 +226,6 @@ public class Principal extends javax.swing.JInternalFrame {
         });
         mClientes.add(mAcerca);
 
-        mEmpleados.setText("Empleados");
-        mEmpleados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mEmpleadosActionPerformed(evt);
-            }
-        });
-        mClientes.add(mEmpleados);
-
         menuBar.add(mClientes);
 
         mReportes.setText("Reportes");
@@ -313,11 +304,6 @@ public class Principal extends javax.swing.JInternalFrame {
         abrirVentanaInterna(ventanaTickets);
     }//GEN-LAST:event_mTicketsActionPerformed
 
-    private void mEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mEmpleadosActionPerformed
-        actualizarEstado("Módulo de empleados - En desarrollo");
-        javax.swing.JOptionPane.showMessageDialog(this, "Módulo de empleados en desarrollo",  "Información", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_mEmpleadosActionPerformed
-
     private void mPelismasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPelismasActionPerformed
         actualizarEstado("Reporte de películas más vistas - En desarrollo");
         javax.swing.JOptionPane.showMessageDialog(this, "Reporte de películas más vistas en desarrollo",  "Información",  javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -356,7 +342,6 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem mAcerca;
     private javax.swing.JMenuItem mAsientos;
     private javax.swing.JMenu mClientes;
-    private javax.swing.JMenuItem mEmpleados;
     private javax.swing.JMenuItem mFunciones;
     private javax.swing.JMenu mGestion;
     private javax.swing.JMenuItem mPeliculas;

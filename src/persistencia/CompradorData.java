@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 //import javax.swing.JOptionPane;
 import modelo.Comprador;
 /**
@@ -41,12 +42,12 @@ public class CompradorData {
             
             ps.executeUpdate();
             
-//            JOptionPane.showMessageDialog(null, "Comprador guardado");
-            System.out.println("Comprador guardado");
+            JOptionPane.showMessageDialog(null, "Comprador guardado");
+//            System.out.println("Comprador guardado");
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al guardar comprador: " + e.getMessage());
-            System.out.println("Error al guardar comprador: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al guardar comprador: " + e.getMessage());
+//            System.out.println("Error al guardar comprador: " + e.getMessage());
         }
     }
     
@@ -68,14 +69,14 @@ public class CompradorData {
                 comprador.setMedioPago(rs.getString("medioPago"));
                 comprador.setActivo(rs.getBoolean("activo"));
             } else {
-//                JOptionPane.showMessageDialog(null, "No existe comprador con DNI: " + dni);
-                System.out.println("No existe comprador con DNI: " + dni);
+                JOptionPane.showMessageDialog(null, "No existe comprador con DNI: " + dni);
+//                System.out.println("No existe comprador con DNI: " + dni);
             }
             
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al buscar comprador: " + e.getMessage());
-            System.out.println("Error al buscar comprador: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al buscar comprador: " + e.getMessage());
+//            System.out.println("Error al buscar comprador: " + e.getMessage());
         }
         
         return comprador;
@@ -103,8 +104,8 @@ public class CompradorData {
             
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al listar compradores: " + e.getMessage());
-            System.out.println("Error al listar compradores: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al listar compradores: " + e.getMessage());
+//            System.out.println("Error al listar compradores: " + e.getMessage());
         }
         
         return compradores;
@@ -124,16 +125,16 @@ public class CompradorData {
             int filas = ps.executeUpdate();
             
             if (filas > 0) {
-//                JOptionPane.showMessageDialog(null, "Comprador actualizado");
-                System.out.println("Comprador actualizado");
+                JOptionPane.showMessageDialog(null, "Comprador actualizado");
+//                System.out.println("Comprador actualizado");
             } else {
-//                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
-                System.out.println("No se encontró el comprador");
+                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
+//                System.out.println("No se encontró el comprador");
             }
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al actualizar comprador: " + e.getMessage());
-            System.out.println("Error al actualizar comprador: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar comprador: " + e.getMessage());
+//            System.out.println("Error al actualizar comprador: " + e.getMessage());
         }
     }
     
@@ -147,16 +148,16 @@ public class CompradorData {
             int filas = ps.executeUpdate();
             
             if (filas > 0) {
-//                JOptionPane.showMessageDialog(null, "Comprador dado de baja");
-                System.out.println("Comprador dado de baja");
+                JOptionPane.showMessageDialog(null, "Comprador dado de baja");
+//                System.out.println("Comprador dado de baja");
             } else {
-//                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
-                System.out.println("No se encontró el comprador");
+                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
+//                System.out.println("No se encontró el comprador");
             }
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al dar de baja: " + e.getMessage());
-            System.out.println("Error al dar de baja: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al dar de baja: " + e.getMessage());
+//            System.out.println("Error al dar de baja: " + e.getMessage());
         }
     }
     
@@ -170,16 +171,16 @@ public class CompradorData {
             int filas = ps.executeUpdate();
             
             if (filas > 0) {
-//                JOptionPane.showMessageDialog(null, "Comprador reactivado");
-                System.out.println("Comprador reactivado");
+                JOptionPane.showMessageDialog(null, "Comprador reactivado");
+//                System.out.println("Comprador reactivado");
             } else {
-//                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
-                System.out.println("No se encontró el comprador");
+                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
+//                System.out.println("No se encontró el comprador");
             }
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al reactivar: " + e.getMessage());
-            System.out.println("Error al reactivar: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al reactivar: " + e.getMessage());
+//            System.out.println("Error al reactivar: " + e.getMessage());
         }
     }
     
@@ -193,16 +194,34 @@ public class CompradorData {
             int filas = ps.executeUpdate();
             
             if (filas > 0) {
-//                JOptionPane.showMessageDialog(null, "Comprador eliminado");
-                System.out.println("Comprador eliminado");
+                JOptionPane.showMessageDialog(null, "Comprador eliminado");
+//                System.out.println("Comprador eliminado");
             } else {
-//                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
-                System.out.println("No se encontró el comprador");
+                JOptionPane.showMessageDialog(null, "No se encontró el comprador");
+//                System.out.println("No se encontró el comprador");
             }
             
         } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Error al borrar: " + e.getMessage());
-            System.out.println("Error al borrar: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al borrar: " + e.getMessage());
+//            System.out.println("Error al borrar: " + e.getMessage());
         }
+    }
+    
+    public boolean tieneTicketsAsociados(String dni) {
+        String sql = "SELECT COUNT(*) as total FROM ticket_compra WHERE dniComprador = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, dni);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                return total > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error verificando tickets asociados: " + e.getMessage());
+        }
+
+        return false; // En caso de error, asumimos que tiene tickets
     }
 }
