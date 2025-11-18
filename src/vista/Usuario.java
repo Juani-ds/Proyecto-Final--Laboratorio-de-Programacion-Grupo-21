@@ -165,6 +165,8 @@ public class Usuario extends javax.swing.JInternalFrame {
         scroll = new javax.swing.JScrollPane();
         tableDatos = new javax.swing.JTable();
         buttonBuscar = new javax.swing.JButton();
+        buttonEditar = new javax.swing.JButton();
+        buttonDarBaja = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(904, 429));
 
@@ -332,7 +334,7 @@ public class Usuario extends javax.swing.JInternalFrame {
             panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelTableLayout.setVerticalGroup(
@@ -350,28 +352,39 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         });
 
+        buttonEditar.setText("Editar");
+
+        buttonDarBaja.setText("Dar de baja");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(buttonAgg)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonBuscar)
-                                .addGap(18, 18, 18)
-                                .addComponent(buttonEliminar)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(panelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(buttonAgg)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(buttonBuscar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(buttonDarBaja)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(buttonEditar)
+                        .addGap(43, 43, 43)
+                        .addComponent(buttonEliminar)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,10 +399,14 @@ public class Usuario extends javax.swing.JInternalFrame {
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonAgg)
-                            .addComponent(buttonEliminar)
-                            .addComponent(buttonBuscar)))
+                            .addComponent(buttonBuscar)
+                            .addComponent(buttonDarBaja)))
                     .addComponent(panelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonEditar)
+                    .addComponent(buttonEliminar))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -487,6 +504,8 @@ public class Usuario extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAgg;
     private javax.swing.JButton buttonBuscar;
+    private javax.swing.JButton buttonDarBaja;
+    private javax.swing.JButton buttonEditar;
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JTextField campo1;
     private javax.swing.JTextField campo2;

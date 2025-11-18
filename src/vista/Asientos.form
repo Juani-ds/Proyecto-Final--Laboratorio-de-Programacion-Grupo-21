@@ -24,13 +24,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="panelButton" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="panelMapa" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="panelDetalles" min="-2" max="-2" attributes="0"/>
                           <Component id="titleDetalles" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <Component id="panelButton1" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -46,17 +47,17 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="panelMapa" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="titleDetalles" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelDetalles" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="panelMapa" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="70" max="32767" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
               <Component id="panelButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="83" max="32767" attributes="0"/>
+              <EmptySpace pref="61" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -122,7 +123,7 @@
                   <Component id="buttonImprimir" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonVerOcupacion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="656" max="32767" attributes="0"/>
+                  <EmptySpace pref="345" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -176,8 +177,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="labelMapa" pref="376" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="labelMapa" min="-2" pref="489" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -263,7 +264,7 @@
                       <Component id="panelHora" alignment="0" max="32767" attributes="0"/>
                       <Component id="panelTotal" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="86" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
