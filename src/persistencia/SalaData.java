@@ -150,4 +150,42 @@ public class SalaData {
             System.out.println("Error eliminando sala: " + ex.getMessage());
         }
     }
+
+    // VERIFICAR SI LA SALA TIENE RELACIONES (PROYECCIONES)
+    public boolean tieneProyeccionesRelacionadas(int nroSala) {
+        String sql = "SELECT COUNT(*) FROM proyeccion WHERE nroSala = ?";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
+            ps.setInt(1, nroSala);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error verificando proyecciones: " + ex.getMessage());
+        }
+
+        return false;
+    }
+
+    // CONTAR PROYECCIONES RELACIONADAS
+    public int contarProyeccionesRelacionadas(int nroSala) {
+        String sql = "SELECT COUNT(*) FROM proyeccion WHERE nroSala = ?";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
+            ps.setInt(1, nroSala);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error contando proyecciones: " + ex.getMessage());
+        }
+
+        return 0;
+    }
 }

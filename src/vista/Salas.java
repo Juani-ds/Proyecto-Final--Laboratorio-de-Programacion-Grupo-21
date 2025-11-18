@@ -45,18 +45,8 @@ public class Salas extends javax.swing.JInternalFrame {
     }
 
     private void configurarEventos() {
-        // Eventos de botones principales
-        buttonAgg.addActionListener(e -> nuevaSala());
-        buttonEdit.addActionListener(e -> editarSala());
-        buttonEliminar.addActionListener(e -> eliminarSala());
-
-        // Eventos del formulario
-        buttonGuardar.addActionListener(e -> guardarSala());
-        buttonlimpiar.addActionListener(e -> limpiarCampos());
-
-        // Eventos de filtros
-        buttonBuscar.addActionListener(e -> buscarSalas());
-        buttonLimpiarFiltros.addActionListener(e -> limpiarFiltros());
+        // Los eventos de los botones ya están conectados en el .form
+        // Solo agregamos eventos programáticos adicionales aquí
 
         // Búsqueda en tiempo real
         textBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -190,8 +180,11 @@ public class Salas extends javax.swing.JInternalFrame {
 
             int capacidad = Integer.parseInt(campo2.getText().trim());
 
-            if (capacidad <= 0) {
-                JOptionPane.showMessageDialog(this, "La capacidad debe ser mayor a 0");
+            if (capacidad < 170 || capacidad > 230) {
+                JOptionPane.showMessageDialog(this,
+                    "La capacidad debe estar entre 170 y 230 butacas",
+                    "Capacidad inválida",
+                    JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -228,19 +221,46 @@ public class Salas extends javax.swing.JInternalFrame {
             return;
         }
 
+        // Verificar si la sala tiene proyecciones relacionadas
+        if (salaData.tieneProyeccionesRelacionadas(salaSeleccionadaId)) {
+            int cantidadProyecciones = salaData.contarProyeccionesRelacionadas(salaSeleccionadaId);
+
+            JOptionPane.showMessageDialog(this,
+                "No se puede eliminar la sala " + salaSeleccionadaId + ".\n\n" +
+                "Motivo: La sala tiene " + cantidadProyecciones + " proyección(es) relacionada(s).\n" +
+                "Debe eliminar primero todas las proyecciones asociadas a esta sala.",
+                "No se puede eliminar",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Si no tiene relaciones, confirmar eliminación física
         int confirmacion = JOptionPane.showConfirmDialog(
             this,
-            "¿Está seguro de eliminar esta sala?",
+            "¿Está seguro de que desea eliminar permanentemente la sala " + salaSeleccionadaId + "?\n\n" +
+            "Esta acción NO se puede deshacer.",
             "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
         );
 
         if (confirmacion == JOptionPane.YES_OPTION) {
-            salaData.eliminarSala(salaSeleccionadaId);
-            JOptionPane.showMessageDialog(this, "Sala eliminada correctamente");
-            cargarTabla();
-            limpiarCampos();
-            salaSeleccionadaId = -1;
+            try {
+                salaData.eliminarSala(salaSeleccionadaId);
+                JOptionPane.showMessageDialog(this,
+                    "Sala eliminada correctamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+                cargarTabla();
+                limpiarCampos();
+                salaSeleccionadaId = -1;
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al eliminar la sala: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -277,7 +297,6 @@ public class Salas extends javax.swing.JInternalFrame {
         comboTipo = new javax.swing.JComboBox<>();
         labelEstado = new javax.swing.JLabel();
         comboEstado = new javax.swing.JComboBox<>();
-        buttonBuscar = new javax.swing.JButton();
         buttonLimpiarFiltros = new javax.swing.JButton();
         labelResultados = new javax.swing.JLabel();
         tablebutton = new javax.swing.JPanel();
@@ -300,11 +319,6 @@ public class Salas extends javax.swing.JInternalFrame {
         comboTipoForm = new javax.swing.JComboBox<>();
         comboEstadoForm = new javax.swing.JComboBox<>();
         checkActivo = new javax.swing.JCheckBox();
-        
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);       
 
         paneltitulo.setBackground(new java.awt.Color(51, 90, 144));
         paneltitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -346,13 +360,6 @@ public class Salas extends javax.swing.JInternalFrame {
 
         comboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Disponible", "En uso", "Mantenimiento" }));
 
-        buttonBuscar.setBackground(new java.awt.Color(51, 90, 144));
-        buttonBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        buttonBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        buttonBuscar.setText("Buscar");
-        buttonBuscar.setOpaque(true);
-        buttonBuscar.setBorderPainted(false);
-
         buttonLimpiarFiltros.setText("Limpiar");
 
         labelResultados.setFont(new java.awt.Font("Segoe UI", 2, 11)); // NOI18N
@@ -376,13 +383,11 @@ public class Salas extends javax.swing.JInternalFrame {
                 .addComponent(labelEstado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addComponent(buttonLimpiarFiltros)
                 .addGap(18, 18, 18)
                 .addComponent(labelResultados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(66, 66, 66))
         );
         panelFiltrosLayout.setVerticalGroup(
             panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,7 +400,6 @@ public class Salas extends javax.swing.JInternalFrame {
                     .addComponent(comboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelEstado)
                     .addComponent(comboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonBuscar)
                     .addComponent(buttonLimpiarFiltros)
                     .addComponent(labelResultados))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -403,14 +407,39 @@ public class Salas extends javax.swing.JInternalFrame {
 
         tablebutton.setBackground(java.awt.SystemColor.controlHighlight);
 
+        buttonEdit.setBackground(new java.awt.Color(0, 51, 255));
+        buttonEdit.setForeground(new java.awt.Color(255, 255, 255));
         buttonEdit.setText("Editar");
+        buttonEdit.setBorderPainted(false);
+        buttonEdit.setOpaque(true);
+        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEditActionPerformed(evt);
+            }
+        });
 
-
+        buttonEliminar.setBackground(new java.awt.Color(255, 51, 51));
+        buttonEliminar.setForeground(new java.awt.Color(255, 255, 255));
         buttonEliminar.setText("Eliminar");
+        buttonEliminar.setBorderPainted(false);
+        buttonEliminar.setOpaque(true);
+        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEliminarActionPerformed(evt);
+            }
+        });
 
-
+        buttonAgg.setBackground(new java.awt.Color(51, 204, 0));
+        buttonAgg.setForeground(new java.awt.Color(255, 255, 255));
         buttonAgg.setText("Agregar Sala");
-
+        buttonAgg.setToolTipText("");
+        buttonAgg.setBorderPainted(false);
+        buttonAgg.setOpaque(true);
+        buttonAgg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAggActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout tablebuttonLayout = new javax.swing.GroupLayout(tablebutton);
         tablebutton.setLayout(tablebuttonLayout);
@@ -449,20 +478,36 @@ public class Salas extends javax.swing.JInternalFrame {
         ));
         scroll.setViewportView(ID);
 
+        buttonGuardar.setBackground(new java.awt.Color(51, 102, 255));
+        buttonGuardar.setForeground(new java.awt.Color(255, 255, 255));
         buttonGuardar.setText("Guardar");
+        buttonGuardar.setBorderPainted(false);
+        buttonGuardar.setOpaque(true);
+        buttonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonGuardarActionPerformed(evt);
+            }
+        });
 
-
+        buttonlimpiar.setBackground(new java.awt.Color(102, 102, 102));
+        buttonlimpiar.setForeground(new java.awt.Color(255, 255, 255));
         buttonlimpiar.setText("Limpiar");
-
+        buttonlimpiar.setBorderPainted(false);
+        buttonlimpiar.setOpaque(true);
+        buttonlimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonlimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelbuttonLayout = new javax.swing.GroupLayout(panelbutton);
         panelbutton.setLayout(panelbuttonLayout);
         panelbuttonLayout.setHorizontalGroup(
             panelbuttonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelbuttonLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(buttonGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonlimpiar)
                 .addContainerGap())
         );
@@ -566,15 +611,14 @@ public class Salas extends javax.swing.JInternalFrame {
             .addComponent(tablebutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -588,9 +632,9 @@ public class Salas extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelbutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -620,7 +664,6 @@ public class Salas extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable ID;
     private javax.swing.JButton buttonAgg;
-    private javax.swing.JButton buttonBuscar;
     private javax.swing.JButton buttonEdit;
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JButton buttonGuardar;
