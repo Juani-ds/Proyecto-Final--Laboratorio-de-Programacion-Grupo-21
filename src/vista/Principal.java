@@ -86,6 +86,7 @@ public class Principal extends javax.swing.JInternalFrame {
         mReportes = new javax.swing.JMenu();
         mVentas = new javax.swing.JMenuItem();
         mPelismas = new javax.swing.JMenuItem();
+        mCompradores = new javax.swing.JMenuItem();
         mSalir = new javax.swing.JMenu();
         mitenShortcut = new javax.swing.JMenuItem();
 
@@ -246,6 +247,14 @@ public class Principal extends javax.swing.JInternalFrame {
         });
         mReportes.add(mPelismas);
 
+        mCompradores.setText("Compradores");
+        mCompradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mCompradoresActionPerformed(evt);
+            }
+        });
+        mReportes.add(mCompradores);
+
         menuBar.add(mReportes);
 
         mSalir.setText("Salir");
@@ -309,6 +318,11 @@ public class Principal extends javax.swing.JInternalFrame {
         javax.swing.JOptionPane.showMessageDialog(this, "Reporte de películas más vistas en desarrollo",  "Información",  javax.swing.JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_mPelismasActionPerformed
 
+    private void mCompradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mCompradoresActionPerformed
+        Compradores ventanaCompradores = new Compradores();
+        abrirVentanaInterna(ventanaCompradores);
+    }//GEN-LAST:event_mCompradoresActionPerformed
+
     private void mitenShortcutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitenShortcutActionPerformed
         int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,"¿Está seguro que desea salir del sistema?","Confirmar salida", 
                         javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE );
@@ -342,6 +356,7 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem mAcerca;
     private javax.swing.JMenuItem mAsientos;
     private javax.swing.JMenu mClientes;
+    private javax.swing.JMenuItem mCompradores;
     private javax.swing.JMenuItem mFunciones;
     private javax.swing.JMenu mGestion;
     private javax.swing.JMenuItem mPeliculas;
