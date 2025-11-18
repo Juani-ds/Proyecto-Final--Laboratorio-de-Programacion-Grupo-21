@@ -65,57 +65,42 @@ public class Asientos extends javax.swing.JInternalFrame {
 
         // Ocultar la imagen del mapa estático
         labelMapa.setVisible(false);
+
+        // Maximizar la ventana al abrirse
+        try {
+            this.setMaximum(true);
+        } catch (java.beans.PropertyVetoException e) {
+            System.out.println("No se pudo maximizar la ventana: " + e.getMessage());
+        }
     }
 
     private void agregarSelectoresProyeccion() {
-        // Configurar layout del panelButton para que muestre componentes verticalmente
-        panelButton.setLayout(new java.awt.GridBagLayout());
-        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
-        gbc.insets = new java.awt.Insets(5, 5, 5, 5);
-        gbc.anchor = java.awt.GridBagConstraints.WEST;
+        // Configurar layout del panelButton para que muestre componentes horizontalmente
+        panelButton.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 5));
+        panelButton.setBackground(new Color(240, 240, 240));
 
-        // Fila 0: Botones originales
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 1;
-        panelButton.add(buttonAct, gbc);
-
-        gbc.gridx = 1;
-        panelButton.add(buttonLimpiar, gbc);
-
-        gbc.gridx = 2;
-        panelButton.add(buttonImprimir, gbc);
-
-        gbc.gridx = 3;
-        panelButton.add(buttonVerOcupacion, gbc);
-
-        // Fila 1: Selectores
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 4;
-        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
-
+        // Panel para los selectores (izquierda)
         JPanel panelSelectores = new JPanel();
-        panelSelectores.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelSelectores.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         panelSelectores.setBackground(new Color(240, 240, 240));
 
         // ComboBox de Películas
         JLabel labelPeliSelector = new JLabel("Película:");
         comboPelicula = new JComboBox<>();
-        comboPelicula.setPreferredSize(new Dimension(150, 25));
+        comboPelicula.setPreferredSize(new Dimension(140, 25));
         comboPelicula.addItem("Seleccione película");
         cargarPeliculas();
 
         // ComboBox de Salas
         JLabel labelSalaSelector = new JLabel("Sala:");
         comboSala = new JComboBox<>();
-        comboSala.setPreferredSize(new Dimension(120, 25));
+        comboSala.setPreferredSize(new Dimension(100, 25));
         comboSala.addItem("Seleccione sala");
 
         // ComboBox de Funciones
         JLabel labelFuncionSelector = new JLabel("Función:");
         comboFuncion = new JComboBox<>();
-        comboFuncion.setPreferredSize(new Dimension(180, 25));
+        comboFuncion.setPreferredSize(new Dimension(160, 25));
         comboFuncion.addItem("Seleccione función");
 
         panelSelectores.add(labelPeliSelector);
@@ -125,7 +110,19 @@ public class Asientos extends javax.swing.JInternalFrame {
         panelSelectores.add(labelFuncionSelector);
         panelSelectores.add(comboFuncion);
 
-        panelButton.add(panelSelectores, gbc);
+        // Agregar selectores primero (izquierda)
+        panelButton.add(panelSelectores);
+
+        // Separador visual
+        JLabel separador = new JLabel("  |  ");
+        separador.setFont(new Font("Arial", Font.BOLD, 16));
+        panelButton.add(separador);
+
+        // Botones (derecha)
+        panelButton.add(buttonAct);
+        panelButton.add(buttonLimpiar);
+        //panelButton.add(buttonImprimir);
+        panelButton.add(buttonVerOcupacion);
 
         // Configurar eventos
         comboPelicula.addActionListener(e -> onPeliculaSeleccionada());
@@ -339,15 +336,24 @@ public class Asientos extends javax.swing.JInternalFrame {
             lugaresporFila.computeIfAbsent(lugar.getFila(), k -> new ArrayList<>()).add(lugar);
         }
 
-        // Agregar pantalla
+        // Agregar pantalla y leyenda en la misma fila
+        JPanel panelPantallaYLeyenda = new JPanel(new FlowLayout(FlowLayout.LEFT, 30, 5));
+        panelPantallaYLeyenda.setBackground(new Color(204, 204, 255));
+
         JLabel pantalla = new JLabel("=== PANTALLA ===");
         pantalla.setFont(new Font("Arial", Font.BOLD, 18));
         pantalla.setForeground(Color.DARK_GRAY);
+        panelPantallaYLeyenda.add(pantalla);
+
+        // Agregar leyenda al lado de la pantalla
+        panelPantallaYLeyenda.add(crearItemLeyenda("Disponible", new Color(76, 175, 80)));
+        panelPantallaYLeyenda.add(crearItemLeyenda("Ocupado", new Color(244, 67, 54)));
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 20;
         gbc.insets = new Insets(10, 0, 20, 0);
-        panelAsientosDinamico.add(pantalla, gbc);
+        panelAsientosDinamico.add(panelPantallaYLeyenda, gbc);
 
         // Ordenar filas
         List<Character> filasOrdenadas = new ArrayList<>(lugaresporFila.keySet());
@@ -384,17 +390,48 @@ public class Asientos extends javax.swing.JInternalFrame {
             fila++;
         }
 
-        // Agregar leyenda
-        JPanel panelLeyenda = crearPanelLeyenda();
-        gbc.gridx = 0;
-        gbc.gridy = fila + 1;
-        gbc.gridwidth = 15;
-        gbc.insets = new Insets(20, 0, 10, 0);
-        panelAsientosDinamico.add(panelLeyenda, gbc);
+        // La leyenda ya está arriba junto a la pantalla, no agregar otra aquí
+
+        // Establecer un tamaño máximo para forzar el scroll cuando hay muchos asientos
+        int maxAsientosPorFila = 0;
+        for (List<Lugar> asientosFila : lugaresporFila.values()) {
+            if (asientosFila.size() > maxAsientosPorFila) {
+                maxAsientosPorFila = asientosFila.size();
+            }
+        }
+
+        // Calcular tamaño real basado en contenido
+        int anchoReal = (maxAsientosPorFila * 54) + 100;
+        int altoReal = (filasOrdenadas.size() * 44) + 150;
+
+        // Establecer SOLO el tamaño máximo, no el preferido
+        panelAsientosDinamico.setMaximumSize(new Dimension(anchoReal, altoReal));
+
+        // Crear JScrollPane con el panel de asientos
+        JScrollPane scrollPane = new JScrollPane(panelAsientosDinamico);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        // CLAVE: Establecer un tamaño preferido dinámico en el SCROLLPANE
+        // Usar casi todo el espacio disponible en panelMapa
+        int anchoPanelMapa = panelMapa.getWidth() > 0 ? panelMapa.getWidth() : 1600;
+        int altoPanelMapa = panelMapa.getHeight() > 0 ? panelMapa.getHeight() : 600;
+
+        // Usar el 98% del ancho y 75% del alto
+        int anchoScrollPane = (int) (anchoPanelMapa * 0.98);
+        int altoScrollPane = (int) (altoPanelMapa * 0.75);
+
+        // Asegurar un tamaño mínimo razonable
+        anchoScrollPane = Math.max(anchoScrollPane, 1400);
+        altoScrollPane = Math.max(Math.min(altoScrollPane, 450), 380);
+
+        scrollPane.setPreferredSize(new Dimension(anchoScrollPane, altoScrollPane));
 
         // Configurar el layout del panelMapa para que use BorderLayout
         panelMapa.setLayout(new BorderLayout());
-        panelMapa.add(panelAsientosDinamico, BorderLayout.CENTER);
+        panelMapa.add(scrollPane, BorderLayout.CENTER);
 
         // Forzar actualización visual
         panelMapa.revalidate();
@@ -463,16 +500,17 @@ public class Asientos extends javax.swing.JInternalFrame {
     }
 
     private JPanel crearItemLeyenda(String texto, Color color) {
-        JPanel item = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        JPanel item = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
         item.setBackground(new Color(204, 204, 255));
 
         JPanel cuadro = new JPanel();
-        cuadro.setPreferredSize(new Dimension(20, 20));
+        cuadro.setPreferredSize(new Dimension(45, 35));
         cuadro.setBackground(color);
-        cuadro.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        cuadro.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 
         JLabel label = new JLabel(texto);
-        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        label.setForeground(Color.BLACK);
 
         item.add(cuadro);
         item.add(label);
@@ -486,9 +524,9 @@ public class Asientos extends javax.swing.JInternalFrame {
         int capacidadSala = proyeccionSeleccionada.getSala().getCapacidad();
         if (capacidadSala == 0) capacidadSala = 50; // Valor por defecto
 
-        // Calcular distribución: 5 filas
-        int asientosPorFila = (int) Math.ceil(capacidadSala / 5.0);
-        char[] filas = {'A', 'B', 'C', 'D', 'E'};
+        // Calcular distribución: 6 filas
+        int asientosPorFila = (int) Math.ceil(capacidadSala / 6.0);
+        char[] filas = {'A', 'B', 'C', 'D', 'E', 'F'};
 
         for (char fila : filas) {
             for (int num = 1; num <= asientosPorFila; num++) {
@@ -504,7 +542,7 @@ public class Asientos extends javax.swing.JInternalFrame {
     }
 
     private void configurarEventosBotones() {
-        buttonVer.addActionListener(e -> cargarAsientosDinamicos());
+        //buttonVer.addActionListener(e -> cargarAsientosDinamicos());
 
         buttonAct.addActionListener(e -> {
             if (proyeccionSeleccionada != null) {
@@ -533,9 +571,9 @@ public class Asientos extends javax.swing.JInternalFrame {
                 JOptionPane.INFORMATION_MESSAGE);
         });
 
-        buttonVolver.addActionListener(e -> {
-            this.setVisible(false);
-        });
+        //buttonVolver.addActionListener(e -> {
+        //    this.setVisible(false);
+        //});
     }
 
     private void limpiarVista() {
@@ -618,14 +656,10 @@ public class Asientos extends javax.swing.JInternalFrame {
         panelButton = new javax.swing.JPanel();
         buttonAct = new javax.swing.JButton();
         buttonLimpiar = new javax.swing.JButton();
-        buttonImprimir = new javax.swing.JButton();
         buttonVerOcupacion = new javax.swing.JButton();
         panelMapa = new javax.swing.JPanel();
         labelMapa = new javax.swing.JLabel();
         panelButton1 = new javax.swing.JPanel();
-        buttonGuardar = new javax.swing.JButton();
-        buttonVolver = new javax.swing.JButton();
-        buttonVer = new javax.swing.JButton();
         panelDetalles = new javax.swing.JPanel();
         panelPeli = new javax.swing.JPanel();
         labelPeli = new javax.swing.JLabel();
@@ -638,6 +672,7 @@ public class Asientos extends javax.swing.JInternalFrame {
         panelTotal = new javax.swing.JPanel();
         labelTotal = new javax.swing.JLabel();
         titleDetalles = new javax.swing.JLabel();
+        buttonGuardar = new javax.swing.JButton();
 
         paneltitulo.setBackground(new java.awt.Color(51, 90, 144));
         paneltitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -667,8 +702,6 @@ public class Asientos extends javax.swing.JInternalFrame {
 
         buttonLimpiar.setText("Limpiar");
 
-        buttonImprimir.setText("Imprimir");
-
         buttonVerOcupacion.setText("Ver ocupacion");
 
         javax.swing.GroupLayout panelButtonLayout = new javax.swing.GroupLayout(panelButton);
@@ -681,10 +714,8 @@ public class Asientos extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(buttonLimpiar)
                 .addGap(18, 18, 18)
-                .addComponent(buttonImprimir)
-                .addGap(18, 18, 18)
                 .addComponent(buttonVerOcupacion)
-                .addContainerGap(345, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelButtonLayout.setVerticalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -693,7 +724,6 @@ public class Asientos extends javax.swing.JInternalFrame {
                 .addGroup(panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAct)
                     .addComponent(buttonLimpiar)
-                    .addComponent(buttonImprimir)
                     .addComponent(buttonVerOcupacion))
                 .addContainerGap())
         );
@@ -716,38 +746,19 @@ public class Asientos extends javax.swing.JInternalFrame {
             panelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMapaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(labelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, 254, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        buttonGuardar.setText("Guardar cambios");
-
-        buttonVolver.setText("Volver a funciones");
-
-        buttonVer.setText("Ver");
 
         javax.swing.GroupLayout panelButton1Layout = new javax.swing.GroupLayout(panelButton1);
         panelButton1.setLayout(panelButton1Layout);
         panelButton1Layout.setHorizontalGroup(
             panelButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelButton1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(buttonGuardar)
-                .addGap(18, 18, 18)
-                .addComponent(buttonVolver)
-                .addGap(18, 18, 18)
-                .addComponent(buttonVer)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 706, Short.MAX_VALUE)
         );
         panelButton1Layout.setVerticalGroup(
             panelButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButton1Layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addGroup(panelButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonGuardar)
-                    .addComponent(buttonVolver)
-                    .addComponent(buttonVer))
-                .addContainerGap())
+            .addGap(0, 42, Short.MAX_VALUE)
         );
 
         panelPeli.setBackground(new java.awt.Color(255, 255, 255));
@@ -882,6 +893,8 @@ public class Asientos extends javax.swing.JInternalFrame {
         titleDetalles.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         titleDetalles.setText("Detalles");
 
+        buttonGuardar.setText("Guardar cambios");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -891,12 +904,13 @@ public class Asientos extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addContainerGap()
                         .addComponent(panelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(panelDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(titleDetalles))
+                            .addComponent(titleDetalles)
+                            .addComponent(buttonGuardar))
                         .addGap(25, 25, 25))
                     .addComponent(panelButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -913,11 +927,13 @@ public class Asientos extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(titleDetalles)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(panelDetalles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonGuardar))
                     .addComponent(panelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -927,11 +943,8 @@ public class Asientos extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAct;
     private javax.swing.JButton buttonGuardar;
-    private javax.swing.JButton buttonImprimir;
     private javax.swing.JButton buttonLimpiar;
-    private javax.swing.JButton buttonVer;
     private javax.swing.JButton buttonVerOcupacion;
-    private javax.swing.JButton buttonVolver;
     private javax.swing.JLabel labelFecha;
     private javax.swing.JLabel labelHora;
     private javax.swing.JLabel labelMapa;
