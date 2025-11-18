@@ -196,8 +196,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Limpiar"/>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelResultados">
@@ -537,14 +537,14 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="checkCartelera">
               <Properties>
-                <Property name="text" type="java.lang.String" value="En cartelera"/>
                 <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="En cartelera"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="checkActivo">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Activo"/>
                 <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Activo"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -607,8 +607,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Nuevo"/>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonEditar">
@@ -623,8 +623,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Editar"/>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonGuardar">
@@ -639,8 +639,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Guardar"/>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonEliminar">
@@ -655,8 +655,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCancelar">
@@ -671,8 +671,8 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
-            <Property name="opaque" type="boolean" value="true"/>
             <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
         </Component>
       </SubComponents>

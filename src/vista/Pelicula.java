@@ -483,16 +483,16 @@ public class Pelicula extends javax.swing.JInternalFrame {
 
         panelBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Películas"));
 
-        labelBuscar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelBuscar.setText("Buscar:");
 
-        textBuscar.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        labelGenero.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelGenero.setText("Género:");
 
-        comboGenero.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Acción", "Comedia", "Terror", "Romántica", "Drama", "Ciencia Ficción", "Aventura", "Suspenso", "Animación", "Documental" }));
+        comboGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboGeneroActionPerformed(evt);
+            }
+        });
 
         buttonLimpiar.setBackground(new java.awt.Color(102, 102, 102));
         buttonLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -520,7 +520,7 @@ public class Pelicula extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(buttonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(labelResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addComponent(labelResultados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBusquedaLayout.setVerticalGroup(
@@ -536,8 +536,6 @@ public class Pelicula extends javax.swing.JInternalFrame {
                     .addComponent(labelResultados))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        tabbedPane.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         tablePeliculas.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         tablePeliculas.setModel(new javax.swing.table.DefaultTableModel(
@@ -560,25 +558,18 @@ public class Pelicula extends javax.swing.JInternalFrame {
         labelInfoTitulo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelInfoTitulo.setText("Título: -");
 
-        labelInfoDirector.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoDirector.setText("Director: -");
 
-        labelInfoActores.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoActores.setText("Actores: -");
 
-        labelInfoGenero.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoGenero.setText("Género: -");
 
-        labelInfoOrigen.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoOrigen.setText("Origen: -");
 
-        labelInfoEstreno.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoEstreno.setText("Estreno: -");
 
-        labelInfoCartelera.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoCartelera.setText("En cartelera: -");
 
-        labelInfoEstado.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelInfoEstado.setText("Estado: -");
 
         javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
@@ -629,45 +620,27 @@ public class Pelicula extends javax.swing.JInternalFrame {
 
         panelFormulario.setBorder(javax.swing.BorderFactory.createTitledBorder("Formulario de Película"));
 
-        labelFormTitulo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelFormTitulo.setText("Título:");
 
-        textTitulo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        labelFormDirector.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelFormDirector.setText("Director:");
 
-        textDirector.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        labelFormActores.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelFormActores.setText("Actores:");
 
         textAreaActores.setColumns(20);
         textAreaActores.setRows(3);
-        textAreaActores.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         scrollActores.setViewportView(textAreaActores);
 
-        labelFormOrigen.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelFormOrigen.setText("Origen:");
 
-        textOrigen.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        labelFormGenero.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelFormGenero.setText("Género:");
 
-        comboGeneroForm.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboGeneroForm.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acción", "Comedia", "Terror", "Romántica", "Drama", "Ciencia Ficción", "Aventura", "Suspenso", "Animación", "Documental" }));
 
-        labelFormEstreno.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelFormEstreno.setText("Estreno (dd/MM/yyyy):");
 
-        textEstreno.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        checkCartelera.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         checkCartelera.setText("En cartelera");
         checkCartelera.setSelected(true);
 
-        checkActivo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         checkActivo.setText("Activo");
         checkActivo.setSelected(true);
 
