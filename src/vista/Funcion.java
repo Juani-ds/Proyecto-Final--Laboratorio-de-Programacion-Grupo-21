@@ -53,7 +53,7 @@ public class Funcion extends javax.swing.JInternalFrame {
     private void configurarTabla() {
         modeloTabla = new DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Película", "Sala", "Idioma", "3D", "Subtitulada", "Inicio", "Fin", "Precio", "Lugares"}
+            new String[]{"ID", "Película", "Sala", "Idioma", "3D", "Subtitulada", "Inicio", "Fin", "Precio", "Lugares", "Estado"}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -104,7 +104,7 @@ public class Funcion extends javax.swing.JInternalFrame {
 
     private void cargarTodasLasFunciones() {
         limpiarTabla();
-        List<Proyeccion> proyecciones = proyeccionData.listarProyeccionesActivas();
+        List<Proyeccion> proyecciones = proyeccionData.listarProyecciones();
         cargarProyeccionesEnTabla(proyecciones);
     }
 
@@ -124,7 +124,8 @@ public class Funcion extends javax.swing.JInternalFrame {
                 p.getHoraInicio().format(formatter),
                 p.getHoraFin().format(formatter),
                 String.format("$%.2f", p.getPrecioLugar()),
-                lugaresDisponibles
+                lugaresDisponibles,
+                p.isActivo() ? "Activa" : "Inactiva",
             });
         }
     }
