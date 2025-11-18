@@ -984,6 +984,8 @@ public class Funcion extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        panelInfo.getAccessibleContext().setAccessibleName("Información de Función");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

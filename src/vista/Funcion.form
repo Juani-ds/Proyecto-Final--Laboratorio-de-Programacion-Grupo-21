@@ -320,6 +320,9 @@
               </Border>
             </Property>
           </Properties>
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Informaci&#xf3;n de Funci&#xf3;n"/>
+          </AccessibilityProperties>
 
           <Layout>
             <DimensionLayout dim="0">
