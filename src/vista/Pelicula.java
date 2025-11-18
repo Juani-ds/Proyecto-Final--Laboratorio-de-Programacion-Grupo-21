@@ -59,6 +59,17 @@ public class Pelicula extends javax.swing.JInternalFrame {
             }
         });
 
+        // Evento de doble clic en la tabla para ir a la pestaña de información
+        tablePeliculas.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && tablePeliculas.getSelectedRow() != -1) {
+                    cargarPeliculaSeleccionada();
+                    tabbedPane.setSelectedIndex(1); // Cambiar a pestaña "Información"
+                }
+            }
+        });
+
         // Evento para búsqueda en tiempo real
         textBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -170,6 +181,7 @@ public class Pelicula extends javax.swing.JInternalFrame {
         peliculaSeleccionada = null;
         limpiarFormulario();
         habilitarFormulario();
+        tabbedPane.setSelectedIndex(2); // Cambiar a pestaña "Formulario"
         textTitulo.requestFocus();
     }
 
@@ -185,6 +197,7 @@ public class Pelicula extends javax.swing.JInternalFrame {
         modoEdicion = true;
         cargarDatosFormulario();
         habilitarFormulario();
+        tabbedPane.setSelectedIndex(2); // Cambiar a pestaña "Formulario"
         textTitulo.requestFocus();
     }
 
@@ -279,22 +292,45 @@ public class Pelicula extends javax.swing.JInternalFrame {
             return;
         }
 
+        // Verificar si la película tiene proyecciones relacionadas
+        if (peliculaData.tieneProyeccionesRelacionadas(peliculaSeleccionada.getIdPelicula())) {
+            int cantidadProyecciones = peliculaData.contarProyeccionesRelacionadas(peliculaSeleccionada.getIdPelicula());
+
+            JOptionPane.showMessageDialog(this,
+                "No se puede eliminar la película '" + peliculaSeleccionada.getTitulo() + "'.\n\n" +
+                "Motivo: La película tiene " + cantidadProyecciones + " proyección(es) relacionada(s).\n" +
+                "Debe eliminar primero todas las proyecciones asociadas a esta película.",
+                "No se puede eliminar",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Si no tiene relaciones, confirmar eliminación física
         int confirmacion = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro de que desea eliminar la película '" + peliculaSeleccionada.getTitulo() + "'?",
+            "¿Está seguro de que desea eliminar permanentemente la película '" + peliculaSeleccionada.getTitulo() + "'?\n\n" +
+            "Esta acción NO se puede deshacer.",
             "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION);
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
 
         if (confirmacion == JOptionPane.YES_OPTION) {
-            peliculaData.cambiarEstadoPelicula(peliculaSeleccionada.getIdPelicula(), false);
-            JOptionPane.showMessageDialog(this,
-                "Película eliminada correctamente",
-                "Éxito",
-                JOptionPane.INFORMATION_MESSAGE);
+            try {
+                peliculaData.eliminarPelicula(peliculaSeleccionada.getIdPelicula());
+                JOptionPane.showMessageDialog(this,
+                    "Película eliminada correctamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-            cargarPeliculas();
-            limpiarFormulario();
-            peliculaSeleccionada = null;
-            mostrarInfoPelicula();
+                cargarPeliculas();
+                limpiarFormulario();
+                peliculaSeleccionada = null;
+                mostrarInfoPelicula();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al eliminar la película: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -305,6 +341,7 @@ public class Pelicula extends javax.swing.JInternalFrame {
         modoEdicion = false;
         tablePeliculas.clearSelection();
         mostrarInfoPelicula();
+        tabbedPane.setSelectedIndex(0); // Volver a pestaña "Lista de Películas"
     }
 
     private void limpiarBusqueda() {
@@ -494,12 +531,12 @@ public class Pelicula extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonLimpiar.setBackground(new java.awt.Color(102, 102, 102));
+        buttonLimpiar.setBackground(new java.awt.Color(153, 153, 153));
         buttonLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         buttonLimpiar.setText("Limpiar");
-        buttonLimpiar.setOpaque(true);
         buttonLimpiar.setBorderPainted(false);
+        buttonLimpiar.setOpaque(true);
 
         labelResultados.setFont(new java.awt.Font("Segoe UI", 2, 11)); // NOI18N
         labelResultados.setForeground(new java.awt.Color(51, 51, 51));
@@ -638,11 +675,11 @@ public class Pelicula extends javax.swing.JInternalFrame {
 
         labelFormEstreno.setText("Estreno (dd/MM/yyyy):");
 
-        checkCartelera.setText("En cartelera");
         checkCartelera.setSelected(true);
+        checkCartelera.setText("En cartelera");
 
-        checkActivo.setText("Activo");
         checkActivo.setSelected(true);
+        checkActivo.setText("Activo");
 
         javax.swing.GroupLayout panelFormularioLayout = new javax.swing.GroupLayout(panelFormulario);
         panelFormulario.setLayout(panelFormularioLayout);
@@ -711,40 +748,40 @@ public class Pelicula extends javax.swing.JInternalFrame {
 
         panelBotones.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        buttonNuevo.setBackground(new java.awt.Color(46, 125, 50));
+        buttonNuevo.setBackground(new java.awt.Color(51, 204, 0));
         buttonNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonNuevo.setForeground(new java.awt.Color(255, 255, 255));
         buttonNuevo.setText("Nuevo");
-        buttonNuevo.setOpaque(true);
         buttonNuevo.setBorderPainted(false);
+        buttonNuevo.setOpaque(true);
 
-        buttonEditar.setBackground(new java.awt.Color(21, 101, 192));
+        buttonEditar.setBackground(new java.awt.Color(51, 102, 255));
         buttonEditar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonEditar.setForeground(new java.awt.Color(255, 255, 255));
         buttonEditar.setText("Editar");
-        buttonEditar.setOpaque(true);
         buttonEditar.setBorderPainted(false);
+        buttonEditar.setOpaque(true);
 
-        buttonGuardar.setBackground(new java.awt.Color(51, 90, 144));
+        buttonGuardar.setBackground(new java.awt.Color(0, 0, 204));
         buttonGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonGuardar.setForeground(new java.awt.Color(255, 255, 255));
         buttonGuardar.setText("Guardar");
-        buttonGuardar.setOpaque(true);
         buttonGuardar.setBorderPainted(false);
+        buttonGuardar.setOpaque(true);
 
-        buttonEliminar.setBackground(new java.awt.Color(211, 47, 47));
+        buttonEliminar.setBackground(new java.awt.Color(255, 51, 51));
         buttonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonEliminar.setForeground(new java.awt.Color(255, 255, 255));
         buttonEliminar.setText("Eliminar");
-        buttonEliminar.setOpaque(true);
         buttonEliminar.setBorderPainted(false);
+        buttonEliminar.setOpaque(true);
 
-        buttonCancelar.setBackground(new java.awt.Color(117, 117, 117));
+        buttonCancelar.setBackground(new java.awt.Color(153, 153, 153));
         buttonCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonCancelar.setForeground(new java.awt.Color(255, 255, 255));
         buttonCancelar.setText("Cancelar");
-        buttonCancelar.setOpaque(true);
         buttonCancelar.setBorderPainted(false);
+        buttonCancelar.setOpaque(true);
 
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
@@ -796,10 +833,10 @@ public class Pelicula extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();

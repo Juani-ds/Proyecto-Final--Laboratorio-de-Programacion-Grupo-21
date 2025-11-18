@@ -1,7 +1,8 @@
-
 package persistencia;
 /*
  *@author  Alaina Reyes
+    *@version 1.0
+    *@editor Nahuel Guerra
  */
 
 import conector.Conexion;
@@ -196,5 +197,43 @@ public class PeliculaData {
         }
 
         return peliculas;
+    }
+
+    // VERIFICAR SI LA PELÍCULA TIENE RELACIONES (PROYECCIONES)
+    public boolean tieneProyeccionesRelacionadas(int idPelicula) {
+        String sql = "SELECT COUNT(*) FROM proyeccion WHERE idPelicula = ?";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
+            ps.setInt(1, idPelicula);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error verificando proyecciones: " + ex.getMessage());
+        }
+
+        return false;
+    }
+
+    // CONTAR PROYECCIONES RELACIONADAS
+    public int contarProyeccionesRelacionadas(int idPelicula) {
+        String sql = "SELECT COUNT(*) FROM proyeccion WHERE idPelicula = ?";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
+            ps.setInt(1, idPelicula);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error contando proyecciones: " + ex.getMessage());
+        }
+
+        return 0;
     }
 }
