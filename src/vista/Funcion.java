@@ -547,13 +547,13 @@ public class Funcion extends javax.swing.JInternalFrame {
         check3DForm = new javax.swing.JCheckBox();
         checkSubForm = new javax.swing.JCheckBox();
         jLabel11 = new javax.swing.JLabel();
-        dateChooserFecha = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
         spinnerHoraInicio = new javax.swing.JSpinner();
         jLabel15 = new javax.swing.JLabel();
         spinnerHoraFin = new javax.swing.JSpinner();
         buttonGuardar = new javax.swing.JButton();
         buttonNuevo = new javax.swing.JButton();
+        buttonDarBaja = new javax.swing.JButton();
         buttonEliminar = new javax.swing.JButton();
 
         setClosable(true);
@@ -680,7 +680,7 @@ public class Funcion extends javax.swing.JInternalFrame {
             panelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTablaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelTablaLayout.setVerticalGroup(
@@ -854,16 +854,21 @@ public class Funcion extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonEliminar.setBackground(new java.awt.Color(211, 47, 47));
-        buttonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        buttonEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        buttonEliminar.setText("Dar de Baja");
-        buttonEliminar.setBorderPainted(false);
-        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+        buttonDarBaja.setBackground(new java.awt.Color(211, 47, 47));
+        buttonDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        buttonDarBaja.setForeground(new java.awt.Color(255, 255, 255));
+        buttonDarBaja.setText("Dar de Baja");
+        buttonDarBaja.setBorderPainted(false);
+        buttonDarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEliminarActionPerformed(evt);
+                buttonDarBajaActionPerformed(evt);
             }
         });
+
+        buttonEliminar.setBackground(new java.awt.Color(153, 0, 51));
+        buttonEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        buttonEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        buttonEliminar.setText("Eliminar");
 
         javax.swing.GroupLayout panelFormularioLayout = new javax.swing.GroupLayout(panelFormulario);
         panelFormulario.setLayout(panelFormularioLayout);
@@ -876,7 +881,6 @@ public class Funcion extends javax.swing.JInternalFrame {
                     .addComponent(comboSala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtIdioma)
                     .addComponent(txtPrecio)
-                    .addComponent(dateChooserFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(spinnerHoraInicio)
                     .addComponent(spinnerHoraFin)
                     .addGroup(panelFormularioLayout.createSequentialGroup()
@@ -892,11 +896,14 @@ public class Funcion extends javax.swing.JInternalFrame {
                             .addComponent(jLabel15))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelFormularioLayout.createSequentialGroup()
-                        .addComponent(buttonGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))
+                        .addComponent(buttonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(buttonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonDarBaja)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelFormularioLayout.setVerticalGroup(
@@ -924,9 +931,7 @@ public class Funcion extends javax.swing.JInternalFrame {
                 .addComponent(checkSubForm)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dateChooserFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spinnerHoraInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -934,10 +939,11 @@ public class Funcion extends javax.swing.JInternalFrame {
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spinnerHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                 .addGroup(panelFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonGuardar)
                     .addComponent(buttonNuevo)
+                    .addComponent(buttonDarBaja)
                     .addComponent(buttonEliminar))
                 .addContainerGap())
         );
@@ -1005,12 +1011,13 @@ public class Funcion extends javax.swing.JInternalFrame {
         limpiarFormulario();
     }//GEN-LAST:event_buttonNuevoActionPerformed
 
-    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+    private void buttonDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDarBajaActionPerformed
         eliminarFuncion();
-    }//GEN-LAST:event_buttonEliminarActionPerformed
+    }//GEN-LAST:event_buttonDarBajaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonBuscar;
+    private javax.swing.JButton buttonDarBaja;
     private javax.swing.JButton buttonEliminar;
     private javax.swing.JButton buttonGuardar;
     private javax.swing.JButton buttonLimpiarFiltros;
@@ -1023,7 +1030,6 @@ public class Funcion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<Object> comboPeli;
     private javax.swing.JComboBox<Object> comboPeliculaForm;
     private javax.swing.JComboBox<Object> comboSala;
-    private com.toedter.calendar.JDateChooser dateChooserFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
