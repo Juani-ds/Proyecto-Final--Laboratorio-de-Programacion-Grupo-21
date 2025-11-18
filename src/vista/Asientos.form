@@ -24,12 +24,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="panelButton" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelMapa" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="31" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="panelDetalles" min="-2" max="-2" attributes="0"/>
                           <Component id="titleDetalles" min="-2" max="-2" attributes="0"/>
+                          <Component id="buttonGuardar" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
@@ -52,12 +53,14 @@
                       <Component id="titleDetalles" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelDetalles" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="buttonGuardar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="panelMapa" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="47" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="panelButton1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="61" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -120,10 +123,8 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonLimpiar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="buttonImprimir" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonVerOcupacion" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="345" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -134,7 +135,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="buttonAct" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="buttonLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonImprimir" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="buttonVerOcupacion" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -151,11 +151,6 @@
         <Component class="javax.swing.JButton" name="buttonLimpiar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Limpiar"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="buttonImprimir">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Imprimir"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="buttonVerOcupacion">
@@ -186,7 +181,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="labelMapa" pref="226" max="32767" attributes="0"/>
+                  <Component id="labelMapa" pref="254" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -208,48 +203,15 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="buttonGuardar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="buttonVolver" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="buttonVer" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
+              <EmptySpace min="0" pref="706" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="buttonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonVolver" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonVer" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
+              <EmptySpace min="0" pref="42" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JButton" name="buttonGuardar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar cambios"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="buttonVolver">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Volver a funciones"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="buttonVer">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ver"/>
-          </Properties>
-        </Component>
-      </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="panelDetalles">
 
@@ -485,6 +447,11 @@
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Detalles"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonGuardar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Guardar cambios"/>
       </Properties>
     </Component>
   </SubComponents>
