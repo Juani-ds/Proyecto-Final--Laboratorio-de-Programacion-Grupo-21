@@ -67,11 +67,11 @@ public class Asientos extends javax.swing.JInternalFrame {
         labelMapa.setVisible(false);
 
         // Maximizar la ventana al abrirse
-        try {
-            this.setMaximum(true);
-        } catch (java.beans.PropertyVetoException e) {
-            System.out.println("No se pudo maximizar la ventana: " + e.getMessage());
-        }
+//        try {
+//            this.setMaximum(true);
+//        } catch (java.beans.PropertyVetoException e) {
+//            System.out.println("No se pudo maximizar la ventana: " + e.getMessage());
+//        }
     }
 
     private void agregarSelectoresProyeccion() {

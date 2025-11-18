@@ -345,6 +345,11 @@ public class Principal extends javax.swing.JInternalFrame {
     private void mAsientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mAsientosActionPerformed
         Asientos ventanaAsientos = new Asientos();
         abrirVentanaInterna(ventanaAsientos);
+        try {
+            ventanaAsientos.setMaximum(true);
+        } catch (java.beans.PropertyVetoException e) {
+            System.out.println("No se pudo maximizar la ventana: " + e.getMessage());
+        }
     }//GEN-LAST:event_mAsientosActionPerformed
 
 
