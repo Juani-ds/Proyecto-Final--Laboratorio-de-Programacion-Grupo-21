@@ -83,7 +83,7 @@ public class Usuario extends javax.swing.JInternalFrame {
                 campo2.setText(compradorSeleccionado.getNombre());
                 campo3.setText(compradorSeleccionado.getFechaNac().format(formatter));
                 campo4.setText(compradorSeleccionado.getPassword());
-                campo5.setText(compradorSeleccionado.getMedioPago());
+                comboMedioPago.setSelectedItem(compradorSeleccionado.getMedioPago());
             }
         }
     }
@@ -93,7 +93,9 @@ public class Usuario extends javax.swing.JInternalFrame {
         campo2.setText("");
         campo3.setText("");
         campo4.setText("");
-        campo5.setText("");
+        if (comboMedioPago.getItemCount() > 0) {
+            comboMedioPago.setSelectedIndex(0);
+        }
         compradorSeleccionado = null;
         tableDatos.clearSelection();
     }
@@ -125,8 +127,8 @@ public class Usuario extends javax.swing.JInternalFrame {
             return false;
         }
 
-        if (campo5.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El medio de pago es obligatorio", "Error",JOptionPane.ERROR_MESSAGE);
+        if (comboMedioPago.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un medio de pago","Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -154,7 +156,7 @@ public class Usuario extends javax.swing.JInternalFrame {
         campo2 = new javax.swing.JTextField();
         campo3 = new javax.swing.JTextField();
         campo4 = new javax.swing.JTextField();
-        campo5 = new javax.swing.JTextField();
+        comboMedioPago = new javax.swing.JComboBox<>();
         panelLabel = new javax.swing.JPanel();
         label = new javax.swing.JLabel();
         buttonAgg = new javax.swing.JButton();
@@ -163,6 +165,8 @@ public class Usuario extends javax.swing.JInternalFrame {
         scroll = new javax.swing.JScrollPane();
         tableDatos = new javax.swing.JTable();
         buttonBuscar = new javax.swing.JButton();
+
+        setPreferredSize(new java.awt.Dimension(904, 429));
 
         panelTitulo.setBackground(new java.awt.Color(51, 90, 144));
         panelTitulo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -221,9 +225,10 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         });
 
-        campo5.addActionListener(new java.awt.event.ActionListener() {
+        comboMedioPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Débito", "Crédito", "Mercado Pago" }));
+        comboMedioPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campo5ActionPerformed(evt);
+                comboMedioPagoActionPerformed(evt);
             }
         });
 
@@ -240,11 +245,11 @@ public class Usuario extends javax.swing.JInternalFrame {
                     .addComponent(medioPago))
                 .addGap(9, 9, 9)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campo1)
+                    .addComponent(campo1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                     .addComponent(campo2)
                     .addComponent(campo3)
                     .addComponent(campo4)
-                    .addComponent(campo5, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                    .addComponent(comboMedioPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 22, Short.MAX_VALUE))
         );
         panelDatosLayout.setVerticalGroup(
@@ -265,10 +270,10 @@ public class Usuario extends javax.swing.JInternalFrame {
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(contrasenia)
                     .addComponent(campo4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(medioPago)
-                    .addComponent(campo5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(comboMedioPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         label.setText("Ingrese los datos:");
@@ -304,6 +309,10 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         });
 
+        panelTable.setPreferredSize(new java.awt.Dimension(517, 234));
+
+        scroll.setPreferredSize(new java.awt.Dimension(653, 403));
+
         tableDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -323,8 +332,8 @@ public class Usuario extends javax.swing.JInternalFrame {
             panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelTableLayout.setVerticalGroup(
             panelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,7 +389,7 @@ public class Usuario extends javax.swing.JInternalFrame {
                             .addComponent(buttonEliminar)
                             .addComponent(buttonBuscar)))
                     .addComponent(panelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -402,10 +411,6 @@ public class Usuario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_campo4ActionPerformed
 
-    private void campo5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campo5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campo5ActionPerformed
-
     private void buttonAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAggActionPerformed
         if (!validarCampos()) {
             return;
@@ -425,7 +430,7 @@ public class Usuario extends javax.swing.JInternalFrame {
         nuevoComprador.setNombre(campo2.getText().trim());
         nuevoComprador.setFechaNac(fechaNac);
         nuevoComprador.setPassword(campo4.getText().trim());
-        nuevoComprador.setMedioPago(campo5.getText().trim());
+        nuevoComprador.setMedioPago(comboMedioPago.getSelectedItem().toString());
         nuevoComprador.setActivo(true);
         compradorData.guardarComprador(nuevoComprador);
         
@@ -461,7 +466,7 @@ public class Usuario extends javax.swing.JInternalFrame {
                 campo2.setText(comprador.getNombre());
                 campo3.setText(comprador.getFechaNac().format(formatter));
                 campo4.setText(comprador.getPassword());
-                campo5.setText(comprador.getMedioPago());
+                comboMedioPago.setSelectedItem(comprador.getMedioPago());
                 for (int i = 0; i < modeloTabla.getRowCount(); i++) {
                     if (modeloTabla.getValueAt(i, 0).equals(dni.trim())) {
                         tableDatos.setRowSelectionInterval(i, i);
@@ -474,6 +479,10 @@ public class Usuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_buttonBuscarActionPerformed
 
+    private void comboMedioPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMedioPagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboMedioPagoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAgg;
@@ -483,7 +492,7 @@ public class Usuario extends javax.swing.JInternalFrame {
     private javax.swing.JTextField campo2;
     private javax.swing.JTextField campo3;
     private javax.swing.JTextField campo4;
-    private javax.swing.JTextField campo5;
+    private javax.swing.JComboBox<String> comboMedioPago;
     private javax.swing.JLabel contrasenia;
     private javax.swing.JLabel dni;
     private javax.swing.JLabel fechaNac;
