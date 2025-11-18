@@ -132,7 +132,7 @@ public class DetalleTicketData {
     }
     
     public void eliminarDetallePorTicket(int idTicket) {
-        String sqlDL = "DELETE FROM detalleLugar WHERE codDetalle IN (SELECT codDetalle FROM detalle_ticket WHERE idTicket = ?)";
+        String sqlDL = "DELETE FROM detalle_lugar WHERE codDetalle IN (SELECT codDetalle FROM detalle_ticket WHERE idTicket = ?)";
         String sqlD = "DELETE FROM detalle_ticket WHERE idTicket = ?";
 
         try {
@@ -152,5 +152,29 @@ public class DetalleTicketData {
             System.out.println("Error al eliminar detalle de ticket: " + e.getMessage());
         }
     }
-    
+
+    // Buscar el ID del ticket asociado a un lugar específico
+    public Integer buscarTicketPorLugar(int codLugar) {
+        String sql = "SELECT dt.idTicket FROM detalle_ticket dt " +
+                    "JOIN detalle_lugar dl ON dt.codDetalle = dl.codDetalle " +
+                    "WHERE dl.codLugar = ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, codLugar);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int idTicket = rs.getInt("idTicket");
+                ps.close();
+                return idTicket;
+            }
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println("Error al buscar ticket por lugar: " + e.getMessage());
+        }
+
+        return null;
+    }
+
 }

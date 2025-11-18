@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.Comprador;
 import modelo.DetalleTicket;
+import modelo.Lugar;
 import modelo.TicketCompra;
 
 /**
@@ -170,5 +171,41 @@ public class TicketCompraData {
     public List<DetalleTicket> listarDetallesPorTicket(int idTicket) {
         return detalleTicketData.obtenerDetallesPorTicket(idTicket);
     }
-    
+
+    // Eliminar ticket completo (con detalles y liberación de asientos)
+    public boolean eliminarTicket(int idTicket) {
+        try {
+            // 1. Obtener todos los detalles del ticket para liberar los asientos
+            List<DetalleTicket> detalles = detalleTicketData.obtenerDetallesPorTicket(idTicket);
+
+            // 2. Liberar todos los asientos (cambiar estado a "libre")
+            LugarData lugarData = new LugarData();
+            for (DetalleTicket detalle : detalles) {
+                for (Lugar lugar : detalle.getLugares()) {
+                    lugarData.cambiarEstadoLugar(lugar.getCodLugar(), "libre");
+                }
+            }
+
+            // 3. Eliminar los registros de detalle_lugar y detalle_ticket
+            detalleTicketData.eliminarDetallePorTicket(idTicket);
+
+            // 4. Eliminar el ticket principal
+            String sql = "DELETE FROM ticket_compra WHERE idTicket = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idTicket);
+            int resultado = ps.executeUpdate();
+            ps.close();
+
+            if (resultado > 0) {
+                System.out.println("Ticket eliminado exitosamente con ID: " + idTicket);
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar ticket: " + e.getMessage());
+        }
+
+        return false;
+    }
+
 }

@@ -450,26 +450,17 @@ public class Asientos extends javax.swing.JInternalFrame {
         actualizarColorBoton(btn, lugar.getEstado());
 
         btn.addActionListener(e -> {
-            if (lugar.getEstado().equalsIgnoreCase("ocupado")) {
-                JOptionPane.showMessageDialog(this,
-                    "Este asiento ya está ocupado",
-                    "Información",
-                    JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                int opcion = JOptionPane.showConfirmDialog(this,
-                    "¿Desea cambiar el estado de Fila " + lugar.getFila() +
-                    " - Asiento " + lugar.getNumero() + "?",
-                    "Confirmar",
-                    JOptionPane.YES_NO_OPTION);
+            String estado = lugar.getEstado().toLowerCase();
 
-                if (opcion == JOptionPane.YES_OPTION) {
-                    String nuevoEstado = lugar.getEstado().equalsIgnoreCase("libre") ?
-                                       "ocupado" : "libre";
-                    lugarData.cambiarEstadoLugar(lugar.getCodLugar(), nuevoEstado);
-                    lugar.setEstado(nuevoEstado);
-                    actualizarColorBoton(btn, nuevoEstado);
-                    actualizarDetalles();
-                }
+            if (estado.equals("libre") || estado.equals("disponible")) {
+                // Asiento desocupado: permitir ocuparlo o reservarlo
+                manejarAsientoDesocupado(lugar, btn);
+            } else if (estado.equals("reservado")) {
+                // Asiento reservado: verificar si tiene ticket
+                manejarAsientoReservado(lugar, btn);
+            } else if (estado.equals("ocupado")) {
+                // Asiento ocupado: verificar si tiene ticket y permitir eliminarlo
+                manejarAsientoOcupado(lugar, btn);
             }
         });
 
@@ -482,7 +473,7 @@ public class Asientos extends javax.swing.JInternalFrame {
             btn.setEnabled(true);
         } else if (estado.equalsIgnoreCase("ocupado")) {
             btn.setBackground(new Color(244, 67, 54)); // Rojo
-            btn.setEnabled(false);
+            btn.setEnabled(true);
         } else {
             btn.setBackground(new Color(255, 193, 7)); // Amarillo (reservado)
             btn.setEnabled(true);
@@ -642,9 +633,160 @@ public class Asientos extends javax.swing.JInternalFrame {
             JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // Manejar clic en asiento desocupado (libre/disponible)
+    private void manejarAsientoDesocupado(Lugar lugar, JButton btn) {
+        String[] opciones = {"Ocupar", "Reservar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+            "Fila " + lugar.getFila() + " - Asiento " + lugar.getNumero() + "\n\n¿Qué desea hacer?",
+            "Asiento Disponible",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opciones,
+            opciones[0]);
+
+        if (seleccion == 0) { // Ocupar
+            lugarData.cambiarEstadoLugar(lugar.getCodLugar(), "ocupado");
+            lugar.setEstado("ocupado");
+            actualizarColorBoton(btn, "ocupado");
+            actualizarDetalles();
+        } else if (seleccion == 1) { // Reservar
+            lugarData.cambiarEstadoLugar(lugar.getCodLugar(), "reservado");
+            lugar.setEstado("reservado");
+            actualizarColorBoton(btn, "reservado");
+            actualizarDetalles();
+        }
+    }
+
+    // Manejar clic en asiento reservado
+    private void manejarAsientoReservado(Lugar lugar, JButton btn) {
+        persistencia.DetalleTicketData detalleTicketData = new persistencia.DetalleTicketData();
+        Integer idTicket = detalleTicketData.buscarTicketPorLugar(lugar.getCodLugar());
+
+        if (idTicket != null) {
+            // Tiene ticket asociado: mostrar información y opción de eliminar
+            mostrarTicketConOpcionEliminar(idTicket, lugar, btn);
+        } else {
+            // No tiene ticket: ofrecer cancelar la reserva
+            int opcion = JOptionPane.showConfirmDialog(this,
+                "Fila " + lugar.getFila() + " - Asiento " + lugar.getNumero() +
+                "\n\nEste asiento está reservado pero no tiene ticket asociado.\n¿Desea cancelar la reserva?",
+                "Cancelar Reserva",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                lugarData.cambiarEstadoLugar(lugar.getCodLugar(), "libre");
+                lugar.setEstado("libre");
+                actualizarColorBoton(btn, "libre");
+                actualizarDetalles();
+                JOptionPane.showMessageDialog(this,
+                    "Reserva cancelada exitosamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    // Manejar clic en asiento ocupado
+    private void manejarAsientoOcupado(Lugar lugar, JButton btn) {
+        persistencia.DetalleTicketData detalleTicketData = new persistencia.DetalleTicketData();
+        Integer idTicket = detalleTicketData.buscarTicketPorLugar(lugar.getCodLugar());
+
+        if (idTicket != null) {
+            // Tiene ticket asociado: mostrar información y opción de eliminar
+            mostrarTicketConOpcionEliminar(idTicket, lugar, btn);
+        } else {
+            // No tiene ticket: ofrecer liberar el asiento
+            int opcion = JOptionPane.showConfirmDialog(this,
+                "Fila " + lugar.getFila() + " - Asiento " + lugar.getNumero() +
+                "\n\nEste asiento está ocupado pero no tiene ticket asociado.\n¿Desea liberar el asiento?",
+                "Liberar Asiento",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                lugarData.cambiarEstadoLugar(lugar.getCodLugar(), "libre");
+                lugar.setEstado("libre");
+                actualizarColorBoton(btn, "libre");
+                actualizarDetalles();
+                JOptionPane.showMessageDialog(this,
+                    "Asiento liberado exitosamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    // Mostrar información del ticket con opción de eliminar
+    private void mostrarTicketConOpcionEliminar(int idTicket, Lugar lugar, JButton btn) {
+        persistencia.TicketCompraData ticketData = new persistencia.TicketCompraData();
+        modelo.TicketCompra ticket = ticketData.buscarTicket(idTicket);
+
+        if (ticket == null) {
+            JOptionPane.showMessageDialog(this,
+                "No se pudo cargar la información del ticket",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Construir información del ticket
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        StringBuilder mensaje = new StringBuilder();
+        mensaje.append("INFORMACIÓN DEL TICKET\n\n");
+        mensaje.append("ID Ticket: ").append(ticket.getIdTicket()).append("\n");
+        mensaje.append("Comprador: ").append(ticket.getComprador() != null ? ticket.getComprador().getNombre() : "N/A").append("\n");
+        mensaje.append("DNI: ").append(ticket.getComprador() != null ? ticket.getComprador().getDni() : "N/A").append("\n");
+        mensaje.append("Fecha Compra: ").append(ticket.getFechaCompra() != null ? ticket.getFechaCompra().format(formatter) : "N/A").append("\n");
+        mensaje.append("Función: ").append(ticket.getFechaFuncion() != null ? ticket.getFechaFuncion().format(formatter) : "N/A").append("\n");
+        mensaje.append("Monto: $").append(String.format("%.2f", ticket.getMonto())).append("\n");
+        mensaje.append("Estado: ").append(ticket.getEstadoTicket()).append("\n\n");
+        mensaje.append("¿Desea eliminar este ticket?\n");
+        mensaje.append("(Esto liberará todos los asientos asociados)");
+
+        String[] opciones = {"Eliminar Ticket", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(this,
+            mensaje.toString(),
+            "Ticket - Fila " + lugar.getFila() + " Asiento " + lugar.getNumero(),
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opciones,
+            opciones[1]);
+
+        if (seleccion == 0) { // Eliminar
+            int confirmacion = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro que desea eliminar el ticket #" + idTicket + "?\nEsta acción no se puede deshacer.",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                boolean eliminado = ticketData.eliminarTicket(idTicket);
+
+                if (eliminado) {
+                    JOptionPane.showMessageDialog(this,
+                        "Ticket eliminado exitosamente.\nTodos los asientos han sido liberados.",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                    // Recargar la vista de asientos
+                    cargarAsientosDinamicos();
+                    actualizarDetalles();
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                        "Error al eliminar el ticket.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
+     * WARNING: DO NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
