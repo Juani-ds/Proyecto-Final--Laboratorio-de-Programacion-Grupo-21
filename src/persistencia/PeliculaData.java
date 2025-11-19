@@ -266,4 +266,72 @@ public class PeliculaData {
 
         return peliculas;
     }
+    
+    public List<String> obtenerOrigenes() {
+        List<String> origenes = new ArrayList<>();
+        String sql = "SELECT DISTINCT origen FROM pelicula ORDER BY origen";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                origenes.add(rs.getString("origen"));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error obteniendo orígenes: " + ex.getMessage());
+        }
+
+        return origenes;
+    }
+    
+    public List<Object[]> obtenerRanking(String genero, String origen, LocalDate desde) {
+
+        List<Object[]> lista = new ArrayList<>();
+
+        String sql =
+                "SELECT p.titulo AS nombre, " +
+                "       SUM(d.cantidad) AS espectadores, " +
+                "       SUM(d.subtotal) AS ingresos " +
+                "FROM pelicula p " +
+                "JOIN proyeccion pr ON p.idPelicula = pr.idPelicula " +
+                "JOIN detalle_ticket d ON pr.idProyeccion = d.idProyeccion " +
+                "JOIN ticket_compra t ON d.idTicket = t.idTicket " +
+                "WHERE p.estreno <= CURDATE() " +
+                "  AND p.activo = 1 " +
+                "  AND pr.activo = 1 " +
+                "  AND ( ? = 'Todos' OR p.genero = ? ) " +
+                "  AND ( ? = 'Todos' OR p.origen = ? ) " +
+                "  AND t.fechaCompra >= ? " +
+                "GROUP BY p.idPelicula " +
+                "ORDER BY espectadores DESC";
+
+        try (PreparedStatement ps = Conexion.getConexion().prepareStatement(sql)) {
+
+            ps.setString(1, genero);
+            ps.setString(2, genero);
+
+            ps.setString(3, origen);
+            ps.setString(4, origen);
+
+            ps.setDate(5, Date.valueOf(desde));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Object[] fila = new Object[]{
+                        rs.getString("nombre"),
+                        rs.getInt("espectadores"),
+                        rs.getDouble("ingresos")
+                };
+
+                lista.add(fila);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
 }

@@ -328,8 +328,8 @@ public class Principal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_mTicketsActionPerformed
 
     private void mPelismasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPelismasActionPerformed
-        actualizarEstado("Reporte de películas más vistas - En desarrollo");
-        javax.swing.JOptionPane.showMessageDialog(this, "Reporte de películas más vistas en desarrollo",  "Información",  javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        RankingPelis ventanaMasVendidas = new RankingPelis();
+        abrirVentanaInterna(ventanaMasVendidas);
     }//GEN-LAST:event_mPelismasActionPerformed
 
     private void mCompradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mCompradoresActionPerformed
