@@ -69,8 +69,8 @@ public class CompradorData {
                 comprador.setMedioPago(rs.getString("medioPago"));
                 comprador.setActivo(rs.getBoolean("activo"));
             } else {
-                JOptionPane.showMessageDialog(null, "No existe comprador con DNI: " + dni);
-//                System.out.println("No existe comprador con DNI: " + dni);
+//                JOptionPane.showMessageDialog(null, "No existe comprador con DNI: " + dni);
+                System.out.println("No existe comprador con DNI: " + dni);
             }
             
             

@@ -83,6 +83,7 @@ public class Principal extends javax.swing.JInternalFrame {
         mClientes = new javax.swing.JMenu();
         mAcerca = new javax.swing.JMenuItem();
         mCartelera = new javax.swing.JMenuItem();
+        ventaOnline = new javax.swing.JMenuItem();
         mReportes = new javax.swing.JMenu();
         mVentas = new javax.swing.JMenuItem();
         mPelismas = new javax.swing.JMenuItem();
@@ -210,6 +211,11 @@ public class Principal extends javax.swing.JInternalFrame {
         menuBar.add(mGestion);
 
         mClientes.setText("Usuarios");
+        mClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mClientesActionPerformed(evt);
+            }
+        });
 
         mAcerca.setText("Clientes");
         mAcerca.addActionListener(new java.awt.event.ActionListener() {
@@ -226,6 +232,14 @@ public class Principal extends javax.swing.JInternalFrame {
             }
         });
         mClientes.add(mCartelera);
+
+        ventaOnline.setText("Venta Online");
+        ventaOnline.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ventaOnlineActionPerformed(evt);
+            }
+        });
+        mClientes.add(ventaOnline);
 
         menuBar.add(mClientes);
 
@@ -357,6 +371,15 @@ public class Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_mAsientosActionPerformed
 
+    private void mClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mClientesActionPerformed
+        
+    }//GEN-LAST:event_mClientesActionPerformed
+
+    private void ventaOnlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventaOnlineActionPerformed
+        VentaOnline ventanaVentaOnline = new VentaOnline();
+        abrirVentanaInterna(ventanaVentaOnline);
+    }//GEN-LAST:event_ventaOnlineActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane fondocentral;
@@ -381,5 +404,6 @@ public class Principal extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelfinal;
     private javax.swing.JPanel paneltitulo;
     private javax.swing.JLabel title;
+    private javax.swing.JMenuItem ventaOnline;
     // End of variables declaration//GEN-END:variables
 }
