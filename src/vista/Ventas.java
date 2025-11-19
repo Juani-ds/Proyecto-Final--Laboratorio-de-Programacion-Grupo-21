@@ -5,6 +5,14 @@
  */
 package vista;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import modelo.DetalleTicket;
+import modelo.TicketCompra;
+import persistencia.PeliculaData;
+import persistencia.TicketCompraData;
 /**
  *
  * @author tizia
@@ -14,8 +22,195 @@ public class Ventas extends javax.swing.JInternalFrame {
     /**
      * Creates new form Ventas
      */
+    
+    private TicketCompraData ticketCompraData;
+    private javax.swing.table.DefaultTableModel modeloTabla;
+    
     public Ventas() {
         initComponents();
+        inicializarDatos();
+        configurarTabla();
+        cargarVentas();
+        calcularTotales();
+    }
+    
+    private void inicializarDatos() {
+        ticketCompraData = new TicketCompraData();
+    }
+    
+    private void configurarTabla() {
+        String[] columnas = {"Película", "Total Entradas", "Total Recaudado", "Promedio x Entrada"};
+        modeloTabla = new javax.swing.table.DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tableVentas.setModel(modeloTabla);
+
+        tableVentas.getColumnModel().getColumn(0).setPreferredWidth(250); 
+        tableVentas.getColumnModel().getColumn(1).setPreferredWidth(120); 
+        tableVentas.getColumnModel().getColumn(2).setPreferredWidth(150); 
+        tableVentas.getColumnModel().getColumn(3).setPreferredWidth(150); 
+    }
+
+    private void cargarVentas() {
+        modeloTabla.setRowCount(0);
+
+        List<TicketCompra> tickets = ticketCompraData.listarTickets();
+
+        java.util.Map<String, double[]> ventasPorPelicula = new java.util.HashMap<>();
+
+        for (TicketCompra ticket : tickets) {
+            if (!"Activo".equalsIgnoreCase(ticket.getEstadoTicket())) {
+                continue;
+            }
+
+            List<DetalleTicket> detalles = ticketCompraData.listarDetallesPorTicket(ticket.getIdTicket());
+
+            for (DetalleTicket detalle : detalles) {
+                if (detalle.getProyeccion() != null && 
+                    detalle.getProyeccion().getPelicula() != null) {
+
+                    String nombrePelicula = detalle.getProyeccion().getPelicula().getTitulo();
+                    int cantidad = detalle.getCantidad();
+                    double monto = detalle.getSubtotal();
+
+                    // Si ya existe, acumular
+                    if (ventasPorPelicula.containsKey(nombrePelicula)) {
+                        double[] datos = ventasPorPelicula.get(nombrePelicula);
+                        datos[0] += cantidad;  
+                        datos[1] += monto;     
+                    } else {
+                        ventasPorPelicula.put(nombrePelicula, new double[]{cantidad, monto});
+                    }
+                }
+            }
+        }
+
+        // Agregar filas a la tabla
+        for (java.util.Map.Entry<String, double[]> entry : ventasPorPelicula.entrySet()) {
+            String pelicula = entry.getKey();
+            double[] datos = entry.getValue();
+            int totalEntradas = (int) datos[0];
+            double totalRecaudado = datos[1];
+            double promedio = totalEntradas > 0 ? totalRecaudado / totalEntradas : 0;
+
+            Object[] fila = {
+                pelicula,
+                totalEntradas,
+                String.format("$%.2f", totalRecaudado),
+                String.format("$%.2f", promedio)
+            };
+
+            modeloTabla.addRow(fila);
+        }
+
+        calcularTotales();
+    }
+
+    private void buscarVentas() {
+        modeloTabla.setRowCount(0);
+
+        java.util.Date fechaInicio = dateChooserInicio.getDate();
+        java.util.Date fechaFin = dateChooserFin.getDate();
+
+        List<TicketCompra> tickets = ticketCompraData.listarTickets();
+
+        java.util.Map<String, double[]> ventasPorPelicula = new java.util.HashMap<>();
+
+        for (TicketCompra ticket : tickets) {
+            if (!"Activo".equalsIgnoreCase(ticket.getEstadoTicket())) {
+                continue;
+            }
+
+            // Filtrar por fecha inicio
+            if (fechaInicio != null) {
+                java.time.LocalDateTime inicioLD = fechaInicio.toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDateTime()
+                    .withHour(0).withMinute(0).withSecond(0);
+
+                if (ticket.getFechaCompra().isBefore(inicioLD)) {
+                    continue;
+                }
+            }
+
+            // Filtrar por fecha fin
+            if (fechaFin != null) {
+                java.time.LocalDateTime finLD = fechaFin.toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDateTime()
+                    .withHour(23).withMinute(59).withSecond(59);
+
+                if (ticket.getFechaCompra().isAfter(finLD)) {
+                    continue;
+                }
+            }
+
+            List<DetalleTicket> detalles = ticketCompraData.listarDetallesPorTicket(ticket.getIdTicket());
+
+            for (DetalleTicket detalle : detalles) {
+                if (detalle.getProyeccion() != null && 
+                    detalle.getProyeccion().getPelicula() != null) {
+
+                    String nombrePelicula = detalle.getProyeccion().getPelicula().getTitulo();
+                    int cantidad = detalle.getCantidad();
+                    double monto = detalle.getSubtotal();
+
+                    if (ventasPorPelicula.containsKey(nombrePelicula)) {
+                        double[] datos = ventasPorPelicula.get(nombrePelicula);
+                        datos[0] += cantidad;
+                        datos[1] += monto;
+                    } else {
+                        ventasPorPelicula.put(nombrePelicula, new double[]{cantidad, monto});
+                    }
+                }
+            }
+        }
+
+        // Agregar filas a la tabla
+        for (java.util.Map.Entry<String, double[]> entry : ventasPorPelicula.entrySet()) {
+            String pelicula = entry.getKey();
+            double[] datos = entry.getValue();
+            int totalEntradas = (int) datos[0];
+            double totalRecaudado = datos[1];
+            double promedio = totalEntradas > 0 ? totalRecaudado / totalEntradas : 0;
+
+            Object[] fila = {
+                pelicula,
+                totalEntradas,
+                String.format("$%.2f", totalRecaudado),
+                String.format("$%.2f", promedio)
+            };
+
+            modeloTabla.addRow(fila);
+        }
+
+        calcularTotales();
+    }
+
+    private void limpiarFiltros() {
+        dateChooserInicio.setDate(null);
+        dateChooserFin.setDate(null);
+        cargarVentas();
+    }
+
+    private void calcularTotales() {
+        int totalTickets = 0;
+        double totalDinero = 0.0;
+
+        // Sumar todas las filas de la tabla
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            totalTickets += (int) modeloTabla.getValueAt(i, 1); // Columna Total Entradas
+
+            String montoStr = modeloTabla.getValueAt(i, 2).toString(); // Columna Total Recaudado
+            montoStr = montoStr.replace("$", "").replace(",", "").trim();
+            totalDinero += Double.parseDouble(montoStr);
+        }
+
+        labelInfoDinero.setText(String.format("$%.2f", totalDinero));
+        labelInfoTickets.setText(String.valueOf(totalTickets));
     }
 
     /**
@@ -34,12 +229,10 @@ public class Ventas extends javax.swing.JInternalFrame {
         panelFiltros = new javax.swing.JPanel();
         labelInicio = new javax.swing.JLabel();
         labelFin = new javax.swing.JLabel();
-        labelPeliculas = new javax.swing.JLabel();
         dateChooserInicio = new com.toedter.calendar.JDateChooser();
         dateChooserFin = new com.toedter.calendar.JDateChooser();
         buttonBuscar = new javax.swing.JButton();
         buttonLimpiar = new javax.swing.JButton();
-        textfieldPeliculas = new javax.swing.JTextField();
         scrollPane1 = new javax.swing.JScrollPane();
         tableVentas = new javax.swing.JTable();
         panelTotales = new javax.swing.JPanel();
@@ -112,17 +305,25 @@ public class Ventas extends javax.swing.JInternalFrame {
 
         labelFin.setText("Fecha fin");
 
-        labelPeliculas.setText("Combo de peliculas");
-
         buttonBuscar.setBackground(new java.awt.Color(76, 175, 80));
         buttonBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonBuscar.setForeground(new java.awt.Color(255, 255, 255));
         buttonBuscar.setText("Buscar");
+        buttonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBuscarActionPerformed(evt);
+            }
+        });
 
         buttonLimpiar.setBackground(new java.awt.Color(158, 158, 158));
         buttonLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         buttonLimpiar.setText("Limpiar");
+        buttonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFiltrosLayout = new javax.swing.GroupLayout(panelFiltros);
         panelFiltros.setLayout(panelFiltrosLayout);
@@ -137,15 +338,11 @@ public class Ventas extends javax.swing.JInternalFrame {
                 .addComponent(labelFin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dateChooserFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelPeliculas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textfieldPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(217, 217, 217)
                 .addComponent(buttonBuscar)
                 .addGap(18, 18, 18)
                 .addComponent(buttonLimpiar)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         panelFiltrosLayout.setVerticalGroup(
             panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,10 +352,8 @@ public class Ventas extends javax.swing.JInternalFrame {
                     .addGroup(panelFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelInicio)
                         .addComponent(labelFin)
-                        .addComponent(labelPeliculas)
                         .addComponent(buttonBuscar)
-                        .addComponent(buttonLimpiar)
-                        .addComponent(textfieldPeliculas, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(buttonLimpiar))
                     .addComponent(dateChooserFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(dateChooserInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -169,7 +364,7 @@ public class Ventas extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Numero", "Pelicula", "Sala", "Asiento", "Title 5"
+                "Numero", "Pelicula", "Sala", "Asiento", "Monto"
             }
         ));
         scrollPane1.setViewportView(tableVentas);
@@ -258,6 +453,14 @@ public class Ventas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuscarActionPerformed
+        buscarVentas();
+    }//GEN-LAST:event_buttonBuscarActionPerformed
+
+    private void buttonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimpiarActionPerformed
+        limpiarFiltros();
+    }//GEN-LAST:event_buttonLimpiarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonBuscar;
@@ -271,7 +474,6 @@ public class Ventas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelInfoDinero;
     private javax.swing.JLabel labelInfoTickets;
     private javax.swing.JLabel labelInicio;
-    private javax.swing.JLabel labelPeliculas;
     private javax.swing.JLabel labelTickets;
     private javax.swing.JLabel labelTotales;
     private javax.swing.JPanel panelFiltros;
@@ -279,7 +481,6 @@ public class Ventas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelTotales;
     private javax.swing.JScrollPane scrollPane1;
     private javax.swing.JTable tableVentas;
-    private javax.swing.JTextField textfieldPeliculas;
     private javax.swing.JLabel titleVentas;
     // End of variables declaration//GEN-END:variables
 }

@@ -170,15 +170,11 @@
                   <Component id="labelFin" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="dateChooserFin" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="labelPeliculas" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="textfieldPeliculas" min="-2" pref="139" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
                   <Component id="buttonBuscar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="buttonLimpiar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace pref="82" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -190,10 +186,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="labelInicio" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="labelFin" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelPeliculas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="textfieldPeliculas" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <Component id="dateChooserFin" alignment="1" max="32767" attributes="0"/>
                       <Component id="dateChooserInicio" alignment="1" max="32767" attributes="0"/>
@@ -214,11 +208,6 @@
             <Property name="text" type="java.lang.String" value="Fecha fin"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelPeliculas">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Combo de peliculas"/>
-          </Properties>
-        </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dateChooserInicio">
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dateChooserFin">
@@ -236,6 +225,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonBuscarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonLimpiar">
           <Properties>
@@ -250,8 +242,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Limpiar"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="textfieldPeliculas">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonLimpiarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -270,7 +263,7 @@
                 <Column editable="true" title="Pelicula" type="java.lang.Object"/>
                 <Column editable="true" title="Sala" type="java.lang.Object"/>
                 <Column editable="true" title="Asiento" type="java.lang.Object"/>
-                <Column editable="true" title="Title 5" type="java.lang.Object"/>
+                <Column editable="true" title="Monto" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>

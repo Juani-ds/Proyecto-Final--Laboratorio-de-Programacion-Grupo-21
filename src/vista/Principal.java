@@ -308,8 +308,8 @@ public class Principal extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mVentasActionPerformed
-        actualizarEstado("Reporte de ventas - En desarrollo");
-        javax.swing.JOptionPane.showMessageDialog(this, "Reporte de ventas en desarrollo", "Información", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        Ventas ventanaVentas = new Ventas();
+        abrirVentanaInterna(ventanaVentas);
     }//GEN-LAST:event_mVentasActionPerformed
 
     private void mPeliculasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPeliculasActionPerformed
