@@ -183,14 +183,33 @@ public class RankingPelis extends javax.swing.JInternalFrame {
             case "Hoy":
                 desde = LocalDate.now();
                 break;
-            case "Última semana":
-                desde = LocalDate.now().minusDays(7);
+            case "Ayer":
+                desde = LocalDate.now().minusDays(1);
                 break;
-            case "Último mes":
+            case "Tres dias":
+                desde = LocalDate.now().minusDays(3);
+                break;
+            case "Una semana":
+                desde = LocalDate.now().minusWeeks(1);
+                break;
+            case "Dos semanas":
+                desde = LocalDate.now().minusWeeks(2);
+                break;
+            case "Un mes":
                 desde = LocalDate.now().minusMonths(1);
                 break;
-            default: // Todos
+            case "Tres meses":
+                desde = LocalDate.now().minusMonths(3);
+                break;
+            case "Seis Meses":
+                desde = LocalDate.now().minusMonths(6);
+                break;
+            case "Año":
+                desde = LocalDate.now().minusYears(1);
+                break;
+            default: // "Todo"
                 desde = LocalDate.of(1900, 1, 1);
+                break;
         }
 
         List<Object[]> resultados = peliculaData.obtenerRanking(genero, origen, desde);
